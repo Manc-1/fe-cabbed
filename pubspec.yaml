@@ -12,6 +12,7 @@ environment:
 dependencies:
   hexcolor: ^1.0.2
   flutter_cupertino_date_picker: ^0.8.0
+  http: ^0.12.1
   flutter:
     sdk: flutter
   # The following adds the Cupertino Icons font to your application.
