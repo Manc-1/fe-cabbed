@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 
-void main() => runApp(MaterialApp(
-    //specifies what will be on home screen
-    home: Home()));
+void main() => runApp(MaterialApp(home: Home()));
 
 class Home extends StatefulWidget {
   @override
@@ -143,17 +141,6 @@ class _HomeState extends State<Home> {
     );
   }
 
-  Widget _buildSignInText() {
-    return Column(
-      children: <Widget>[
-        SizedBox(height: 20.0),
-        Text(
-          "Sign in with",
-        ),
-      ],
-    );
-  }
-
   Widget _buildSocialMedia(Function onTap, AssetImage logo) {
     return GestureDetector(
       onTap: onTap,
@@ -200,19 +187,47 @@ class _HomeState extends State<Home> {
     );
   }
 
+  Widget _buildSignup() {
+    return GestureDetector(
+      onTap: () => print("Sign up pressed"),
+      child: RichText(
+        text: TextSpan(
+          children: [
+            TextSpan(
+              text: "Don\'t have an account?",
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 20.0,
+                fontWeight: FontWeight.w400,
+              ),
+            ),
+            TextSpan(
+              text: "Sign Up",
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 20.0,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.blue,
+      // backgroundColor: Colors.transparent,
       body: Stack(children: <Widget>[
         Container(
           height: double.infinity,
           width: double.infinity,
           decoration: BoxDecoration(
-              // image: DecorationImage(
-              //   image: AssetImage("assets/pexels-photo-172483.jpg"),
-              // ),
-              ),
+            image: DecorationImage(
+                image: AssetImage("assets/pexels-photo-172483.jpg"),
+                fit: BoxFit.cover),
+          ),
         ),
         Container(
           child: Column(
@@ -234,8 +249,8 @@ class _HomeState extends State<Home> {
               _buildForgotPassword(),
               _buildRememberMe(),
               _buildLogin(),
-              _buildSignInText(),
               _buildSocialMediaRow(),
+              _buildSignup(),
             ],
           ),
         ),
