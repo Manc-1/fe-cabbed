@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 
-void main() => runApp(MaterialApp(home: Home()));
+void main() =>
+    runApp(MaterialApp(theme: ThemeData(fontFamily: 'Poppins'), home: Home()));
 
 class Home extends StatefulWidget {
   @override
@@ -30,7 +31,7 @@ class _HomeState extends State<Home> {
           height: 60,
           child: TextField(
             keyboardType: TextInputType.emailAddress,
-            style: TextStyle(color: Colors.white, fontFamily: "OpenSans"),
+            style: TextStyle(color: Colors.white, fontFamily: "Poppins"),
             decoration: InputDecoration(
               border: InputBorder.none,
               contentPadding: EdgeInsets.only(top: 14.0),
@@ -68,7 +69,7 @@ class _HomeState extends State<Home> {
           height: 60,
           child: TextField(
             obscureText: true,
-            style: TextStyle(color: Colors.white, fontFamily: "OpenSans"),
+            style: TextStyle(color: Colors.white),
             decoration: InputDecoration(
               border: InputBorder.none,
               contentPadding: EdgeInsets.only(top: 14.0),
@@ -139,7 +140,7 @@ class _HomeState extends State<Home> {
         elevation: 5.0,
         onPressed: () => print("login pressed"),
         padding:
-            EdgeInsets.only(left: 90.0, right: 90.0, top: 15.0, bottom: 15.0),
+            EdgeInsets.only(left: 90.0, right: 90.0, top: 12.0, bottom: 12.0),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(8.0),
         ),
@@ -149,8 +150,8 @@ class _HomeState extends State<Home> {
           style: TextStyle(
             color: Colors.white,
             letterSpacing: 1.5,
-            fontSize: 18.0,
-            fontFamily: "OpenSans",
+            fontSize: 24.0,
+            fontFamily: "Poppins",
           ),
         ),
       ),
@@ -218,14 +219,15 @@ class _HomeState extends State<Home> {
               text: "Don\'t have an account?",
               style: TextStyle(
                 color: Colors.white,
-                fontSize: 20.0,
+                fontSize: 18.0,
                 fontWeight: FontWeight.w400,
+                fontFamily: "Poppins",
               ),
             ),
             TextSpan(
               text: "Sign Up",
               style: TextStyle(
-                color: Colors.white,
+                color: Colors.blue[400],
                 fontSize: 20.0,
                 fontWeight: FontWeight.bold,
               ),
@@ -402,7 +404,7 @@ class SignUpHome extends StatelessWidget {
     );
   }
 
-  Widget _buildBirthday() {
+  Widget _buildPhone() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
@@ -440,6 +442,105 @@ class SignUpHome extends StatelessWidget {
     );
   }
 
+  Widget _buildPostcode() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        SizedBox(height: 10.0),
+        Container(
+          alignment: Alignment.centerLeft,
+          decoration: BoxDecoration(
+            color: Colors.grey.withOpacity(0.5),
+            border: Border(
+              bottom: BorderSide(
+                color: Hexcolor('#FFB600'),
+                width: 3.0,
+              ),
+            ),
+          ),
+          height: 60,
+          child: TextField(
+            style: TextStyle(color: Colors.white, fontFamily: "OpenSans"),
+            decoration: InputDecoration(
+              border: InputBorder.none,
+              contentPadding: EdgeInsets.only(top: 14.0),
+              prefixIcon: Icon(
+                Icons.lock,
+                color: Colors.white,
+              ),
+              hintText: "Enter your postcode",
+              hintStyle: TextStyle(
+                color: Colors.white,
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildAvatar() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        SizedBox(height: 10.0),
+        Container(
+          alignment: Alignment.centerLeft,
+          decoration: BoxDecoration(
+            color: Colors.grey.withOpacity(0.5),
+            border: Border(
+              bottom: BorderSide(
+                color: Hexcolor('#FFB600'),
+                width: 3.0,
+              ),
+            ),
+          ),
+          height: 60,
+          child: TextField(
+            style: TextStyle(color: Colors.white, fontFamily: "OpenSans"),
+            decoration: InputDecoration(
+              border: InputBorder.none,
+              contentPadding: EdgeInsets.only(top: 14.0),
+              prefixIcon: Icon(
+                Icons.lock,
+                color: Colors.white,
+              ),
+              hintText: "Upload a photo (optional)",
+              hintStyle: TextStyle(
+                color: Colors.white,
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildSignUpButton() {
+    return Container(
+      padding: EdgeInsets.symmetric(vertical: 25.0),
+      child: RaisedButton(
+        elevation: 5.0,
+        onPressed: () => print("login pressed"),
+        padding:
+            EdgeInsets.only(left: 90.0, right: 90.0, top: 12.0, bottom: 12.0),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(8.0),
+        ),
+        color: Hexcolor('#FFB600'),
+        child: Text(
+          "Let's work!",
+          style: TextStyle(
+            color: Colors.white,
+            letterSpacing: 1.5,
+            fontSize: 24.0,
+            fontFamily: "OpenSans",
+          ),
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -464,19 +565,20 @@ class SignUpHome extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                SizedBox(height: 50.0),
+                SizedBox(height: 10.0),
                 _buildName(),
                 SizedBox(height: 10.0),
                 _buildEmail(),
                 SizedBox(height: 10.0),
+                _buildPhone(),
+                SizedBox(height: 10.0),
                 _buildPassword(),
                 SizedBox(height: 10.0),
-                _buildBirthday(),
-                // _buildForgotPassword(),
-                // _buildRememberMe(),
+                _buildPostcode(),
+                SizedBox(height: 10.0),
+                _buildAvatar(),
+                _buildSignUpButton(),
                 // _buildLogin(),
-                // _buildSocialMediaRow(),
-                // _buildSignup(),
               ],
             ),
           ),

@@ -32,6 +32,6 @@ flutter:
   assets:
     - assets/
 fonts:
-  - family: Montserrat
+  - family: Poppins
     fonts:
-      - asset: fonts/Montserrat-Regular.ttf
+      - asset: fonts/Poppins-Regular.ttf
