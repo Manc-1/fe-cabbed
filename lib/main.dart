@@ -4,7 +4,14 @@ void main() => runApp(MaterialApp(
     //specifies what will be on home screen
     home: Home()));
 
-class Home extends StatelessWidget {
+class Home extends StatefulWidget {
+  @override
+  _HomeState createState() => _HomeState();
+}
+
+class _HomeState extends State<Home> {
+  bool _rememberMe = false;
+
   Widget _buildEmail() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -75,6 +82,67 @@ class Home extends StatelessWidget {
     );
   }
 
+  Widget _buildForgotPassword() {
+    return Container(
+      alignment: Alignment.centerRight,
+      child: FlatButton(
+        onPressed: () => print("forgot password button pressed"),
+        padding: EdgeInsets.only(right: 0.0),
+        child: Text("Forgot password?"),
+      ),
+    );
+  }
+
+  Widget _buildRememberMe() {
+    return Container(
+      height: 20.0,
+      child: Row(
+        children: <Widget>[
+          Theme(
+            data: ThemeData(unselectedWidgetColor: Colors.white),
+            child: Checkbox(
+              value: _rememberMe,
+              checkColor: Colors.green,
+              activeColor: Colors.white,
+              onChanged: (value) {
+                setState(() {
+                  _rememberMe = value;
+                });
+              },
+            ),
+          ),
+          Text(
+            "Remember me",
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildLogin() {
+    return Container(
+      padding: EdgeInsets.symmetric(vertical: 25.0),
+      child: RaisedButton(
+        elevation: 5.0,
+        onPressed: () => print("login pressed"),
+        padding: EdgeInsets.all(15.0),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(30.0),
+        ),
+        color: Colors.white,
+        child: Text(
+          "Sign in",
+          style: TextStyle(
+            color: Colors.black12,
+            letterSpacing: 1.5,
+            fontSize: 18.0,
+            fontFamily: "OpenSans",
+          ),
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -106,6 +174,9 @@ class Home extends StatelessWidget {
               _buildEmail(),
               SizedBox(height: 10.0),
               _buildPassword(),
+              _buildForgotPassword(),
+              _buildRememberMe(),
+              _buildLogin(),
             ],
           ),
         ),
