@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'signUp.dart';
-import 'main.dart';
+// import 'main.dart';
 // import 'package:http/http.dart' as http;
 
 class Home extends StatefulWidget {
@@ -27,7 +27,7 @@ class _HomeState extends State<Home> {
         Container(
           alignment: Alignment.centerLeft,
           decoration: BoxDecoration(
-            color: Colors.grey.withOpacity(0.5),
+            color: Colors.grey.withOpacity(0.3),
             border: Border(
               bottom: BorderSide(
                 color: Hexcolor('#FFB600'),
@@ -38,7 +38,7 @@ class _HomeState extends State<Home> {
           height: 60,
           child: TextField(
             keyboardType: TextInputType.emailAddress,
-            style: TextStyle(color: Colors.white, fontFamily: "Poppins"),
+            style: TextStyle(color: Colors.white),
             decoration: InputDecoration(
               border: InputBorder.none,
               contentPadding: EdgeInsets.only(top: 14.0),
@@ -49,6 +49,7 @@ class _HomeState extends State<Home> {
               hintText: "Enter your email",
               hintStyle: TextStyle(
                 color: Colors.white,
+                fontFamily: 'Poppins',
               ),
             ),
           ),
@@ -65,7 +66,7 @@ class _HomeState extends State<Home> {
         Container(
           alignment: Alignment.centerLeft,
           decoration: BoxDecoration(
-            color: Colors.grey.withOpacity(0.5),
+            color: Colors.grey.withOpacity(0.3),
             border: Border(
               bottom: BorderSide(
                 color: Hexcolor('#FFB600'),
@@ -158,7 +159,6 @@ class _HomeState extends State<Home> {
             color: Colors.white,
             letterSpacing: 1.5,
             fontSize: 24.0,
-            fontFamily: "Poppins",
           ),
         ),
       ),
@@ -228,7 +228,7 @@ class _HomeState extends State<Home> {
                 color: Colors.white,
                 fontSize: 18.0,
                 fontWeight: FontWeight.w400,
-                fontFamily: "Poppins",
+                fontFamily: 'Poppins',
               ),
             ),
             TextSpan(
@@ -237,6 +237,7 @@ class _HomeState extends State<Home> {
                 color: Colors.blue[400],
                 fontSize: 20.0,
                 fontWeight: FontWeight.bold,
+                fontFamily: 'Poppins',
               ),
             ),
           ],
@@ -273,7 +274,6 @@ class _HomeState extends State<Home> {
                 //   "Sign In",
                 //   style: TextStyle(
                 //     color: Colors.pink[300],
-                //     fontFamily: "OpenSans",
                 //     fontSize: 30,
                 //     fontWeight: FontWeight.bold,
                 //   ),

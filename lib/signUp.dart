@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
-import 'main.dart';
+// import 'main.dart';
 
 class SignUpHome extends StatelessWidget {
   Widget _buildName() {
@@ -22,7 +22,7 @@ class SignUpHome extends StatelessWidget {
           height: 60,
           child: TextField(
             keyboardType: TextInputType.emailAddress,
-            style: TextStyle(color: Colors.white, fontFamily: "OpenSans"),
+            style: TextStyle(color: Colors.white),
             decoration: InputDecoration(
               border: InputBorder.none,
               contentPadding: EdgeInsets.only(top: 14.0),
@@ -60,7 +60,7 @@ class SignUpHome extends StatelessWidget {
           height: 60,
           child: TextField(
             keyboardType: TextInputType.emailAddress,
-            style: TextStyle(color: Colors.white, fontFamily: "OpenSans"),
+            style: TextStyle(color: Colors.white),
             decoration: InputDecoration(
               border: InputBorder.none,
               contentPadding: EdgeInsets.only(top: 14.0),
@@ -98,7 +98,7 @@ class SignUpHome extends StatelessWidget {
           height: 60,
           child: TextField(
             obscureText: true,
-            style: TextStyle(color: Colors.white, fontFamily: "OpenSans"),
+            style: TextStyle(color: Colors.white),
             decoration: InputDecoration(
               border: InputBorder.none,
               contentPadding: EdgeInsets.only(top: 14.0),
@@ -136,7 +136,7 @@ class SignUpHome extends StatelessWidget {
           height: 60,
           child: TextField(
             keyboardType: TextInputType.number,
-            style: TextStyle(color: Colors.white, fontFamily: "OpenSans"),
+            style: TextStyle(color: Colors.white),
             decoration: InputDecoration(
               border: InputBorder.none,
               contentPadding: EdgeInsets.only(top: 14.0),
@@ -173,7 +173,7 @@ class SignUpHome extends StatelessWidget {
           ),
           height: 60,
           child: TextField(
-            style: TextStyle(color: Colors.white, fontFamily: "OpenSans"),
+            style: TextStyle(color: Colors.white),
             decoration: InputDecoration(
               border: InputBorder.none,
               contentPadding: EdgeInsets.only(top: 14.0),
@@ -210,7 +210,7 @@ class SignUpHome extends StatelessWidget {
           ),
           height: 60,
           child: TextField(
-            style: TextStyle(color: Colors.white, fontFamily: "OpenSans"),
+            style: TextStyle(color: Colors.white),
             decoration: InputDecoration(
               border: InputBorder.none,
               contentPadding: EdgeInsets.only(top: 14.0),
@@ -247,7 +247,6 @@ class SignUpHome extends StatelessWidget {
             color: Colors.white,
             letterSpacing: 1.5,
             fontSize: 24.0,
-            fontFamily: "OpenSans",
           ),
         ),
       ),
