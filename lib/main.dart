@@ -205,7 +205,12 @@ class _HomeState extends State<Home> {
 
   Widget _buildSignup() {
     return GestureDetector(
-      onTap: () => print("Sign up pressed"),
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => SignUpHome()),
+        );
+      },
       child: RichText(
         text: TextSpan(
           children: [
@@ -234,7 +239,6 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // backgroundColor: Colors.transparent,
       body: Stack(children: <Widget>[
         Container(
           height: double.infinity,
@@ -283,58 +287,201 @@ class _HomeState extends State<Home> {
   }
 }
 
-// void main() => runApp(MaterialApp(
-//     //specifies what will be on home screen
-//     home: Home()));
+class SignUpHome extends StatelessWidget {
+  Widget _buildName() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        SizedBox(height: 10.0),
+        Container(
+          alignment: Alignment.centerLeft,
+          decoration: BoxDecoration(
+            color: Colors.grey.withOpacity(0.5),
+            border: Border(
+              bottom: BorderSide(
+                color: Hexcolor('#FFB600'),
+                width: 3.0,
+              ),
+            ),
+          ),
+          height: 60,
+          child: TextField(
+            keyboardType: TextInputType.emailAddress,
+            style: TextStyle(color: Colors.white, fontFamily: "OpenSans"),
+            decoration: InputDecoration(
+              border: InputBorder.none,
+              contentPadding: EdgeInsets.only(top: 14.0),
+              prefixIcon: Icon(
+                Icons.person,
+                color: Colors.white,
+              ),
+              hintText: "Enter your full name",
+              hintStyle: TextStyle(
+                color: Colors.white,
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
 
-// class Home extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     return Container(
-//       decoration: BoxDecoration(
-//         image: DecorationImage(
-//           image: AssetImage("assets/pexels-photo-172483.jpg"),
-//         ),
-//       ),
-//       child: Scaffold(
-//         backgroundColor: Colors.transparent,
-//         floatingActionButton: Row(
-//           mainAxisAlignment: MainAxisAlignment.center,
-//           children: <Widget>[
-//             FlatButton(
-//               onPressed: null,
-//               padding: EdgeInsets.all(0.0),
-//               child: Image.asset('assets/correctlogin-0.png'),
-//             ),
-//           ],
-//         ),
-//         body: Center(
-//           child: Row(
-//             mainAxisAlignment: MainAxisAlignment.spaceAround,
-//             children: <Widget>[
-//               Positioned(
-//                 bottom: 200,
-//                 left: 20,
-//                 child: FlatButton(
-//                   onPressed: () => {},
-//                   padding: EdgeInsets.all(0.0),
-//                   child: Image.asset('assets/correctfbpsd (1).png'),
-//                 ),
-//               ),
-//               FlatButton(
-//                 onPressed: () => {},
-//                 padding: EdgeInsets.all(0.0),
-//                 child: Image.asset('assets/correctgoogle (1).png'),
-//               ),
-//               FlatButton(
-//                 onPressed: () => {},
-//                 padding: EdgeInsets.all(0.0),
-//                 child: Image.asset('assets/correcttwit.png'),
-//               ),
-//             ],
-//           ),
-//         ),
-//       ),
-//     );
-//   }
-// }
+  Widget _buildEmail() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        SizedBox(height: 10.0),
+        Container(
+          alignment: Alignment.centerLeft,
+          decoration: BoxDecoration(
+            color: Colors.grey.withOpacity(0.5),
+            border: Border(
+              bottom: BorderSide(
+                color: Hexcolor('#FFB600'),
+                width: 3.0,
+              ),
+            ),
+          ),
+          height: 60,
+          child: TextField(
+            keyboardType: TextInputType.emailAddress,
+            style: TextStyle(color: Colors.white, fontFamily: "OpenSans"),
+            decoration: InputDecoration(
+              border: InputBorder.none,
+              contentPadding: EdgeInsets.only(top: 14.0),
+              prefixIcon: Icon(
+                Icons.email,
+                color: Colors.white,
+              ),
+              hintText: "Enter your email",
+              hintStyle: TextStyle(
+                color: Colors.white,
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildPassword() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        SizedBox(height: 10.0),
+        Container(
+          alignment: Alignment.centerLeft,
+          decoration: BoxDecoration(
+            color: Colors.grey.withOpacity(0.5),
+            border: Border(
+              bottom: BorderSide(
+                color: Hexcolor('#FFB600'),
+                width: 3.0,
+              ),
+            ),
+          ),
+          height: 60,
+          child: TextField(
+            obscureText: true,
+            style: TextStyle(color: Colors.white, fontFamily: "OpenSans"),
+            decoration: InputDecoration(
+              border: InputBorder.none,
+              contentPadding: EdgeInsets.only(top: 14.0),
+              prefixIcon: Icon(
+                Icons.lock,
+                color: Colors.white,
+              ),
+              hintText: "Enter your password",
+              hintStyle: TextStyle(
+                color: Colors.white,
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildBirthday() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        SizedBox(height: 10.0),
+        Container(
+          alignment: Alignment.centerLeft,
+          decoration: BoxDecoration(
+            color: Colors.grey.withOpacity(0.5),
+            border: Border(
+              bottom: BorderSide(
+                color: Hexcolor('#FFB600'),
+                width: 3.0,
+              ),
+            ),
+          ),
+          height: 60,
+          child: TextField(
+            keyboardType: TextInputType.number,
+            style: TextStyle(color: Colors.white, fontFamily: "OpenSans"),
+            decoration: InputDecoration(
+              border: InputBorder.none,
+              contentPadding: EdgeInsets.only(top: 14.0),
+              prefixIcon: Icon(
+                Icons.phone,
+                color: Colors.white,
+              ),
+              hintText: "Enter your phone number",
+              hintStyle: TextStyle(
+                color: Colors.white,
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Stack(children: <Widget>[
+        Container(
+          height: double.infinity,
+          width: double.infinity,
+          decoration: BoxDecoration(
+            image: DecorationImage(
+                image: AssetImage("assets/pexels-photo-172483.jpg"),
+                fit: BoxFit.cover),
+          ),
+        ),
+        Container(
+          height: double.infinity,
+          child: SingleChildScrollView(
+            physics: AlwaysScrollableScrollPhysics(),
+            padding: EdgeInsets.symmetric(
+              horizontal: 40.0,
+              vertical: 120.0,
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                SizedBox(height: 50.0),
+                _buildName(),
+                SizedBox(height: 10.0),
+                _buildEmail(),
+                SizedBox(height: 10.0),
+                _buildPassword(),
+                SizedBox(height: 10.0),
+                _buildBirthday(),
+                // _buildForgotPassword(),
+                // _buildRememberMe(),
+                // _buildLogin(),
+                // _buildSocialMediaRow(),
+                // _buildSignup(),
+              ],
+            ),
+          ),
+        ),
+      ]),
+    );
+  }
+}
