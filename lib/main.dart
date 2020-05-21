@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hexcolor/hexcolor.dart';
 
 void main() => runApp(MaterialApp(home: Home()));
 
@@ -14,18 +15,18 @@ class _HomeState extends State<Home> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Text(
-          "Username or email",
-          style: TextStyle(
-            color: Colors.pink[300],
-            fontFamily: "OpenSans",
-            fontSize: 20,
-          ),
-        ),
         SizedBox(height: 10.0),
         Container(
           alignment: Alignment.centerLeft,
-          decoration: BoxDecoration(color: Colors.blueGrey),
+          decoration: BoxDecoration(
+            color: Colors.grey.withOpacity(0.5),
+            border: Border(
+              bottom: BorderSide(
+                color: Hexcolor('#FFB600'),
+                width: 3.0,
+              ),
+            ),
+          ),
           height: 60,
           child: TextField(
             keyboardType: TextInputType.emailAddress,
@@ -37,7 +38,10 @@ class _HomeState extends State<Home> {
                 Icons.email,
                 color: Colors.white,
               ),
-              hintText: "Enter your password",
+              hintText: "Enter your email",
+              hintStyle: TextStyle(
+                color: Colors.white,
+              ),
             ),
           ),
         ),
@@ -49,18 +53,18 @@ class _HomeState extends State<Home> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Text(
-          "Password",
-          style: TextStyle(
-            color: Colors.pink[300],
-            fontFamily: "OpenSans",
-            fontSize: 20,
-          ),
-        ),
         SizedBox(height: 10.0),
         Container(
           alignment: Alignment.centerLeft,
-          decoration: BoxDecoration(color: Colors.blueGrey),
+          decoration: BoxDecoration(
+            color: Colors.grey.withOpacity(0.5),
+            border: Border(
+              bottom: BorderSide(
+                color: Hexcolor('#FFB600'),
+                width: 3.0,
+              ),
+            ),
+          ),
           height: 60,
           child: TextField(
             obscureText: true,
@@ -73,6 +77,9 @@ class _HomeState extends State<Home> {
                 color: Colors.white,
               ),
               hintText: "Enter your password",
+              hintStyle: TextStyle(
+                color: Colors.white,
+              ),
             ),
           ),
         ),
@@ -86,7 +93,12 @@ class _HomeState extends State<Home> {
       child: FlatButton(
         onPressed: () => print("forgot password button pressed"),
         padding: EdgeInsets.only(right: 0.0),
-        child: Text("Forgot password?"),
+        child: Text(
+          "Forgot password?",
+          style: TextStyle(
+            color: Colors.white,
+          ),
+        ),
       ),
     );
   }
@@ -111,6 +123,9 @@ class _HomeState extends State<Home> {
           ),
           Text(
             "Remember me",
+            style: TextStyle(
+              color: Colors.white,
+            ),
           ),
         ],
       ),
@@ -123,15 +138,16 @@ class _HomeState extends State<Home> {
       child: RaisedButton(
         elevation: 5.0,
         onPressed: () => print("login pressed"),
-        padding: EdgeInsets.all(15.0),
+        padding:
+            EdgeInsets.only(left: 90.0, right: 90.0, top: 15.0, bottom: 15.0),
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(30.0),
+          borderRadius: BorderRadius.circular(8.0),
         ),
-        color: Colors.white,
+        color: Hexcolor('#FFB600'),
         child: Text(
           "Sign in",
           style: TextStyle(
-            color: Colors.black12,
+            color: Colors.white,
             letterSpacing: 1.5,
             fontSize: 18.0,
             fontFamily: "OpenSans",
@@ -230,28 +246,36 @@ class _HomeState extends State<Home> {
           ),
         ),
         Container(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Text(
-                "Sign In",
-                style: TextStyle(
-                  color: Colors.pink[300],
-                  fontFamily: "OpenSans",
-                  fontSize: 30,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              SizedBox(height: 25.0),
-              _buildEmail(),
-              SizedBox(height: 10.0),
-              _buildPassword(),
-              _buildForgotPassword(),
-              _buildRememberMe(),
-              _buildLogin(),
-              _buildSocialMediaRow(),
-              _buildSignup(),
-            ],
+          height: double.infinity,
+          child: SingleChildScrollView(
+            physics: AlwaysScrollableScrollPhysics(),
+            padding: EdgeInsets.symmetric(
+              horizontal: 40.0,
+              vertical: 120.0,
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                // Text(
+                //   "Sign In",
+                //   style: TextStyle(
+                //     color: Colors.pink[300],
+                //     fontFamily: "OpenSans",
+                //     fontSize: 30,
+                //     fontWeight: FontWeight.bold,
+                //   ),
+                // ),
+                SizedBox(height: 100.0),
+                _buildEmail(),
+                SizedBox(height: 10.0),
+                _buildPassword(),
+                _buildForgotPassword(),
+                _buildRememberMe(),
+                _buildLogin(),
+                _buildSocialMediaRow(),
+                _buildSignup(),
+              ],
+            ),
           ),
         ),
       ]),
