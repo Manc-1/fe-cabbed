@@ -27,9 +27,13 @@ class MapSampleState extends State<MapSample> {
     target: LatLng(37.52096133580664, -122.085749655962),
     zoom: 14.4746,
   );
-  List<LatLng> heatmapLocations = [ LatLng(37.527961335806, -122.0857496559), LatLng(37.527861335806, -122.0857496559),LatLng(37.524861335806, -122.0857496559),LatLng(37.524861335806, -122.0827496559) ];
-  LatLng _heatmapLocation = LatLng(37.527961335806, -122.0857496559);
+  List<LatLng> currentHeatmapLocations = [ LatLng(37.527961335806, -122.0857496559), LatLng(37.527861335806, -122.0857496559),LatLng(37.524861335806, -122.0857496559),LatLng(37.524861335806, -122.0827496559) ];
+  List<LatLng> pastHeatmapLocations = [ LatLng(37.527961335806, -122.0857496559), LatLng(37.527861335806, -122.0856496559) ];
+
+  LatLng _currentHeatmapLocation = LatLng(37.527961335806, -122.0857496559);
   LatLng _heatmapLocation1 = LatLng(37.526861335806, -122.0857496559);
+  bool isCurrentMapSelected = false;
+  bool isPastMapSelected = false;
 
 
 
@@ -37,7 +41,7 @@ class MapSampleState extends State<MapSample> {
   Widget build(BuildContext context) {
     return new Scaffold(
       body: GoogleMap(
-        mapType: MapType.hybrid,
+        mapType: MapType.normal,
         initialCameraPosition: centreCameraOn,
         heatmaps: _heatmaps,
         onMapCreated: (GoogleMapController controller) {
@@ -48,11 +52,11 @@ class MapSampleState extends State<MapSample> {
         children: <Widget>[
           Padding(padding: EdgeInsets.only(left:31),
             child: Align(
-              alignment: Alignment.bottomLeft,
-              child: FloatingActionButton.extended(
-                onPressed: _addHeatmap,
-                label: Text('Add Heatmap'),
-                icon: Icon(Icons.add_box),
+              alignment: Alignment.topLeft,
+              child: FloatingActionButton(
+                onPressed: toggleCurrent,
+                child: Text('current'),
+
               ),
             ),),
 
@@ -64,6 +68,13 @@ class MapSampleState extends State<MapSample> {
               child: Icon(Icons.flag),
             ),
           ),
+          Align(
+            alignment: Alignment.topRight,
+            child: FloatingActionButton(
+              onPressed: togglePast,
+              child: Text('past')
+            ),
+          )
         ],
       ),
 
@@ -97,21 +108,52 @@ class MapSampleState extends State<MapSample> {
 //    });
   }
 
-  void _addHeatmap(){
-    setState(() {
-//
-      _heatmaps.add(
-          Heatmap(
-              heatmapId: HeatmapId(_heatmapLocation.toString()),
-              points: _createPoints(heatmapLocations),
-              radius: 50,
-              visible: true,
-              gradient:  HeatmapGradient(
-                  colors: <Color>[Colors.green, Colors.red], startPoints: <double>[0.2, 0.8]
-              )
-          )
-      );
-    });
+  void toggleCurrent(){
+    if(!isCurrentMapSelected){
+      setState(() {
+        _heatmaps.add(
+            Heatmap(
+                heatmapId: HeatmapId(currentHeatmapLocations.toString()),
+                points: _createPoints(currentHeatmapLocations),
+                radius: 50,
+                visible: true,
+                gradient:  HeatmapGradient(
+                    colors: <Color>[Colors.green, Colors.blueGrey], startPoints: <double>[0.2, 0.8]
+                )
+            )
+        );
+        isCurrentMapSelected = true;
+      });
+    }else{
+      setState(() {
+        _heatmaps.removeWhere((heatmap) => heatmap.heatmapId ==  HeatmapId(currentHeatmapLocations.toString()));
+        isCurrentMapSelected = false;
+      });
+    }
+  }
+
+  void togglePast(){
+    if(!isPastMapSelected){
+      setState(() {
+        _heatmaps.add(
+            Heatmap(
+                heatmapId: HeatmapId(pastHeatmapLocations.toString()),
+                points: _createPoints(pastHeatmapLocations),
+                radius: 50,
+                visible: true,
+                gradient:  HeatmapGradient(
+                    colors: <Color>[Colors.red, Colors.blueGrey], startPoints: <double>[0.2, 0.8]
+                )
+            )
+        );
+        isPastMapSelected = true;
+      });
+    }else{
+      setState(() {
+        _heatmaps.removeWhere((heatmap) => heatmap.heatmapId ==  HeatmapId(pastHeatmapLocations.toString()));
+        isPastMapSelected = false;
+      });
+    }
   }
   //heatmap generation helper functions
   List<WeightedLatLng> _createPoints(List<LatLng> locations) {
