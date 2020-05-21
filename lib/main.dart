@@ -143,6 +143,63 @@ class _HomeState extends State<Home> {
     );
   }
 
+  Widget _buildSignInText() {
+    return Column(
+      children: <Widget>[
+        SizedBox(height: 20.0),
+        Text(
+          "Sign in with",
+        ),
+      ],
+    );
+  }
+
+  Widget _buildSocialMedia(Function onTap, AssetImage logo) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        height: 60.0,
+        width: 60.0,
+        decoration: BoxDecoration(
+          shape: BoxShape.rectangle,
+          color: Colors.transparent,
+          image: DecorationImage(
+            image: logo,
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildSocialMediaRow() {
+    return Padding(
+      padding: EdgeInsets.symmetric(vertical: 30.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: <Widget>[
+          _buildSocialMedia(
+            () => print("Login with Facebook"),
+            AssetImage(
+              "assets/correctfbpsd (1).png",
+            ),
+          ),
+          _buildSocialMedia(
+            () => print("Login with Google"),
+            AssetImage(
+              "assets/correctgoogle (1).png",
+            ),
+          ),
+          _buildSocialMedia(
+            () => print("Login with Twitter"),
+            AssetImage(
+              "assets/correcttwit.png",
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -177,6 +234,8 @@ class _HomeState extends State<Home> {
               _buildForgotPassword(),
               _buildRememberMe(),
               _buildLogin(),
+              _buildSignInText(),
+              _buildSocialMediaRow(),
             ],
           ),
         ),
