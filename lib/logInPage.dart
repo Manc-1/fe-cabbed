@@ -13,11 +13,44 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   bool _rememberMe = false;
 
-// Future<String> postData() async{
-//   var response = await http.post("https://be-cabbed.herokuapp.com/api/users/login",
-//   headers
-//   );
-// }
+Future navigateToLoginPage(context) async {
+  Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage()));
+}
+
+final userEmail = TextEditingController();
+final userPassword = TextEditingController();
+  var jsonResponse = null;
+  Future getData(String email, String password) async {
+    http.Response response = await http.post("https://be-cabbed.herokuapp.com/api/users/login", headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+    },
+    body: jsonEncode(<String, String>{
+      'email': email,
+      'password': password,
+    }), );
+    debugPrint(password);
+    debugPrint(email);
+
+    if (response.statusCode == 200){
+  debugPrint(response.body);
+  jsonResponse = json.decode(response.body);
+navigateToLoginPage(context);
+    } else {
+
+    return respone.statusCode
+  }
+    }
+    
+
+
+
+@override
+void dispose() {
+  userEmail.dispose();
+  userPassword.dispose();
+  super.dispose();
+  
+}
 
   Widget _buildEmail() {
     return Column(
@@ -37,6 +70,7 @@ class _HomeState extends State<Home> {
           ),
           height: 60,
           child: TextField(
+            controller: userEmail,
             keyboardType: TextInputType.emailAddress,
             style: TextStyle(color: Colors.white),
             decoration: InputDecoration(
@@ -76,6 +110,7 @@ class _HomeState extends State<Home> {
           ),
           height: 60,
           child: TextField(
+            controller: userPassword,
             obscureText: true,
             style: TextStyle(color: Colors.white),
             decoration: InputDecoration(
@@ -146,7 +181,7 @@ class _HomeState extends State<Home> {
       padding: EdgeInsets.symmetric(vertical: 25.0),
       child: RaisedButton(
         elevation: 5.0,
-        onPressed: () => print("login pressed"),
+        onPressed: () => getData(userEmail.text, userPassword.text),
         padding:
             EdgeInsets.only(left: 90.0, right: 90.0, top: 12.0, bottom: 12.0),
         shape: RoundedRectangleBorder(
