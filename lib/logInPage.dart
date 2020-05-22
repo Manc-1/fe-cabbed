@@ -5,7 +5,8 @@ import 'package:hexcolor/hexcolor.dart';
 import 'signUp.dart';
 // import 'main.dart';
 import 'package:http/http.dart' as http;
-import 'test_login_page.dart';
+// import 'test_login_page.dart';
+import 'mapPage.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -17,7 +18,7 @@ class _HomeState extends State<Home> {
 
   Future navigateToLoginPage(context) async {
     Navigator.push(
-        context, MaterialPageRoute(builder: (context) => TestLoginPage()));
+        context, MaterialPageRoute(builder: (context) => MapSample()));
   }
 
   final userEmail = TextEditingController();
@@ -291,8 +292,7 @@ class _HomeState extends State<Home> {
           width: double.infinity,
           decoration: BoxDecoration(
             image: DecorationImage(
-                image: AssetImage("assets/pexels-photo-172483.jpg"),
-                fit: BoxFit.cover),
+                image: AssetImage("assets/roundabout.jpg"), fit: BoxFit.cover),
           ),
         ),
         Container(

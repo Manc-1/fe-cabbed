@@ -15,8 +15,7 @@ class _LoginPageState extends State<TestLoginPage> {
           width: double.infinity,
           decoration: BoxDecoration(
             image: DecorationImage(
-                image: AssetImage("assets/pexels-photo-172483.jpg"),
-                fit: BoxFit.cover),
+                image: AssetImage("assets/roundabout.jpg"), fit: BoxFit.cover),
           ),
         ),
         Container(
