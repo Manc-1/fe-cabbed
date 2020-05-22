@@ -20,8 +20,9 @@ class SignUpHome extends StatelessWidget {
             ),
           ),
           height: 60,
-          child: TextField(
-            keyboardType: TextInputType.emailAddress,
+          child: TextFormField(
+            keyboardType: TextInputType.text,
+            validator: (val) => val.isEmpty ? 'Name is required' : null,
             style: TextStyle(color: Colors.white),
             decoration: InputDecoration(
               border: InputBorder.none,
@@ -58,7 +59,7 @@ class SignUpHome extends StatelessWidget {
             ),
           ),
           height: 60,
-          child: TextField(
+          child: TextFormField(
             keyboardType: TextInputType.emailAddress,
             style: TextStyle(color: Colors.white),
             decoration: InputDecoration(
@@ -96,7 +97,7 @@ class SignUpHome extends StatelessWidget {
             ),
           ),
           height: 60,
-          child: TextField(
+          child: TextFormField(
             obscureText: true,
             style: TextStyle(color: Colors.white),
             decoration: InputDecoration(
@@ -134,8 +135,8 @@ class SignUpHome extends StatelessWidget {
             ),
           ),
           height: 60,
-          child: TextField(
-            keyboardType: TextInputType.number,
+          child: TextFormField(
+            keyboardType: TextInputType.phone,
             style: TextStyle(color: Colors.white),
             decoration: InputDecoration(
               border: InputBorder.none,
@@ -172,7 +173,7 @@ class SignUpHome extends StatelessWidget {
             ),
           ),
           height: 60,
-          child: TextField(
+          child: TextFormField(
             style: TextStyle(color: Colors.white),
             decoration: InputDecoration(
               border: InputBorder.none,
@@ -209,7 +210,7 @@ class SignUpHome extends StatelessWidget {
             ),
           ),
           height: 60,
-          child: TextField(
+          child: TextFormField(
             style: TextStyle(color: Colors.white),
             decoration: InputDecoration(
               border: InputBorder.none,
@@ -273,24 +274,28 @@ class SignUpHome extends StatelessWidget {
               horizontal: 40.0,
               vertical: 120.0,
             ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                SizedBox(height: 10.0),
-                _buildName(),
-                SizedBox(height: 10.0),
-                _buildEmail(),
-                SizedBox(height: 10.0),
-                _buildPhone(),
-                SizedBox(height: 10.0),
-                _buildPassword(),
-                SizedBox(height: 10.0),
-                _buildPostcode(),
-                SizedBox(height: 10.0),
-                _buildAvatar(),
-                _buildSignUpButton(),
-                // _buildLogin(),
-              ],
+            child: new Form(
+              // key: _formKey,
+              autovalidate: true,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  SizedBox(height: 10.0),
+                  _buildName(),
+                  SizedBox(height: 10.0),
+                  _buildEmail(),
+                  SizedBox(height: 10.0),
+                  _buildPhone(),
+                  SizedBox(height: 10.0),
+                  _buildPassword(),
+                  SizedBox(height: 10.0),
+                  _buildPostcode(),
+                  SizedBox(height: 10.0),
+                  _buildAvatar(),
+                  _buildSignUpButton(),
+                  // _buildLogin(),
+                ],
+              ),
             ),
           ),
         ),
