@@ -111,13 +111,15 @@ class MapSampleState extends State<MapSample> {
       );
     });
   }
-  Future<void> sendPickUpLocation() async{
+
+  Future<void> sendPickUpLocation() async {
     var currentLocation = await Geolocator()
         .getCurrentPosition(desiredAccuracy: LocationAccuracy.best);
 
-    var response = await http.post(url, body: {"lat":currentLocation.latitude,"long" :currentLocation.longitude})
-
-
+    var response = await http.post(url, body: {
+      "lat": currentLocation.latitude,
+      "long": currentLocation.longitude
+    });
   }
 
   void toggleCurrent() {
@@ -136,7 +138,7 @@ class MapSampleState extends State<MapSample> {
     } else {
       setState(() {
         _heatmaps.removeWhere((heatmap) =>
-        heatmap.heatmapId == HeatmapId(currentHeatmapLocations.toString()));
+            heatmap.heatmapId == HeatmapId(currentHeatmapLocations.toString()));
         isCurrentMapSelected = false;
       });
     }
@@ -158,7 +160,7 @@ class MapSampleState extends State<MapSample> {
     } else {
       setState(() {
         _heatmaps.removeWhere((heatmap) =>
-        heatmap.heatmapId == HeatmapId(pastHeatmapLocations.toString()));
+            heatmap.heatmapId == HeatmapId(pastHeatmapLocations.toString()));
         isPastMapSelected = false;
       });
     }
