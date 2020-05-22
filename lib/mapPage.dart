@@ -3,6 +3,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter_heatmap/google_maps_flutter_heatmap.dart';
 import 'package:http/http.dart' as http;
+// import 'logInPage.dart';
 
 void main() => runApp(MyApp());
 

@@ -1,9 +1,11 @@
-// import 'dart:async';
+import 'dart:async';
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'signUp.dart';
-// import 'main.dart';
-// import 'package:http/http.dart' as http;
+import 'package:http/http.dart' as http;
+// import 'mapPage.dart';
+import 'testPage.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -13,44 +15,43 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   bool _rememberMe = false;
 
-Future navigateToLoginPage(context) async {
-  Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage()));
-}
+  Future navigateToLoginPage(context) async {
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => MainPage()));
+  }
 
-final userEmail = TextEditingController();
-final userPassword = TextEditingController();
+  final userEmail = TextEditingController();
+  final userPassword = TextEditingController();
   var jsonResponse = null;
   Future getData(String email, String password) async {
-    http.Response response = await http.post("https://be-cabbed.herokuapp.com/api/users/login", headers: <String, String>{
-      'Content-Type': 'application/json; charset=UTF-8',
-    },
-    body: jsonEncode(<String, String>{
-      'email': email,
-      'password': password,
-    }), );
+    http.Response response = await http.post(
+      "https://be-cabbed.herokuapp.com/api/users/login",
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, String>{
+        'email': email,
+        'password': password,
+      }),
+    );
     debugPrint(password);
     debugPrint(email);
 
-    if (response.statusCode == 200){
-  debugPrint(response.body);
-  jsonResponse = json.decode(response.body);
-navigateToLoginPage(context);
+    if (response.statusCode == 200) {
+      debugPrint(response.body);
+      jsonResponse = json.decode(response.body);
+      navigateToLoginPage(context);
     } else {
-
-    return respone.statusCode
-  }
+      return response.statusCode;
     }
-    
+  }
 
-
-
-@override
-void dispose() {
-  userEmail.dispose();
-  userPassword.dispose();
-  super.dispose();
-  
-}
+  @override
+  void dispose() {
+    userEmail.dispose();
+    userPassword.dispose();
+    super.dispose();
+  }
 
   Widget _buildEmail() {
     return Column(
