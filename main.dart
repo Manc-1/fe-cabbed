@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:geolocator/geolocator.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter_heatmap/google_maps_flutter_heatmap.dart';
+import 'package:http/http.dart' as http;
 
 void main() => runApp(MyApp());
 
@@ -25,17 +26,24 @@ class MapSampleState extends State<MapSample> {
   final Set<Heatmap> _heatmaps = {};
   CameraPosition centreCameraOn = CameraPosition(
     target: LatLng(37.52096133580664, -122.085749655962),
-    zoom: 14.4746,
+    zoom: 5,
   );
-  List<LatLng> currentHeatmapLocations = [ LatLng(37.527961335806, -122.0857496559), LatLng(37.527861335806, -122.0857496559),LatLng(37.524861335806, -122.0857496559),LatLng(37.524861335806, -122.0827496559) ];
-  List<LatLng> pastHeatmapLocations = [ LatLng(37.527961335806, -122.0857496559), LatLng(37.527861335806, -122.0856496559) ];
+  List<LatLng> currentHeatmapLocations = [
+    LatLng(37.527961335806, -122.0857496559),
+    LatLng(37.527861335806, -122.0857496559),
+    LatLng(37.524861335806, -122.0857496559),
+    LatLng(37.524861335806, -122.0827496559)
+  ];
+  List<LatLng> pastHeatmapLocations = [
+    LatLng(37.526861335806, -122.0857496559),
+    LatLng(37.526861335806, -122.0856496559)
+  ];
 
   LatLng _currentHeatmapLocation = LatLng(37.527961335806, -122.0857496559);
   LatLng _heatmapLocation1 = LatLng(37.526861335806, -122.0857496559);
   bool isCurrentMapSelected = false;
   bool isPastMapSelected = false;
-
-
+  var url = 'https//heroku';
 
   @override
   Widget build(BuildContext context) {
@@ -50,36 +58,42 @@ class MapSampleState extends State<MapSample> {
       ),
       floatingActionButton: Stack(
         children: <Widget>[
-          Padding(padding: EdgeInsets.only(left:31),
+          Padding(
+            padding: EdgeInsets.only(left: 31),
             child: Align(
-              alignment: Alignment.topLeft,
+              alignment: Alignment(-.9, -.8),
               child: FloatingActionButton(
                 onPressed: toggleCurrent,
                 child: Text('current'),
-
               ),
-            ),),
-
-          Align(
-            alignment: Alignment.bottomRight,
-            child: FloatingActionButton(
-              onPressed: _centerMap,
-              tooltip: 'Get Location',
-              child: Icon(Icons.flag),
             ),
           ),
           Align(
-            alignment: Alignment.topRight,
+            alignment: Alignment(-.9, .8),
+            child: FloatingActionButton(
+              onPressed: _centerMap,
+              tooltip: 'Get Location',
+              child: Icon(Icons.trip_origin),
+            ),
+          ),
+          Align(
+            alignment: Alignment(.9, -.8),
             child: FloatingActionButton(
               onPressed: togglePast,
-              child: Text('past')
+              child: Text('past'),
+              backgroundColor: Colors.green,
             ),
+          ),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: FloatingActionButton(
+                onPressed: sendPickUpLocation, child: Text("pickup")),
           )
         ],
       ),
-
     );
   }
+
   Future<void> _centerMap() async {
     var currentLocation = await Geolocator()
         .getCurrentPosition(desiredAccuracy: LocationAccuracy.best);
@@ -89,80 +103,77 @@ class MapSampleState extends State<MapSample> {
       target: LatLng(currentLocation.latitude, currentLocation.longitude),
       zoom: 14.4746,
     )));
-        print(currentLocation);
-        setState(() {
-          centreCameraOn =  CameraPosition(
-            target: LatLng(currentLocation.latitude, currentLocation.longitude),
-            zoom: 14.4746,
-          );
-        });
+    print(currentLocation);
+    setState(() {
+      centreCameraOn = CameraPosition(
+        target: LatLng(currentLocation.latitude, currentLocation.longitude),
+        zoom: 10,
+      );
+    });
+  }
+  Future<void> sendPickUpLocation() async{
+    var currentLocation = await Geolocator()
+        .getCurrentPosition(desiredAccuracy: LocationAccuracy.best);
 
-//    setState(() {
-//      _markers.clear();
-//      final marker = Marker(
-//        markerId: MarkerId("curr_loc"),
-//        position: LatLng(currentLocation.latitude, currentLocation.longitude),
-//        infoWindow: InfoWindow(title: 'Your Location'),
-//      );
-//      _markers["Current Location"] = marker;
-//    });
+    var response = await http.post(url, body: {"lat":currentLocation.latitude,"long" :currentLocation.longitude})
+
+
   }
 
-  void toggleCurrent(){
-    if(!isCurrentMapSelected){
+  void toggleCurrent() {
+    if (!isCurrentMapSelected) {
       setState(() {
-        _heatmaps.add(
-            Heatmap(
-                heatmapId: HeatmapId(currentHeatmapLocations.toString()),
-                points: _createPoints(currentHeatmapLocations),
-                radius: 50,
-                visible: true,
-                gradient:  HeatmapGradient(
-                    colors: <Color>[Colors.green, Colors.blueGrey], startPoints: <double>[0.2, 0.8]
-                )
-            )
-        );
+        _heatmaps.add(Heatmap(
+            heatmapId: HeatmapId(currentHeatmapLocations.toString()),
+            points: _createPoints(currentHeatmapLocations),
+            radius: 50,
+            visible: true,
+            gradient: HeatmapGradient(
+                colors: <Color>[Colors.blue, Colors.blueGrey],
+                startPoints: <double>[0.2, 0.8])));
         isCurrentMapSelected = true;
       });
-    }else{
+    } else {
       setState(() {
-        _heatmaps.removeWhere((heatmap) => heatmap.heatmapId ==  HeatmapId(currentHeatmapLocations.toString()));
+        _heatmaps.removeWhere((heatmap) =>
+            heatmap.heatmapId == HeatmapId(currentHeatmapLocations.toString()));
         isCurrentMapSelected = false;
       });
     }
   }
 
-  void togglePast(){
-    if(!isPastMapSelected){
+  void togglePast() {
+    if (!isPastMapSelected) {
       setState(() {
-        _heatmaps.add(
-            Heatmap(
-                heatmapId: HeatmapId(pastHeatmapLocations.toString()),
-                points: _createPoints(pastHeatmapLocations),
-                radius: 50,
-                visible: true,
-                gradient:  HeatmapGradient(
-                    colors: <Color>[Colors.red, Colors.blueGrey], startPoints: <double>[0.2, 0.8]
-                )
-            )
-        );
+        _heatmaps.add(Heatmap(
+            heatmapId: HeatmapId(pastHeatmapLocations.toString()),
+            points: _createPoints(pastHeatmapLocations),
+            radius: 50,
+            visible: true,
+            gradient: HeatmapGradient(
+                colors: <Color>[Colors.green, Colors.blueGrey],
+                startPoints: <double>[0.2, 0.8])));
         isPastMapSelected = true;
       });
-    }else{
+    } else {
       setState(() {
-        _heatmaps.removeWhere((heatmap) => heatmap.heatmapId ==  HeatmapId(pastHeatmapLocations.toString()));
+        _heatmaps.removeWhere((heatmap) =>
+            heatmap.heatmapId == HeatmapId(pastHeatmapLocations.toString()));
         isPastMapSelected = false;
       });
     }
   }
+
   //heatmap generation helper functions
   List<WeightedLatLng> _createPoints(List<LatLng> locations) {
     final List<WeightedLatLng> points = <WeightedLatLng>[];
     //Can create multiple points here
 
-    locations.forEach((location){
-      points.add(_createWeightedLatLng(location.latitude,location.longitude, 1));
-      points.add(_createWeightedLatLng(location.latitude-1,location.longitude, 1));
+    locations.forEach((location) {
+      points
+          .add(_createWeightedLatLng(location.latitude, location.longitude, 1));
+      points.add(
+          _createWeightedLatLng(location.latitude - 1, location.longitude, 1));
     });
 
     return points;
@@ -171,5 +182,4 @@ class MapSampleState extends State<MapSample> {
   WeightedLatLng _createWeightedLatLng(double lat, double lng, int weight) {
     return WeightedLatLng(point: LatLng(lat, lng), intensity: weight);
   }
-
 }
