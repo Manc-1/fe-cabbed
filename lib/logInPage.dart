@@ -3,9 +3,9 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'signUp.dart';
+// import 'main.dart';
 import 'package:http/http.dart' as http;
-// import 'mapPage.dart';
-import 'testPage.dart';
+import 'test_login_page.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -17,7 +17,7 @@ class _HomeState extends State<Home> {
 
   Future navigateToLoginPage(context) async {
     Navigator.push(
-        context, MaterialPageRoute(builder: (context) => MainPage()));
+        context, MaterialPageRoute(builder: (context) => TestLoginPage()));
   }
 
   final userEmail = TextEditingController();
@@ -37,12 +37,12 @@ class _HomeState extends State<Home> {
     debugPrint(password);
     debugPrint(email);
 
-    if (response.statusCode == 200) {
+    if (response.statusCode == 201) {
       debugPrint(response.body);
       jsonResponse = json.decode(response.body);
       navigateToLoginPage(context);
     } else {
-      return response.statusCode;
+//     return response.statusCode
     }
   }
 
