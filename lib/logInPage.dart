@@ -1,9 +1,10 @@
-// import 'dart:async';
+import 'dart:async';
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'signUp.dart';
 // import 'main.dart';
-// import 'package:http/http.dart' as http;
+import 'package:http/http.dart' as http;
 
 class Home extends StatefulWidget {
   @override
@@ -31,13 +32,13 @@ final userPassword = TextEditingController();
     debugPrint(password);
     debugPrint(email);
 
-    if (response.statusCode == 200){
+    if (response.statusCode == 201){
   debugPrint(response.body);
   jsonResponse = json.decode(response.body);
 navigateToLoginPage(context);
     } else {
 
-    return respone.statusCode
+//     return respone.statusCode
   }
     }
     
