@@ -1,8 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'contact.dart';
+import 'contact_services.dart';
 // import 'main.dart';
 
-class SignUpHome extends StatelessWidget {
+class SignUpHome extends StatefulWidget {
+  SignUpHome({Key key, this.title}) : super(key: key);
+  final String title;
+
+  @override
+  _SignUpHomeState createState() => _SignUpHomeState();
+}
+
+class _SignUpHomeState extends State<SignUpHome> {
+  final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+  Contact newContact = new Contact();
+  // List<String> _colors = <String>['', 'red', 'green', 'blue', 'orange'];
+  // String _color = '';
+
+// Custom widgets separating each form field
   Widget _buildName() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -23,6 +40,7 @@ class SignUpHome extends StatelessWidget {
           child: TextFormField(
             keyboardType: TextInputType.text,
             validator: (val) => val.isEmpty ? 'Name is required' : null,
+            onSaved: (val) => newContact.name = val,
             style: TextStyle(color: Colors.white),
             decoration: InputDecoration(
               border: InputBorder.none,
@@ -61,6 +79,9 @@ class SignUpHome extends StatelessWidget {
           height: 60,
           child: TextFormField(
             keyboardType: TextInputType.emailAddress,
+            //validator?
+            onSaved: (val) => newContact.email = val,
+
             style: TextStyle(color: Colors.white),
             decoration: InputDecoration(
               border: InputBorder.none,
@@ -99,6 +120,7 @@ class SignUpHome extends StatelessWidget {
           height: 60,
           child: TextFormField(
             obscureText: true,
+            onSaved: (val) => newContact.password = val,
             style: TextStyle(color: Colors.white),
             decoration: InputDecoration(
               border: InputBorder.none,
@@ -137,6 +159,7 @@ class SignUpHome extends StatelessWidget {
           height: 60,
           child: TextFormField(
             keyboardType: TextInputType.phone,
+            onSaved: (val) => newContact.phone = val,
             style: TextStyle(color: Colors.white),
             decoration: InputDecoration(
               border: InputBorder.none,
@@ -174,6 +197,7 @@ class SignUpHome extends StatelessWidget {
           ),
           height: 60,
           child: TextFormField(
+            onSaved: (val) => newContact.postcode = val,
             style: TextStyle(color: Colors.white),
             decoration: InputDecoration(
               border: InputBorder.none,
@@ -211,6 +235,7 @@ class SignUpHome extends StatelessWidget {
           ),
           height: 60,
           child: TextFormField(
+            onSaved: (val) => newContact.avatar = val,
             style: TextStyle(color: Colors.white),
             decoration: InputDecoration(
               border: InputBorder.none,
@@ -235,7 +260,7 @@ class SignUpHome extends StatelessWidget {
       padding: EdgeInsets.symmetric(vertical: 25.0),
       child: RaisedButton(
         elevation: 5.0,
-        onPressed: () => print("login pressed"),
+        onPressed: _submitForm,
         padding:
             EdgeInsets.only(left: 90.0, right: 90.0, top: 12.0, bottom: 12.0),
         shape: RoundedRectangleBorder(
@@ -254,9 +279,37 @@ class SignUpHome extends StatelessWidget {
     );
   }
 
+  void _submitForm() {
+    final FormState form = _formKey.currentState;
+    if (!form.validate()) {
+      showMessage('Form is not valid!  Please review and correct.');
+    } else {
+      form.save(); //This invokes each onSaved event
+
+      print('Form save called, newContact is now up to date...');
+      print('Email: ${newContact.name}');
+      print('Email: ${newContact.email}');
+      print('Phone: ${newContact.phone}');
+      print('Phone: ${newContact.password}');
+      print('Phone: ${newContact.postcode}');
+      print('Phone: ${newContact.avatar}');
+      print('========================================');
+      print('Submitting to back end...');
+      var contactService = new ContactService();
+      contactService.createContact(newContact).then((value) =>
+          showMessage('New contact created for ${value.name}!', Colors.blue));
+    }
+  }
+
+  void showMessage(String message, [MaterialColor color = Colors.red]) {
+    _scaffoldKey.currentState.showSnackBar(
+        new SnackBar(backgroundColor: color, content: new Text(message)));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       body: Stack(children: <Widget>[
         Container(
           height: double.infinity,
@@ -275,7 +328,7 @@ class SignUpHome extends StatelessWidget {
               vertical: 120.0,
             ),
             child: new Form(
-              // key: _formKey,
+              key: _formKey,
               autovalidate: true,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,

@@ -62,7 +62,7 @@ class _HomeState extends State<Home> {
         Container(
           alignment: Alignment.centerLeft,
           decoration: BoxDecoration(
-            color: Colors.grey.withOpacity(0.3),
+            color: Colors.grey.withOpacity(0.35),
             border: Border(
               bottom: BorderSide(
                 color: Hexcolor('#FFB600'),
