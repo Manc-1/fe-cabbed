@@ -3,9 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'signUp.dart';
-// import 'main.dart';
 import 'package:http/http.dart' as http;
-// import 'test_login_page.dart';
 import 'mapPage.dart';
 
 class Home extends StatefulWidget {
@@ -23,7 +21,7 @@ class _HomeState extends State<Home> {
 
   final userEmail = TextEditingController();
   final userPassword = TextEditingController();
-  var jsonResponse = null;
+  var jsonResponse;
   Future getData(String email, String password) async {
     http.Response response = await http.post(
       "https://be-cabbed.herokuapp.com/api/users/login",

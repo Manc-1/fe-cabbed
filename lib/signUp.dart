@@ -13,11 +13,10 @@ class SignUpHome extends StatefulWidget {
 }
 
 class _SignUpHomeState extends State<SignUpHome> {
+// unique keys
   final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   Contact newContact = new Contact();
-  // List<String> _colors = <String>['', 'red', 'green', 'blue', 'orange'];
-  // String _color = '';
 
 // Custom widgets separating each form field
   Widget _buildName() {
@@ -159,7 +158,7 @@ class _SignUpHomeState extends State<SignUpHome> {
           height: 60,
           child: TextFormField(
             keyboardType: TextInputType.phone,
-            onSaved: (val) => newContact.phone = val,
+            onSaved: (val) => newContact.phoneNumber = val,
             style: TextStyle(color: Colors.white),
             decoration: InputDecoration(
               border: InputBorder.none,
@@ -179,7 +178,7 @@ class _SignUpHomeState extends State<SignUpHome> {
     );
   }
 
-  Widget _buildPostcode() {
+  Widget _buildpostCode() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
@@ -197,7 +196,7 @@ class _SignUpHomeState extends State<SignUpHome> {
           ),
           height: 60,
           child: TextFormField(
-            onSaved: (val) => newContact.postcode = val,
+            onSaved: (val) => newContact.postCode = val,
             style: TextStyle(color: Colors.white),
             decoration: InputDecoration(
               border: InputBorder.none,
@@ -206,7 +205,7 @@ class _SignUpHomeState extends State<SignUpHome> {
                 Icons.lock,
                 color: Colors.white,
               ),
-              hintText: "Enter your postcode",
+              hintText: "Enter your postCode",
               hintStyle: TextStyle(
                 color: Colors.white,
               ),
@@ -235,7 +234,7 @@ class _SignUpHomeState extends State<SignUpHome> {
           ),
           height: 60,
           child: TextFormField(
-            onSaved: (val) => newContact.avatar = val,
+            onSaved: (val) => newContact.userAvatar = val,
             style: TextStyle(color: Colors.white),
             decoration: InputDecoration(
               border: InputBorder.none,
@@ -282,22 +281,21 @@ class _SignUpHomeState extends State<SignUpHome> {
   void _submitForm() {
     final FormState form = _formKey.currentState;
     if (!form.validate()) {
-      showMessage('Form is not valid!  Please review and correct.');
+      showMessage('Form is not valid!');
     } else {
       form.save(); //This invokes each onSaved event
 
       print('Form save called, newContact is now up to date...');
-      print('Email: ${newContact.name}');
-      print('Email: ${newContact.email}');
-      print('Phone: ${newContact.phone}');
-      print('Phone: ${newContact.password}');
-      print('Phone: ${newContact.postcode}');
-      print('Phone: ${newContact.avatar}');
-      print('========================================');
+      print('name: ${newContact.name}');
+      print('email: ${newContact.email}');
+      print('phoneNumber: ${newContact.phoneNumber}');
+      print('password: ${newContact.password}');
+      print('postCode: ${newContact.postCode}');
+      print('userAvatar: ${newContact.userAvatar}');
       print('Submitting to back end...');
       var contactService = new ContactService();
-      contactService.createContact(newContact).then((value) =>
-          showMessage('New contact created for ${value.name}!', Colors.blue));
+      contactService.createContact(newContact).then(
+          (value) => showMessage('Account created successfully', Colors.pink));
     }
   }
 
@@ -342,7 +340,7 @@ class _SignUpHomeState extends State<SignUpHome> {
                   SizedBox(height: 10.0),
                   _buildPassword(),
                   SizedBox(height: 10.0),
-                  _buildPostcode(),
+                  _buildpostCode(),
                   SizedBox(height: 10.0),
                   _buildAvatar(),
                   _buildSignUpButton(),

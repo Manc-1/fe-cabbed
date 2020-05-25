@@ -6,7 +6,8 @@ import 'package:intl/intl.dart';
 import 'contact.dart';
 
 class ContactService {
-  static const _serviceUrl = 'http://mockbin.org/echo';
+  static const _serviceUrl =
+      'https://be-cabbed.herokuapp.com/api/users/create_user';
   static final _headers = {'Content-Type': 'application/json'};
 
   Future<Contact> createContact(Contact contact) async {
@@ -14,11 +15,10 @@ class ContactService {
       String json = _toJson(contact);
       final response =
           await http.post(_serviceUrl, headers: _headers, body: json);
-      var c = _fromJson(response.body);
-      return c;
-    } catch (e) {
-      print('Server Exception!!!');
-      print(e);
+      var reply = _fromJson(response.body);
+      return reply;
+    } catch (err) {
+      print(err);
       return null;
     }
   }
@@ -28,10 +28,10 @@ class ContactService {
     var contact = new Contact();
     contact.name = map['name'];
     contact.email = map['email'];
-    contact.phone = map['phone'];
+    contact.phoneNumber = map['phoneNumber'];
     contact.password = map['password'];
-    contact.postcode = map['postcode'];
-    contact.avatar = map['avatar'];
+    contact.postCode = map['postCode'];
+    contact.userAvatar = map['avatar'];
 
     return contact;
   }
@@ -40,10 +40,10 @@ class ContactService {
     var mapData = new Map();
     mapData["name"] = contact.name;
     mapData["email"] = contact.email;
-    mapData["phone"] = contact.phone;
+    mapData["phoneNumber"] = contact.phoneNumber;
     mapData["password"] = contact.password;
-    mapData["postcode"] = contact.postcode;
-    mapData["avatar"] = contact.avatar;
+    mapData["postCode"] = contact.postCode;
+    mapData["avatar"] = contact.userAvatar;
 
     String json = jsonEncode(mapData);
     return json;

@@ -1,8 +1,8 @@
 class Contact {
   String name;
   String email = '';
-  String phone = '';
+  String phoneNumber = '';
   String password = '';
-  String postcode = '';
-  String avatar = '';
+  String postCode = '';
+  String userAvatar = '';
 }
