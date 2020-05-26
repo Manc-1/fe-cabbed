@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'signUp.dart';
@@ -14,6 +15,11 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   bool _rememberMe = false;
 
+Future returnToLoginPage(context) async{    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => Home()));
+        }
+
+
   Future navigateToLoginPage(context) async {
     Navigator.push(
         context, MaterialPageRoute(builder: (context) => MapSample()));
@@ -22,6 +28,7 @@ class _HomeState extends State<Home> {
   final userEmail = TextEditingController();
   final userPassword = TextEditingController();
   var jsonResponse;
+  var data;
   Future getData(String email, String password) async {
     http.Response response = await http.post(
       "https://be-cabbed.herokuapp.com/api/users/login",
@@ -33,16 +40,23 @@ class _HomeState extends State<Home> {
         'password': password,
       }),
     );
+
+    setState((){
+      var resBody = json.decode(response.body);
+      data = resBody["msg"];
+    });
+
     debugPrint(password);
     debugPrint(email);
+    debugPrint(data);
     print(response.statusCode);
     if (response.statusCode == 201) {
       debugPrint(response.body);
       jsonResponse = json.decode(response.body);
       navigateToLoginPage(context);
-    } else {
-//     return response.statusCode
-    }
+    } else {      
+      showAlertDialog(context, data);
+      }
   }
 
   @override
@@ -51,6 +65,35 @@ class _HomeState extends State<Home> {
     userPassword.dispose();
     super.dispose();
   }
+
+
+showAlertDialog(BuildContext context, data) {
+debugPrint(data);
+
+  Widget okButton = FlatButton(
+    child: Text("OK"),
+    onPressed: () => returnToLoginPage(context),
+  );
+
+  AlertDialog alert = AlertDialog(
+    title: Text("Error"),
+    content: Text(data),
+    actions: [
+      okButton,
+    ],
+  );
+  
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return alert;
+    },
+  );
+}
+
+
+
+
 
   Widget _buildEmail() {
     return Column(
