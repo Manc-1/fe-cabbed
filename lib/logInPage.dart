@@ -247,35 +247,48 @@ class _HomeState extends State<Home> {
   }
 
   Widget _buildSignup() {
-    return GestureDetector(
-      onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => SignUpHome()),
-        );
-      },
-      child: RichText(
-        text: TextSpan(
-          children: [
-            TextSpan(
-              text: "Don\'t have an account?",
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 18.0,
-                fontWeight: FontWeight.w400,
-                fontFamily: 'Poppins',
+    return Container(
+      alignment: Alignment.center,
+      width: 300,
+      decoration: BoxDecoration(
+        color: Colors.grey[700].withOpacity(0.8),
+        border: Border(
+          bottom: BorderSide(
+            color: Hexcolor('#FFB600'),
+            width: 3.0,
+          ),
+        ),
+      ),
+      child: GestureDetector(
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => SignUpHome()),
+          );
+        },
+        child: RichText(
+          text: TextSpan(
+            children: [
+              TextSpan(
+                text: "Don\'t have an account?",
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 18.0,
+                  fontWeight: FontWeight.w400,
+                  fontFamily: 'Poppins',
+                ),
               ),
-            ),
-            TextSpan(
-              text: "Sign Up",
-              style: TextStyle(
-                color: Colors.blue[400],
-                fontSize: 20.0,
-                fontWeight: FontWeight.bold,
-                fontFamily: 'Poppins',
+              TextSpan(
+                text: "Sign Up",
+                style: TextStyle(
+                  color: Colors.yellow[600],
+                  fontSize: 20.0,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: 'Poppins',
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
