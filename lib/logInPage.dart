@@ -6,6 +6,9 @@ import 'package:hexcolor/hexcolor.dart';
 import 'signUp.dart';
 import 'package:http/http.dart' as http;
 import 'mapPage.dart';
+import 'socialLogin.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_twitter_login/flutter_twitter_login.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -15,10 +18,9 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   bool _rememberMe = false;
 
-Future returnToLoginPage(context) async{    Navigator.push(
-        context, MaterialPageRoute(builder: (context) => Home()));
-        }
-
+  Future returnToLoginPage(context) async {
+    Navigator.push(context, MaterialPageRoute(builder: (context) => Home()));
+  }
 
   Future navigateToLoginPage(context) async {
     Navigator.push(
@@ -41,7 +43,7 @@ Future returnToLoginPage(context) async{    Navigator.push(
       }),
     );
 
-    setState((){
+    setState(() {
       var resBody = json.decode(response.body);
       data = resBody["msg"];
     });
@@ -54,9 +56,9 @@ Future returnToLoginPage(context) async{    Navigator.push(
       debugPrint(response.body);
       jsonResponse = json.decode(response.body);
       navigateToLoginPage(context);
-    } else {      
+    } else {
       showAlertDialog(context, data);
-      }
+    }
   }
 
   @override
@@ -66,34 +68,29 @@ Future returnToLoginPage(context) async{    Navigator.push(
     super.dispose();
   }
 
+  showAlertDialog(BuildContext context, data) {
+    debugPrint(data);
 
-showAlertDialog(BuildContext context, data) {
-debugPrint(data);
+    Widget okButton = FlatButton(
+      child: Text("OK"),
+      onPressed: () => returnToLoginPage(context),
+    );
 
-  Widget okButton = FlatButton(
-    child: Text("OK"),
-    onPressed: () => returnToLoginPage(context),
-  );
+    AlertDialog alert = AlertDialog(
+      title: Text("Error"),
+      content: Text(data),
+      actions: [
+        okButton,
+      ],
+    );
 
-  AlertDialog alert = AlertDialog(
-    title: Text("Error"),
-    content: Text(data),
-    actions: [
-      okButton,
-    ],
-  );
-  
-  showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return alert;
-    },
-  );
-}
-
-
-
-
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
 
   Widget _buildEmail() {
     return Column(
@@ -261,6 +258,10 @@ debugPrint(data);
   }
 
   Widget _buildSocialMediaRow() {
+    final twitterLogin = new TwitterLogin(
+        consumerKey: 'Mm8k4j95ANTtvzZ50HXXrcl2Y',
+        consumerSecret: 'K0kXhE1VoWQhOxe5tWWUBwmT7R3dIREvQGG9SaBeBkOXoCyiIO');
+
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 30.0),
       child: Row(
@@ -279,7 +280,28 @@ debugPrint(data);
             ),
           ),
           _buildSocialMedia(
-            () => print("Login with Twitter"),
+            () {
+              twitterLogin.authorize().then((result) {
+                switch (result.status) {
+                  case TwitterLoginStatus.loggedIn:
+                    AuthCredential credential =
+                        TwitterAuthProvider.getCredential(
+                            authToken: result.session.token,
+                            authTokenSecret: result.session.secret);
+
+                    FirebaseAuth.instance
+                        .signInWithCredential(credential)
+                        .then((signedInUser) {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => MapSample()),
+                      );
+                    });
+                }
+              }).catchError((e) {
+                print(e);
+              });
+            },
             AssetImage(
               "assets/TwitterButton.png",
             ),
