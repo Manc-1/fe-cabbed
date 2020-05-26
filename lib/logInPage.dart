@@ -1,12 +1,12 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:io';
+// import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'signUp.dart';
 import 'package:http/http.dart' as http;
 import 'mapPage.dart';
-import 'socialLogin.dart';
+// import 'socialLogin.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_twitter_login/flutter_twitter_login.dart';
 
@@ -314,7 +314,7 @@ class _HomeState extends State<Home> {
   Widget _buildSignup() {
     return Container(
       alignment: Alignment.center,
-      width: 300,
+      width: 260,
       decoration: BoxDecoration(
         color: Colors.grey[700].withOpacity(0.8),
         border: Border(
@@ -335,10 +335,10 @@ class _HomeState extends State<Home> {
           text: TextSpan(
             children: [
               TextSpan(
-                text: "Don\'t have an account?",
+                text: "Don\'t have an account? ",
                 style: TextStyle(
                   color: Colors.white,
-                  fontSize: 18.0,
+                  fontSize: 14.0,
                   fontWeight: FontWeight.w400,
                   fontFamily: 'Poppins',
                 ),
@@ -347,7 +347,7 @@ class _HomeState extends State<Home> {
                 text: "Sign Up",
                 style: TextStyle(
                   color: Colors.yellow[600],
-                  fontSize: 20.0,
+                  fontSize: 16.0,
                   fontWeight: FontWeight.bold,
                   fontFamily: 'Poppins',
                 ),
@@ -359,40 +359,42 @@ class _HomeState extends State<Home> {
     );
   }
 
+  Widget _mainLogo() {
+    return Container(
+        child: Image.asset(
+      "assets/Asset 4.png",
+      width: 150,
+      height: 150,
+    ));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(children: <Widget>[
         Container(
-          height: double.infinity,
-          width: double.infinity,
+          // height: double.infinity,
+          // width: double.infinity,
           decoration: BoxDecoration(
             image: DecorationImage(
                 image: AssetImage("assets/roundabout.jpg"), fit: BoxFit.cover),
           ),
         ),
         Container(
-          height: double.infinity,
+          // height: double.infinity,
           child: SingleChildScrollView(
             physics: AlwaysScrollableScrollPhysics(),
             padding: EdgeInsets.symmetric(
               horizontal: 40.0,
-              vertical: 120.0,
+              vertical: 40.0,
             ),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                // Text(
-                //   "Sign In",
-                //   style: TextStyle(
-                //     color: Colors.pink[300],
-                //     fontSize: 30,
-                //     fontWeight: FontWeight.bold,
-                //   ),
-                // ),
-                SizedBox(height: 100.0),
+                _mainLogo(),
+                SizedBox(height: 0.0),
                 _buildEmail(),
-                SizedBox(height: 10.0),
+                SizedBox(height: 0.0),
                 _buildPassword(),
                 _buildForgotPassword(),
                 _buildRememberMe(),
