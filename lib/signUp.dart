@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'contact.dart';
 import 'contact_services.dart';
-// import 'main.dart';
+import 'loginPage.dart';
 
 class SignUpHome extends StatefulWidget {
   SignUpHome({Key key, this.title}) : super(key: key);
@@ -278,6 +278,32 @@ class _SignUpHomeState extends State<SignUpHome> {
     );
   }
 
+  Widget _buildGoBackButton() {
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => Home()),
+        );
+      },
+      child: RichText(
+        text: TextSpan(
+          children: [
+            TextSpan(
+              text: "Home",
+              style: TextStyle(
+                color: Colors.blue[400],
+                fontSize: 20.0,
+                fontWeight: FontWeight.bold,
+                fontFamily: 'Poppins',
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   void _submitForm() {
     final FormState form = _formKey.currentState;
     if (!form.validate()) {
@@ -344,6 +370,7 @@ class _SignUpHomeState extends State<SignUpHome> {
                   SizedBox(height: 10.0),
                   _buildAvatar(),
                   _buildSignUpButton(),
+                  _buildGoBackButton(),
                   // _buildLogin(),
                 ],
               ),
