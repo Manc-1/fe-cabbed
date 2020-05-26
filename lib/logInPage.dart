@@ -35,7 +35,7 @@ class _HomeState extends State<Home> {
     );
     debugPrint(password);
     debugPrint(email);
-
+    print(response.statusCode);
     if (response.statusCode == 201) {
       debugPrint(response.body);
       jsonResponse = json.decode(response.body);
