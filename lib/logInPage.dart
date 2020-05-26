@@ -187,7 +187,7 @@ class _HomeState extends State<Home> {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(8.0),
         ),
-        color: Hexcolor('#FFB600'),
+        color: Hexcolor('#FFB600').withOpacity(0.8),
         child: Text(
           "Sign in",
           style: TextStyle(
