@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'contact.dart';
 import 'contact_services.dart';
-// import 'main.dart';
+import 'loginPage.dart';
+import 'package:email_validator/email_validator.dart';
 
 class SignUpHome extends StatefulWidget {
   SignUpHome({Key key, this.title}) : super(key: key);
@@ -20,237 +21,203 @@ class _SignUpHomeState extends State<SignUpHome> {
 
 // Custom widgets separating each form field
   Widget _buildName() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        SizedBox(height: 10.0),
-        Container(
-          alignment: Alignment.centerLeft,
-          decoration: BoxDecoration(
-            color: Colors.grey.withOpacity(0.5),
-            border: Border(
-              bottom: BorderSide(
-                color: Hexcolor('#FFB600'),
-                width: 3.0,
-              ),
-            ),
-          ),
-          height: 60,
-          child: TextFormField(
-            keyboardType: TextInputType.text,
-            validator: (val) => val.isEmpty ? 'Name is required' : null,
-            onSaved: (val) => newContact.name = val,
-            style: TextStyle(color: Colors.white),
-            decoration: InputDecoration(
-              border: InputBorder.none,
-              contentPadding: EdgeInsets.only(top: 14.0),
-              prefixIcon: Icon(
-                Icons.person,
-                color: Colors.white,
-              ),
-              hintText: "Enter your full name",
-              hintStyle: TextStyle(
-                color: Colors.white,
-              ),
-            ),
+    return Container(
+      alignment: Alignment.centerLeft,
+      decoration: BoxDecoration(
+        color: Colors.grey.withOpacity(0.5),
+        border: Border(
+          bottom: BorderSide(
+            color: Hexcolor('#FFB600'),
+            width: 3.0,
           ),
         ),
-      ],
+      ),
+      height: 50,
+      child: TextFormField(
+        keyboardType: TextInputType.text,
+        validator: (val) => val.isEmpty ? '!' : null,
+        onSaved: (val) => newContact.name = val,
+        style: TextStyle(color: Colors.white),
+        decoration: InputDecoration(
+          fillColor: Colors.pink,
+          border: InputBorder.none,
+          contentPadding: EdgeInsets.only(top: 14.0),
+          prefixIcon: Icon(
+            Icons.person,
+            color: Colors.white,
+          ),
+          hintText: "Enter your full name",
+          hintStyle: TextStyle(
+            color: Colors.white,
+          ),
+        ),
+      ),
+      // textInputAction: TextInputAction.next,
     );
   }
 
   Widget _buildEmail() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        SizedBox(height: 10.0),
-        Container(
-          alignment: Alignment.centerLeft,
-          decoration: BoxDecoration(
-            color: Colors.grey.withOpacity(0.5),
-            border: Border(
-              bottom: BorderSide(
-                color: Hexcolor('#FFB600'),
-                width: 3.0,
-              ),
-            ),
-          ),
-          height: 60,
-          child: TextFormField(
-            keyboardType: TextInputType.emailAddress,
-            //validator?
-            onSaved: (val) => newContact.email = val,
-
-            style: TextStyle(color: Colors.white),
-            decoration: InputDecoration(
-              border: InputBorder.none,
-              contentPadding: EdgeInsets.only(top: 14.0),
-              prefixIcon: Icon(
-                Icons.email,
-                color: Colors.white,
-              ),
-              hintText: "Enter your email",
-              hintStyle: TextStyle(
-                color: Colors.white,
-              ),
-            ),
+    return Container(
+      alignment: Alignment.centerLeft,
+      decoration: BoxDecoration(
+        color: Colors.grey.withOpacity(0.5),
+        border: Border(
+          bottom: BorderSide(
+            color: Hexcolor('#FFB600'),
+            width: 3.0,
           ),
         ),
-      ],
+      ),
+      height: 50,
+      child: TextFormField(
+        keyboardType: TextInputType.emailAddress,
+        // validator: (email) =>
+        //     EmailValidator.validate(email) ? null : "Invalid email address",
+        onSaved: (val) => newContact.email = val,
+        style: TextStyle(color: Colors.white),
+        decoration: InputDecoration(
+          border: InputBorder.none,
+          contentPadding: EdgeInsets.only(top: 14.0),
+          prefixIcon: Icon(
+            Icons.email,
+            color: Colors.white,
+          ),
+          hintText: "Enter your email",
+          hintStyle: TextStyle(
+            color: Colors.white,
+          ),
+        ),
+      ),
     );
   }
 
   Widget _buildPassword() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        SizedBox(height: 10.0),
-        Container(
-          alignment: Alignment.centerLeft,
-          decoration: BoxDecoration(
-            color: Colors.grey.withOpacity(0.5),
-            border: Border(
-              bottom: BorderSide(
-                color: Hexcolor('#FFB600'),
-                width: 3.0,
-              ),
-            ),
-          ),
-          height: 60,
-          child: TextFormField(
-            obscureText: true,
-            onSaved: (val) => newContact.password = val,
-            style: TextStyle(color: Colors.white),
-            decoration: InputDecoration(
-              border: InputBorder.none,
-              contentPadding: EdgeInsets.only(top: 14.0),
-              prefixIcon: Icon(
-                Icons.lock,
-                color: Colors.white,
-              ),
-              hintText: "Enter your password",
-              hintStyle: TextStyle(
-                color: Colors.white,
-              ),
-            ),
+    return Container(
+      alignment: Alignment.centerLeft,
+      decoration: BoxDecoration(
+        color: Colors.grey.withOpacity(0.5),
+        border: Border(
+          bottom: BorderSide(
+            color: Hexcolor('#FFB600'),
+            width: 3.0,
           ),
         ),
-      ],
+      ),
+      height: 50,
+      child: TextFormField(
+        obscureText: true,
+        onSaved: (val) => newContact.password = val,
+        style: TextStyle(color: Colors.white),
+        decoration: InputDecoration(
+          border: InputBorder.none,
+          contentPadding: EdgeInsets.only(top: 14.0),
+          prefixIcon: Icon(
+            Icons.lock,
+            color: Colors.white,
+          ),
+          hintText: "Enter your password",
+          hintStyle: TextStyle(
+            color: Colors.white,
+          ),
+        ),
+      ),
     );
   }
 
   Widget _buildPhone() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        SizedBox(height: 10.0),
-        Container(
-          alignment: Alignment.centerLeft,
-          decoration: BoxDecoration(
-            color: Colors.grey.withOpacity(0.5),
-            border: Border(
-              bottom: BorderSide(
-                color: Hexcolor('#FFB600'),
-                width: 3.0,
-              ),
-            ),
-          ),
-          height: 60,
-          child: TextFormField(
-            keyboardType: TextInputType.phone,
-            onSaved: (val) => newContact.phoneNumber = val,
-            style: TextStyle(color: Colors.white),
-            decoration: InputDecoration(
-              border: InputBorder.none,
-              contentPadding: EdgeInsets.only(top: 14.0),
-              prefixIcon: Icon(
-                Icons.phone,
-                color: Colors.white,
-              ),
-              hintText: "Enter your phone number",
-              hintStyle: TextStyle(
-                color: Colors.white,
-              ),
-            ),
+    return Container(
+      alignment: Alignment.centerLeft,
+      decoration: BoxDecoration(
+        color: Colors.grey.withOpacity(0.5),
+        border: Border(
+          bottom: BorderSide(
+            color: Hexcolor('#FFB600'),
+            width: 3.0,
           ),
         ),
-      ],
+      ),
+      height: 50,
+      child: TextFormField(
+        keyboardType: TextInputType.phone,
+        onSaved: (val) => newContact.phoneNumber = val,
+        style: TextStyle(color: Colors.white),
+        decoration: InputDecoration(
+          border: InputBorder.none,
+          contentPadding: EdgeInsets.only(top: 14.0),
+          prefixIcon: Icon(
+            Icons.phone,
+            color: Colors.white,
+          ),
+          hintText: "Enter your phone number",
+          hintStyle: TextStyle(
+            color: Colors.white,
+          ),
+        ),
+      ),
     );
   }
 
   Widget _buildpostCode() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        SizedBox(height: 10.0),
-        Container(
-          alignment: Alignment.centerLeft,
-          decoration: BoxDecoration(
-            color: Colors.grey.withOpacity(0.5),
-            border: Border(
-              bottom: BorderSide(
-                color: Hexcolor('#FFB600'),
-                width: 3.0,
-              ),
-            ),
-          ),
-          height: 60,
-          child: TextFormField(
-            onSaved: (val) => newContact.postCode = val,
-            style: TextStyle(color: Colors.white),
-            decoration: InputDecoration(
-              border: InputBorder.none,
-              contentPadding: EdgeInsets.only(top: 14.0),
-              prefixIcon: Icon(
-                Icons.lock,
-                color: Colors.white,
-              ),
-              hintText: "Enter your postCode",
-              hintStyle: TextStyle(
-                color: Colors.white,
-              ),
-            ),
+    return Container(
+      alignment: Alignment.centerLeft,
+      decoration: BoxDecoration(
+        color: Colors.grey.withOpacity(0.5),
+        border: Border(
+          bottom: BorderSide(
+            color: Hexcolor('#FFB600'),
+            width: 3.0,
           ),
         ),
-      ],
+      ),
+      height: 50,
+      child: TextFormField(
+        onSaved: (val) => newContact.postCode = val,
+        style: TextStyle(color: Colors.white),
+        decoration: InputDecoration(
+          border: InputBorder.none,
+          contentPadding: EdgeInsets.only(top: 14.0),
+          prefixIcon: Icon(
+            Icons.lock,
+            color: Colors.white,
+          ),
+          hintText: "Enter your postcode",
+          hintStyle: TextStyle(
+            color: Colors.white,
+          ),
+        ),
+      ),
     );
   }
 
   Widget _buildAvatar() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        SizedBox(height: 10.0),
-        Container(
-          alignment: Alignment.centerLeft,
-          decoration: BoxDecoration(
-            color: Colors.grey.withOpacity(0.5),
-            border: Border(
-              bottom: BorderSide(
-                color: Hexcolor('#FFB600'),
-                width: 3.0,
-              ),
-            ),
-          ),
-          height: 60,
-          child: TextFormField(
-            onSaved: (val) => newContact.userAvatar = val,
-            style: TextStyle(color: Colors.white),
-            decoration: InputDecoration(
-              border: InputBorder.none,
-              contentPadding: EdgeInsets.only(top: 14.0),
-              prefixIcon: Icon(
-                Icons.lock,
-                color: Colors.white,
-              ),
-              hintText: "Upload a photo (optional)",
-              hintStyle: TextStyle(
-                color: Colors.white,
-              ),
-            ),
+    return Container(
+      alignment: Alignment.centerLeft,
+      decoration: BoxDecoration(
+        color: Colors.grey.withOpacity(0.5),
+        border: Border(
+          bottom: BorderSide(
+            color: Hexcolor('#FFB600'),
+            width: 3.0,
           ),
         ),
-      ],
+      ),
+      height: 50,
+      child: TextFormField(
+        onSaved: (val) => newContact.userAvatar = val,
+        style: TextStyle(color: Colors.white),
+        decoration: InputDecoration(
+          border: InputBorder.none,
+          contentPadding: EdgeInsets.only(top: 14.0),
+          prefixIcon: Icon(
+            Icons.lock,
+            color: Colors.white,
+          ),
+          hintText: "Upload a photo (optional)",
+          hintStyle: TextStyle(
+            color: Colors.white,
+          ),
+        ),
+      ),
     );
   }
 
@@ -270,8 +237,48 @@ class _SignUpHomeState extends State<SignUpHome> {
           "Let's work!",
           style: TextStyle(
             color: Colors.white,
+            fontWeight: FontWeight.bold,
             letterSpacing: 1.5,
             fontSize: 24.0,
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildGoBackButton() {
+    return Container(
+      alignment: Alignment.center,
+      width: 100,
+      decoration: BoxDecoration(
+        color: Colors.grey[700].withOpacity(0.7),
+        border: Border(
+          bottom: BorderSide(
+            color: Hexcolor('#FFB600'),
+            width: 3.0,
+          ),
+        ),
+      ),
+      child: GestureDetector(
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => Home()),
+          );
+        },
+        child: RichText(
+          text: TextSpan(
+            children: [
+              TextSpan(
+                text: "Home",
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 20.0,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: 'Poppins',
+                ),
+              ),
+            ],
           ),
         ),
       ),
@@ -318,32 +325,36 @@ class _SignUpHomeState extends State<SignUpHome> {
           ),
         ),
         Container(
-          height: double.infinity,
-          child: SingleChildScrollView(
-            physics: AlwaysScrollableScrollPhysics(),
-            padding: EdgeInsets.symmetric(
-              horizontal: 40.0,
-              vertical: 120.0,
-            ),
-            child: new Form(
-              key: _formKey,
-              autovalidate: true,
+          padding: EdgeInsets.all(16),
+          child: new Form(
+            key: _formKey,
+            autovalidate: true,
+            child: SingleChildScrollView(
+              physics: AlwaysScrollableScrollPhysics(),
+              padding: EdgeInsets.symmetric(
+                vertical: 100,
+              ),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  SizedBox(height: 10.0),
                   _buildName(),
-                  SizedBox(height: 10.0),
+                  SizedBox(height: 5.0),
                   _buildEmail(),
-                  SizedBox(height: 10.0),
+                  SizedBox(height: 5.0),
                   _buildPhone(),
-                  SizedBox(height: 10.0),
+                  SizedBox(height: 5.0),
                   _buildPassword(),
-                  SizedBox(height: 10.0),
+                  SizedBox(height: 5.0),
                   _buildpostCode(),
-                  SizedBox(height: 10.0),
+                  SizedBox(height: 5.0),
                   _buildAvatar(),
+                  SizedBox(height: 5.0),
                   _buildSignUpButton(),
+
+                  _buildGoBackButton(),
+                  SizedBox(
+                    height: 5.0,
+                  )
                   // _buildLogin(),
                 ],
               ),

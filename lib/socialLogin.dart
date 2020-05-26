@@ -95,9 +95,10 @@ class _MyAppState extends State<MyApp> {
   }
 }
 
-class FirstRoute extends StatelessWidget {
 
-  // Twitter login
+// Twitter login authentication
+class TwLogin extends StatelessWidget {
+
   final twitterLogin = new TwitterLogin(
       consumerKey: 'Mm8k4j95ANTtvzZ50HXXrcl2Y',
       consumerSecret: 'K0kXhE1VoWQhOxe5tWWUBwmT7R3dIREvQGG9SaBeBkOXoCyiIO');
@@ -136,21 +137,24 @@ class FirstRoute extends StatelessWidget {
   }
 }
 
-class SecondRoute extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Logged In"),
-      ),
-      body: Center(
-        child: RaisedButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          child: Text('Logout'),
-        ),
-      ),
-    );
-  }
-}
+
+
+
+// class SecondRoute extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       appBar: AppBar(
+//         title: Text("Logged In"),
+//       ),
+//       body: Center(
+//         child: RaisedButton(
+//           onPressed: () {
+//             Navigator.pop(context);
+//           },
+//           child: Text('Logout'),
+//         ),
+//       ),
+//     );
+//   }
+// }
