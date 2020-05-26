@@ -71,8 +71,8 @@ class _SignUpHomeState extends State<SignUpHome> {
       height: 50,
       child: TextFormField(
         keyboardType: TextInputType.emailAddress,
-        validator: (email) =>
-            EmailValidator.validate(email) ? null : "Invalid email address",
+        // validator: (email) =>
+        //     EmailValidator.validate(email) ? null : "Invalid email address",
         onSaved: (val) => newContact.email = val,
         style: TextStyle(color: Colors.white),
         decoration: InputDecoration(
