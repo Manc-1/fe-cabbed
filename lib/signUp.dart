@@ -35,7 +35,7 @@ class _SignUpHomeState extends State<SignUpHome> {
       height: 50,
       child: TextFormField(
         keyboardType: TextInputType.text,
-        validator: (val) => val.isEmpty ? '!' : null,
+        // validator: (val) => val.isEmpty ? '!' : null,
         onSaved: (val) => newContact.name = val,
         style: TextStyle(color: Colors.white),
         decoration: InputDecoration(
@@ -232,7 +232,7 @@ class _SignUpHomeState extends State<SignUpHome> {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(8.0),
         ),
-        color: Hexcolor('#FFB600'),
+        color: Hexcolor('#FFB600').withOpacity(0.8),
         child: Text(
           "Let's work!",
           style: TextStyle(
@@ -249,7 +249,7 @@ class _SignUpHomeState extends State<SignUpHome> {
   Widget _buildGoBackButton() {
     return Container(
       alignment: Alignment.center,
-      width: 100,
+      width: 80,
       decoration: BoxDecoration(
         color: Colors.grey[700].withOpacity(0.7),
         border: Border(
@@ -273,7 +273,7 @@ class _SignUpHomeState extends State<SignUpHome> {
                 text: "Home",
                 style: TextStyle(
                   color: Colors.white,
-                  fontSize: 20.0,
+                  fontSize: 16.0,
                   fontWeight: FontWeight.bold,
                   fontFamily: 'Poppins',
                 ),
@@ -283,6 +283,15 @@ class _SignUpHomeState extends State<SignUpHome> {
         ),
       ),
     );
+  }
+
+  Widget _mainLogo() {
+    return Container(
+        child: Image.asset(
+      "assets/Asset-41.png",
+      width: 130,
+      height: 130,
+    ));
   }
 
   void _submitForm() {
@@ -332,11 +341,13 @@ class _SignUpHomeState extends State<SignUpHome> {
             child: SingleChildScrollView(
               physics: AlwaysScrollableScrollPhysics(),
               padding: EdgeInsets.symmetric(
-                vertical: 100,
+                vertical: 30,
               ),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
+                  _mainLogo(),
+                  SizedBox(height: 5.0),
                   _buildName(),
                   SizedBox(height: 5.0),
                   _buildEmail(),
@@ -348,9 +359,7 @@ class _SignUpHomeState extends State<SignUpHome> {
                   _buildpostCode(),
                   SizedBox(height: 5.0),
                   _buildAvatar(),
-                  SizedBox(height: 5.0),
                   _buildSignUpButton(),
-
                   _buildGoBackButton(),
                   SizedBox(
                     height: 5.0,

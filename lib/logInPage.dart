@@ -362,7 +362,7 @@ class _HomeState extends State<Home> {
   Widget _mainLogo() {
     return Container(
         child: Image.asset(
-      "assets/Asset 4.png",
+      "assets/Asset-41.png",
       width: 150,
       height: 150,
     ));
