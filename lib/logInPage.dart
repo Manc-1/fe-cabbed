@@ -105,7 +105,7 @@ class _HomeState extends State<Home> {
         Container(
           alignment: Alignment.centerLeft,
           decoration: BoxDecoration(
-            color: Colors.grey[600].withOpacity(0.25),
+            color: Colors.black.withOpacity(0.1),
             border: Border(
               bottom: BorderSide(
                 color: Hexcolor('#FFB600'),
@@ -145,7 +145,7 @@ class _HomeState extends State<Home> {
         Container(
           alignment: Alignment.centerLeft,
           decoration: BoxDecoration(
-            color: Colors.grey.withOpacity(0.25),
+            color: Colors.black.withOpacity(0.4),
             border: Border(
               bottom: BorderSide(
                 color: Hexcolor('#FFB600'),
@@ -181,7 +181,7 @@ class _HomeState extends State<Home> {
       alignment: Alignment.centerRight,
       child: FlatButton(
         onPressed: () => print("forgot password button pressed"),
-        padding: EdgeInsets.only(right: 0.0),
+        padding: EdgeInsets.only(right: 0.0, top: 2.0),
         child: Text(
           "Forgot password?",
           style: TextStyle(
@@ -194,7 +194,6 @@ class _HomeState extends State<Home> {
 
   Widget _buildRememberMe() {
     return Container(
-      height: 20.0,
       child: Row(
         children: <Widget>[
           Theme(
@@ -212,9 +211,7 @@ class _HomeState extends State<Home> {
           ),
           Text(
             "Remember me",
-            style: TextStyle(
-              color: Colors.white,
-            ),
+            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
           ),
         ],
       ),
@@ -236,7 +233,8 @@ class _HomeState extends State<Home> {
         child: Text(
           "Sign in",
           style: TextStyle(
-            color: Colors.white,
+            color: Colors.black,
+            fontWeight: FontWeight.bold,
             letterSpacing: 1.5,
             fontSize: 24.0,
           ),
