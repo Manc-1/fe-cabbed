@@ -12,6 +12,9 @@ import 'package:flutter_twitter_login/flutter_twitter_login.dart';
 
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
+import 'package:flutter_facebook_login/flutter_facebook_login.dart';
+import 'dart:convert' as JSON;
+
 class Home extends StatefulWidget {
   @override
   _HomeState createState() => _HomeState();
@@ -259,6 +262,48 @@ class _HomeState extends State<Home> {
     );
   }
 
+
+  bool _isLoggedIn = false;
+  Map userProfile;
+  final facebookLogin = FacebookLogin();
+
+  _loginWithFB() async {
+    final result = await facebookLogin.logInWithReadPermissions(['email']);
+
+    switch (result.status) {
+      case FacebookLoginStatus.loggedIn:
+        final token = result.accessToken.token;
+        final graphResponse = await http.get(
+            'https://graph.facebook.com/v2.12/me?fields=name,picture,email&access_token=${token}');
+        final profile = JSON.jsonDecode(graphResponse.body);
+        print("logged in");
+        print(profile);
+        Navigator.push(
+          context, 
+          MaterialPageRoute(builder: (context) => MapSample()),
+        );
+        setState(() {
+          userProfile = profile;
+          _isLoggedIn = true;
+        });
+        break;
+
+      case FacebookLoginStatus.cancelledByUser:
+        setState(() => _isLoggedIn = false);
+        break;
+      case FacebookLoginStatus.error:
+        setState(() => _isLoggedIn = false);
+        break;
+    }
+  }
+
+  // _logout() {
+  //   facebookLogin.logOut();
+  //   setState(() {
+  //     _isLoggedIn = false;
+  //   });
+  // }
+
   Widget _buildSocialMediaRow() {
     final twitterLogin = new TwitterLogin(
         consumerKey: 'Mm8k4j95ANTtvzZ50HXXrcl2Y',
@@ -270,7 +315,7 @@ class _HomeState extends State<Home> {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
           _buildSocialMedia(
-            () => print("Login with Facebook"),
+            () => _loginWithFB(),
             AssetImage(
               "assets/FBButton.png",
             ),
