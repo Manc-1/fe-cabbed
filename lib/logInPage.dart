@@ -373,6 +373,7 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Stack(children: <Widget>[
         Container(
           // height: double.infinity,
@@ -392,18 +393,37 @@ class _HomeState extends State<Home> {
             ),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+          _mainLogo(),
+          SizedBox(height: 0.0),
+          _buildEmail(),
+          SizedBox(height: 0.0),
+          _buildPassword(),
+          SizedBox(height: 0.0),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+
+              Column(crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                _mainLogo(),
-                SizedBox(height: 0.0),
-                _buildEmail(),
-                SizedBox(height: 0.0),
-                _buildPassword(),
-                _buildForgotPassword(),
-                _buildRememberMe(),
-                _buildLogin(),
-                _buildSocialMediaRow(),
-                _buildSignup(),
+                  _buildRememberMe(),
+                  
               ],
+              ),
+
+              Column(crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                  _buildForgotPassword()
+              ],
+              )
+            ],
+          )
+          ,
+                      
+          _buildLogin(),
+          _buildSocialMediaRow(),
+          _buildSignup(),
+        ],
             ),
           ),
         ),
