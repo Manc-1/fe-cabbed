@@ -105,7 +105,7 @@ class _HomeState extends State<Home> {
         Container(
           alignment: Alignment.centerLeft,
           decoration: BoxDecoration(
-            color: Colors.grey.withOpacity(0.35),
+            color: Colors.grey[600].withOpacity(0.25),
             border: Border(
               bottom: BorderSide(
                 color: Hexcolor('#FFB600'),
@@ -145,7 +145,7 @@ class _HomeState extends State<Home> {
         Container(
           alignment: Alignment.centerLeft,
           decoration: BoxDecoration(
-            color: Colors.grey.withOpacity(0.3),
+            color: Colors.grey.withOpacity(0.25),
             border: Border(
               bottom: BorderSide(
                 color: Hexcolor('#FFB600'),
@@ -262,7 +262,6 @@ class _HomeState extends State<Home> {
     );
   }
 
-
   bool _isLoggedIn = false;
   Map userProfile;
   final facebookLogin = FacebookLogin();
@@ -279,7 +278,7 @@ class _HomeState extends State<Home> {
         print("logged in");
         print(profile);
         Navigator.push(
-          context, 
+          context,
           MaterialPageRoute(builder: (context) => MapSample()),
         );
         setState(() {
@@ -363,7 +362,7 @@ class _HomeState extends State<Home> {
       alignment: Alignment.center,
       width: 260,
       decoration: BoxDecoration(
-        color: Colors.grey[700].withOpacity(0.8),
+        color: Colors.black.withOpacity(0.7),
         border: Border(
           bottom: BorderSide(
             color: Hexcolor('#FFB600'),
@@ -438,37 +437,32 @@ class _HomeState extends State<Home> {
             ),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-          _mainLogo(),
-          SizedBox(height: 0.0),
-          _buildEmail(),
-          SizedBox(height: 0.0),
-          _buildPassword(),
-          SizedBox(height: 0.0),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-
-              Column(crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                  _buildRememberMe(),
-                  
+                _mainLogo(),
+                SizedBox(height: 0.0),
+                _buildEmail(),
+                SizedBox(height: 0.0),
+                _buildPassword(),
+                SizedBox(height: 0.0),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        _buildRememberMe(),
+                      ],
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[_buildForgotPassword()],
+                    )
+                  ],
+                ),
+                _buildLogin(),
+                _buildSocialMediaRow(),
+                _buildSignup(),
               ],
-              ),
-
-              Column(crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                  _buildForgotPassword()
-              ],
-              )
-            ],
-          )
-          ,
-                      
-          _buildLogin(),
-          _buildSocialMediaRow(),
-          _buildSignup(),
-        ],
             ),
           ),
         ),
