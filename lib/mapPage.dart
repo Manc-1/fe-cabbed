@@ -3,7 +3,9 @@ import 'package:geolocator/geolocator.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter_heatmap/google_maps_flutter_heatmap.dart';
 import 'package:http/http.dart' as http;
-// import 'logInPage.dart';
+import 'dart:convert';
+
+
 
 // void main() => runApp(MyApp());
 
@@ -27,8 +29,8 @@ class MapSampleState extends State<MapSample> {
   Completer<GoogleMapController> _controller = Completer();
   final Set<Heatmap> _heatmaps = {};
   CameraPosition centreCameraOn = CameraPosition(
-    target: LatLng(37.52096133580664, -122.085749655962),
-    zoom: 5,
+    target: LatLng(53.4704294754323, -2.241631994539886),
+    zoom: 7,
   );
   List<LatLng> currentHeatmapLocations = [
     LatLng(37.527961335806, -122.0857496559),
@@ -41,11 +43,9 @@ class MapSampleState extends State<MapSample> {
     LatLng(37.526861335806, -122.0856496559)
   ];
 
-  LatLng _currentHeatmapLocation = LatLng(37.527961335806, -122.0857496559);
-  LatLng _heatmapLocation1 = LatLng(37.526861335806, -122.0857496559);
   bool isCurrentMapSelected = false;
   bool isPastMapSelected = false;
-  var url = 'https//heroku';
+  var url = 'https://be-cabbed.herokuapp.com/api/';
 
   @override
   Widget build(BuildContext context) {
@@ -101,6 +101,20 @@ class MapSampleState extends State<MapSample> {
     );
   }
 
+  @override
+  void initState() {
+    super.initState();
+    http.get(url + 'pickup').then((response) {
+      print(jsonDecode(response.body)['pickup']);
+      List<LatLng> newLocations = [];
+
+      jsonDecode(response.body)['pickup'].forEach((entry) {
+        newLocations.add(LatLng(entry['latitude'], entry['longitude']));
+      });
+      currentHeatmapLocations = newLocations;
+    });
+  }
+
   Future<void> _centerMap() async {
     var currentLocation = await Geolocator()
         .getCurrentPosition(desiredAccuracy: LocationAccuracy.best);
@@ -108,13 +122,13 @@ class MapSampleState extends State<MapSample> {
     final GoogleMapController controller = await _controller.future;
     controller.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
       target: LatLng(currentLocation.latitude, currentLocation.longitude),
-      zoom: 14.4746,
+      zoom: 7,
     )));
     print(currentLocation);
     setState(() {
       centreCameraOn = CameraPosition(
         target: LatLng(currentLocation.latitude, currentLocation.longitude),
-        zoom: 10,
+        zoom: 4,
       );
     });
   }
@@ -122,11 +136,16 @@ class MapSampleState extends State<MapSample> {
   Future<void> sendPickUpLocation() async {
     var currentLocation = await Geolocator()
         .getCurrentPosition(desiredAccuracy: LocationAccuracy.best);
+    print(currentLocation.latitude);
 
-    var response = await http.post(url, body: {
-      "lat": currentLocation.latitude,
-      "long": currentLocation.longitude
+    var body = jsonEncode({
+      'latitude': currentLocation.latitude,
+      'longitude': currentLocation.longitude
     });
+    http
+        .post(url + 'pickup',
+            headers: {"Content-Type": "application/json"}, body: body)
+        .then((response) => print(response.body));
   }
 
   void toggleCurrent() {
@@ -138,8 +157,9 @@ class MapSampleState extends State<MapSample> {
             radius: 50,
             visible: true,
             gradient: HeatmapGradient(
-                colors: <Color>[Colors.blue, Colors.blueGrey],
-                startPoints: <double>[0.2, 0.8])));
+              colors: <Color>[Colors.green, Colors.red],
+              startPoints: <double>[0.005, 0.8],
+            )));
         isCurrentMapSelected = true;
       });
     } else {
@@ -161,7 +181,7 @@ class MapSampleState extends State<MapSample> {
             visible: true,
             gradient: HeatmapGradient(
                 colors: <Color>[Colors.green, Colors.blueGrey],
-                startPoints: <double>[0.2, 0.8])));
+                startPoints: <double>[0, 0.8])));
         isPastMapSelected = true;
       });
     } else {
