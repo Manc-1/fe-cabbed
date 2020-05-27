@@ -5,7 +5,9 @@ import 'package:google_maps_flutter_heatmap/google_maps_flutter_heatmap.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-void main() => runApp(MyApp());
+
+
+// void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
   @override
@@ -23,6 +25,7 @@ class MapSample extends StatefulWidget {
 }
 
 class MapSampleState extends State<MapSample> {
+  @override
   Completer<GoogleMapController> _controller = Completer();
   final Set<Heatmap> _heatmaps = {};
   CameraPosition centreCameraOn = CameraPosition(
@@ -62,6 +65,7 @@ class MapSampleState extends State<MapSample> {
             child: Align(
               alignment: Alignment(-.9, -.8),
               child: FloatingActionButton(
+                heroTag: "btn1",
                 onPressed: toggleCurrent,
                 child: Text('current'),
               ),
@@ -70,6 +74,7 @@ class MapSampleState extends State<MapSample> {
           Align(
             alignment: Alignment(-.9, .8),
             child: FloatingActionButton(
+              heroTag: "btn2",
               onPressed: _centerMap,
               tooltip: 'Get Location',
               child: Icon(Icons.trip_origin),
@@ -78,6 +83,7 @@ class MapSampleState extends State<MapSample> {
           Align(
             alignment: Alignment(.9, -.8),
             child: FloatingActionButton(
+              heroTag: "btn3",
               onPressed: togglePast,
               child: Text('past'),
               backgroundColor: Colors.green,
@@ -86,7 +92,9 @@ class MapSampleState extends State<MapSample> {
           Align(
             alignment: Alignment.bottomCenter,
             child: FloatingActionButton(
-                onPressed: sendPickUpLocation, child: Text("pickup")),
+                heroTag: "btn4",
+                onPressed: sendPickUpLocation,
+                child: Text("pickup")),
           )
         ],
       ),
