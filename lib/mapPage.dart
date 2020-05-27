@@ -55,6 +55,7 @@ class MapSampleState extends State<MapSample> {
             child: Align(
               alignment: Alignment(-.9, -.8),
               child: FloatingActionButton(
+                heroTag: "btn1",
                 onPressed: toggleCurrent,
                 child: Text('current'),
               ),
@@ -63,6 +64,7 @@ class MapSampleState extends State<MapSample> {
           Align(
             alignment: Alignment(-.9, .8),
             child: FloatingActionButton(
+              heroTag: "btn2",
               onPressed: _centerMap,
               tooltip: 'Get Location',
               child: Icon(Icons.trip_origin),
@@ -71,6 +73,7 @@ class MapSampleState extends State<MapSample> {
           Align(
             alignment: Alignment(.9, -.8),
             child: FloatingActionButton(
+              heroTag: "btn3",
               onPressed: togglePast,
               child: Text('past'),
               backgroundColor: Colors.green,
@@ -79,7 +82,9 @@ class MapSampleState extends State<MapSample> {
           Align(
             alignment: Alignment.bottomCenter,
             child: FloatingActionButton(
-                onPressed: sendPickUpLocation, child: Text("pickup")),
+                heroTag: "btn4",
+                onPressed: sendPickUpLocation,
+                child: Text("pickup")),
           )
         ],
       ),
