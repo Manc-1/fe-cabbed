@@ -9,7 +9,6 @@ import 'mapPage.dart';
 // import 'socialLogin.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_twitter_login/flutter_twitter_login.dart';
-
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
@@ -197,11 +196,11 @@ class _HomeState extends State<Home> {
       child: Row(
         children: <Widget>[
           Theme(
-            data: ThemeData(unselectedWidgetColor: Colors.white),
+            data: ThemeData(unselectedWidgetColor: Hexcolor('#FFB600')),
             child: Checkbox(
               value: _rememberMe,
-              checkColor: Colors.green,
-              activeColor: Colors.white,
+              checkColor: Colors.black,
+              activeColor: Hexcolor('#FFB600'),
               onChanged: (value) {
                 setState(() {
                   _rememberMe = value;
@@ -211,7 +210,10 @@ class _HomeState extends State<Home> {
           ),
           Text(
             "Remember me",
-            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+            style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+                letterSpacing: 1),
           ),
         ],
       ),

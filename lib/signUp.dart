@@ -24,7 +24,7 @@ class _SignUpHomeState extends State<SignUpHome> {
     return Container(
       alignment: Alignment.centerLeft,
       decoration: BoxDecoration(
-        color: Colors.grey.withOpacity(0.5),
+        color: Colors.black.withOpacity(0.45),
         border: Border(
           bottom: BorderSide(
             color: Hexcolor('#FFB600'),
@@ -60,7 +60,7 @@ class _SignUpHomeState extends State<SignUpHome> {
     return Container(
       alignment: Alignment.centerLeft,
       decoration: BoxDecoration(
-        color: Colors.grey.withOpacity(0.5),
+        color: Colors.black.withOpacity(0.45),
         border: Border(
           bottom: BorderSide(
             color: Hexcolor('#FFB600'),
@@ -95,7 +95,7 @@ class _SignUpHomeState extends State<SignUpHome> {
     return Container(
       alignment: Alignment.centerLeft,
       decoration: BoxDecoration(
-        color: Colors.grey.withOpacity(0.5),
+        color: Colors.black.withOpacity(0.45),
         border: Border(
           bottom: BorderSide(
             color: Hexcolor('#FFB600'),
@@ -128,7 +128,7 @@ class _SignUpHomeState extends State<SignUpHome> {
     return Container(
       alignment: Alignment.centerLeft,
       decoration: BoxDecoration(
-        color: Colors.grey.withOpacity(0.5),
+        color: Colors.black.withOpacity(0.45),
         border: Border(
           bottom: BorderSide(
             color: Hexcolor('#FFB600'),
@@ -161,7 +161,7 @@ class _SignUpHomeState extends State<SignUpHome> {
     return Container(
       alignment: Alignment.centerLeft,
       decoration: BoxDecoration(
-        color: Colors.grey.withOpacity(0.5),
+        color: Colors.black.withOpacity(0.5),
         border: Border(
           bottom: BorderSide(
             color: Hexcolor('#FFB600'),
@@ -193,7 +193,7 @@ class _SignUpHomeState extends State<SignUpHome> {
     return Container(
       alignment: Alignment.centerLeft,
       decoration: BoxDecoration(
-        color: Colors.grey.withOpacity(0.5),
+        color: Colors.black.withOpacity(0.45),
         border: Border(
           bottom: BorderSide(
             color: Hexcolor('#FFB600'),
@@ -236,7 +236,7 @@ class _SignUpHomeState extends State<SignUpHome> {
         child: Text(
           "Let's work!",
           style: TextStyle(
-            color: Colors.white,
+            color: Colors.black,
             fontWeight: FontWeight.bold,
             letterSpacing: 1.5,
             fontSize: 24.0,
@@ -251,7 +251,7 @@ class _SignUpHomeState extends State<SignUpHome> {
       alignment: Alignment.center,
       width: 80,
       decoration: BoxDecoration(
-        color: Colors.grey[700].withOpacity(0.7),
+        color: Colors.black.withOpacity(0.3),
         border: Border(
           bottom: BorderSide(
             color: Hexcolor('#FFB600'),
