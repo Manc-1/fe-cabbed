@@ -29,16 +29,8 @@ class MapSampleState extends State<MapSample> {
     target: LatLng(53.4704294754323, -2.241631994539886),
     zoom: 7,
   );
-  List<LatLng> currentHeatmapLocations = [
-    LatLng(37.527961335806, -122.0857496559),
-    LatLng(37.527861335806, -122.0857496559),
-    LatLng(37.524861335806, -122.0857496559),
-    LatLng(37.524861335806, -122.0827496559)
-  ];
-  List<LatLng> pastHeatmapLocations = [
-    LatLng(37.526861335806, -122.0857496559),
-    LatLng(37.526861335806, -122.0856496559)
-  ];
+  List<LatLng> currentHeatmapLocations = [];
+  List<LatLng> pastHeatmapLocations = [];
 
   bool isCurrentMapSelected = false;
   bool isPastMapSelected = false;
@@ -105,6 +97,16 @@ class MapSampleState extends State<MapSample> {
       });
       currentHeatmapLocations = newLocations;
     });
+
+    http.get(url + 'pickup/hour').then((response) {
+      print(jsonDecode(response.body)['pickup']);
+      List<LatLng> newLocations = [];
+
+      jsonDecode(response.body)['pickup'].forEach((entry) {
+        newLocations.add(LatLng(entry['latitude'], entry['longitude']));
+      });
+      pastHeatmapLocations = newLocations;
+    });
   }
 
   Future<void> _centerMap() async {
@@ -128,7 +130,6 @@ class MapSampleState extends State<MapSample> {
   Future<void> sendPickUpLocation() async {
     var currentLocation = await Geolocator()
         .getCurrentPosition(desiredAccuracy: LocationAccuracy.best);
-    print(currentLocation.latitude);
 
     var body = jsonEncode({
       'latitude': currentLocation.latitude,
@@ -172,8 +173,8 @@ class MapSampleState extends State<MapSample> {
             radius: 50,
             visible: true,
             gradient: HeatmapGradient(
-                colors: <Color>[Colors.green, Colors.blueGrey],
-                startPoints: <double>[0, 0.8])));
+                colors: <Color>[Colors.blue, Colors.red],
+                startPoints: <double>[0.005, 0.8])));
         isPastMapSelected = true;
       });
     } else {
