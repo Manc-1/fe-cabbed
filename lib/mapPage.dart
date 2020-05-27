@@ -5,9 +5,7 @@ import 'package:google_maps_flutter_heatmap/google_maps_flutter_heatmap.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-
-
-// void main() => runApp(MyApp());
+void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
   @override
@@ -25,23 +23,15 @@ class MapSample extends StatefulWidget {
 }
 
 class MapSampleState extends State<MapSample> {
-  @override
   Completer<GoogleMapController> _controller = Completer();
   final Set<Heatmap> _heatmaps = {};
   CameraPosition centreCameraOn = CameraPosition(
     target: LatLng(53.4704294754323, -2.241631994539886),
     zoom: 7,
   );
-  List<LatLng> currentHeatmapLocations = [
-    LatLng(37.527961335806, -122.0857496559),
-    LatLng(37.527861335806, -122.0857496559),
-    LatLng(37.524861335806, -122.0857496559),
-    LatLng(37.524861335806, -122.0827496559)
-  ];
-  List<LatLng> pastHeatmapLocations = [
-    LatLng(37.526861335806, -122.0857496559),
-    LatLng(37.526861335806, -122.0856496559)
-  ];
+  List<LatLng> currentHeatmapLocations = [];
+  List<LatLng> pastHeatmapLocations = [];
+  List<Marker> markers = [];
 
   bool isCurrentMapSelected = false;
   bool isPastMapSelected = false;
@@ -65,7 +55,6 @@ class MapSampleState extends State<MapSample> {
             child: Align(
               alignment: Alignment(-.9, -.8),
               child: FloatingActionButton(
-                heroTag: "btn1",
                 onPressed: toggleCurrent,
                 child: Text('current'),
               ),
@@ -74,7 +63,6 @@ class MapSampleState extends State<MapSample> {
           Align(
             alignment: Alignment(-.9, .8),
             child: FloatingActionButton(
-              heroTag: "btn2",
               onPressed: _centerMap,
               tooltip: 'Get Location',
               child: Icon(Icons.trip_origin),
@@ -83,7 +71,6 @@ class MapSampleState extends State<MapSample> {
           Align(
             alignment: Alignment(.9, -.8),
             child: FloatingActionButton(
-              heroTag: "btn3",
               onPressed: togglePast,
               child: Text('past'),
               backgroundColor: Colors.green,
@@ -92,9 +79,7 @@ class MapSampleState extends State<MapSample> {
           Align(
             alignment: Alignment.bottomCenter,
             child: FloatingActionButton(
-                heroTag: "btn4",
-                onPressed: sendPickUpLocation,
-                child: Text("pickup")),
+                onPressed: sendPickUpLocation, child: Text("pickup")),
           )
         ],
       ),
@@ -113,6 +98,18 @@ class MapSampleState extends State<MapSample> {
       });
       currentHeatmapLocations = newLocations;
     });
+
+    http.get(url + 'pickup/hour').then((response) {
+      print(jsonDecode(response.body)['pickup']);
+      List<LatLng> newLocations = [];
+
+      jsonDecode(response.body)['pickup'].forEach((entry) {
+        newLocations.add(LatLng(entry['latitude'], entry['longitude']));
+      });
+      pastHeatmapLocations = newLocations;
+    });
+
+    http.get(url + '/')
   }
 
   Future<void> _centerMap() async {
@@ -136,7 +133,6 @@ class MapSampleState extends State<MapSample> {
   Future<void> sendPickUpLocation() async {
     var currentLocation = await Geolocator()
         .getCurrentPosition(desiredAccuracy: LocationAccuracy.best);
-    print(currentLocation.latitude);
 
     var body = jsonEncode({
       'latitude': currentLocation.latitude,
@@ -180,8 +176,8 @@ class MapSampleState extends State<MapSample> {
             radius: 50,
             visible: true,
             gradient: HeatmapGradient(
-                colors: <Color>[Colors.green, Colors.blueGrey],
-                startPoints: <double>[0, 0.8])));
+                colors: <Color>[Colors.blue, Colors.red],
+                startPoints: <double>[0.005, 0.8])));
         isPastMapSelected = true;
       });
     } else {
