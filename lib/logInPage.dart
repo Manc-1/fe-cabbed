@@ -1,9 +1,14 @@
-// import 'dart:async';
+import 'dart:async';
+import 'dart:convert';
+// import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'signUp.dart';
-// import 'main.dart';
-// import 'package:http/http.dart' as http;
+import 'package:http/http.dart' as http;
+import 'mapPage.dart';
+// import 'socialLogin.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_twitter_login/flutter_twitter_login.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -13,11 +18,79 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   bool _rememberMe = false;
 
-// Future<String> postData() async{
-//   var response = await http.post("https://be-cabbed.herokuapp.com/api/users/login",
-//   headers
-//   );
-// }
+  Future returnToLoginPage(context) async {
+    Navigator.push(context, MaterialPageRoute(builder: (context) => Home()));
+  }
+
+  Future navigateToLoginPage(context) async {
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => MapSample()));
+  }
+
+  final userEmail = TextEditingController();
+  final userPassword = TextEditingController();
+  var jsonResponse;
+  var data;
+  Future getData(String email, String password) async {
+    http.Response response = await http.post(
+      "https://be-cabbed.herokuapp.com/api/users/login",
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, String>{
+        'email': email,
+        'password': password,
+      }),
+    );
+
+    setState(() {
+      var resBody = json.decode(response.body);
+      data = resBody["msg"];
+    });
+
+    debugPrint(password);
+    debugPrint(email);
+    debugPrint(data);
+    print(response.statusCode);
+    if (response.statusCode == 201) {
+      debugPrint(response.body);
+      jsonResponse = json.decode(response.body);
+      navigateToLoginPage(context);
+    } else {
+      showAlertDialog(context, data);
+    }
+  }
+
+  @override
+  void dispose() {
+    userEmail.dispose();
+    userPassword.dispose();
+    super.dispose();
+  }
+
+  showAlertDialog(BuildContext context, data) {
+    debugPrint(data);
+
+    Widget okButton = FlatButton(
+      child: Text("OK"),
+      onPressed: () => returnToLoginPage(context),
+    );
+
+    AlertDialog alert = AlertDialog(
+      title: Text("Error"),
+      content: Text(data),
+      actions: [
+        okButton,
+      ],
+    );
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
 
   Widget _buildEmail() {
     return Column(
@@ -27,7 +100,7 @@ class _HomeState extends State<Home> {
         Container(
           alignment: Alignment.centerLeft,
           decoration: BoxDecoration(
-            color: Colors.grey.withOpacity(0.3),
+            color: Colors.grey.withOpacity(0.35),
             border: Border(
               bottom: BorderSide(
                 color: Hexcolor('#FFB600'),
@@ -37,6 +110,7 @@ class _HomeState extends State<Home> {
           ),
           height: 60,
           child: TextField(
+            controller: userEmail,
             keyboardType: TextInputType.emailAddress,
             style: TextStyle(color: Colors.white),
             decoration: InputDecoration(
@@ -76,6 +150,7 @@ class _HomeState extends State<Home> {
           ),
           height: 60,
           child: TextField(
+            controller: userPassword,
             obscureText: true,
             style: TextStyle(color: Colors.white),
             decoration: InputDecoration(
@@ -146,13 +221,13 @@ class _HomeState extends State<Home> {
       padding: EdgeInsets.symmetric(vertical: 25.0),
       child: RaisedButton(
         elevation: 5.0,
-        onPressed: () => print("login pressed"),
+        onPressed: () => getData(userEmail.text, userPassword.text),
         padding:
             EdgeInsets.only(left: 90.0, right: 90.0, top: 12.0, bottom: 12.0),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(8.0),
         ),
-        color: Hexcolor('#FFB600'),
+        color: Hexcolor('#FFB600').withOpacity(0.8),
         child: Text(
           "Sign in",
           style: TextStyle(
@@ -183,6 +258,10 @@ class _HomeState extends State<Home> {
   }
 
   Widget _buildSocialMediaRow() {
+    final twitterLogin = new TwitterLogin(
+        consumerKey: 'Mm8k4j95ANTtvzZ50HXXrcl2Y',
+        consumerSecret: 'K0kXhE1VoWQhOxe5tWWUBwmT7R3dIREvQGG9SaBeBkOXoCyiIO');
+
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 30.0),
       child: Row(
@@ -201,7 +280,28 @@ class _HomeState extends State<Home> {
             ),
           ),
           _buildSocialMedia(
-            () => print("Login with Twitter"),
+            () {
+              twitterLogin.authorize().then((result) {
+                switch (result.status) {
+                  case TwitterLoginStatus.loggedIn:
+                    AuthCredential credential =
+                        TwitterAuthProvider.getCredential(
+                            authToken: result.session.token,
+                            authTokenSecret: result.session.secret);
+
+                    FirebaseAuth.instance
+                        .signInWithCredential(credential)
+                        .then((signedInUser) {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => MapSample()),
+                      );
+                    });
+                }
+              }).catchError((e) {
+                print(e);
+              });
+            },
             AssetImage(
               "assets/TwitterButton.png",
             ),
@@ -212,38 +312,60 @@ class _HomeState extends State<Home> {
   }
 
   Widget _buildSignup() {
-    return GestureDetector(
-      onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => SignUpHome()),
-        );
-      },
-      child: RichText(
-        text: TextSpan(
-          children: [
-            TextSpan(
-              text: "Don\'t have an account?",
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 18.0,
-                fontWeight: FontWeight.w400,
-                fontFamily: 'Poppins',
+    return Container(
+      alignment: Alignment.center,
+      width: 260,
+      decoration: BoxDecoration(
+        color: Colors.grey[700].withOpacity(0.8),
+        border: Border(
+          bottom: BorderSide(
+            color: Hexcolor('#FFB600'),
+            width: 3.0,
+          ),
+        ),
+      ),
+      child: GestureDetector(
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => SignUpHome()),
+          );
+        },
+        child: RichText(
+          text: TextSpan(
+            children: [
+              TextSpan(
+                text: "Don\'t have an account? ",
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 14.0,
+                  fontWeight: FontWeight.w400,
+                  fontFamily: 'Poppins',
+                ),
               ),
-            ),
-            TextSpan(
-              text: "Sign Up",
-              style: TextStyle(
-                color: Colors.blue[400],
-                fontSize: 20.0,
-                fontWeight: FontWeight.bold,
-                fontFamily: 'Poppins',
+              TextSpan(
+                text: "Sign Up",
+                style: TextStyle(
+                  color: Colors.yellow[600],
+                  fontSize: 16.0,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: 'Poppins',
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
+  }
+
+  Widget _mainLogo() {
+    return Container(
+        child: Image.asset(
+      "assets/Asset-41.png",
+      width: 150,
+      height: 150,
+    ));
   }
 
   @override
@@ -251,36 +373,28 @@ class _HomeState extends State<Home> {
     return Scaffold(
       body: Stack(children: <Widget>[
         Container(
-          height: double.infinity,
-          width: double.infinity,
+          // height: double.infinity,
+          // width: double.infinity,
           decoration: BoxDecoration(
             image: DecorationImage(
-                image: AssetImage("assets/pexels-photo-172483.jpg"),
-                fit: BoxFit.cover),
+                image: AssetImage("assets/roundabout.jpg"), fit: BoxFit.cover),
           ),
         ),
         Container(
-          height: double.infinity,
+          // height: double.infinity,
           child: SingleChildScrollView(
             physics: AlwaysScrollableScrollPhysics(),
             padding: EdgeInsets.symmetric(
               horizontal: 40.0,
-              vertical: 120.0,
+              vertical: 40.0,
             ),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                // Text(
-                //   "Sign In",
-                //   style: TextStyle(
-                //     color: Colors.pink[300],
-                //     fontSize: 30,
-                //     fontWeight: FontWeight.bold,
-                //   ),
-                // ),
-                SizedBox(height: 100.0),
+                _mainLogo(),
+                SizedBox(height: 0.0),
                 _buildEmail(),
-                SizedBox(height: 10.0),
+                SizedBox(height: 0.0),
                 _buildPassword(),
                 _buildForgotPassword(),
                 _buildRememberMe(),

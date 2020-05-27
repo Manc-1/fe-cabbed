@@ -31,6 +31,7 @@ class MapSampleState extends State<MapSample> {
   );
   List<LatLng> currentHeatmapLocations = [];
   List<LatLng> pastHeatmapLocations = [];
+  List<Marker> markers = [];
 
   bool isCurrentMapSelected = false;
   bool isPastMapSelected = false;
@@ -107,6 +108,8 @@ class MapSampleState extends State<MapSample> {
       });
       pastHeatmapLocations = newLocations;
     });
+
+    http.get(url + '/')
   }
 
   Future<void> _centerMap() async {
