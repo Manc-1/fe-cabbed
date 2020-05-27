@@ -1,8 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'logInPage.dart';
+import 'dart:async';
+import 'dart:convert';
 
 class UserProfile extends StatefulWidget {
+  UserProfile({this.userdata});
+  final Object userdata;
+  
+void printSample (){
+  print(userdata);
+}
+
   @override
   _UserProfileState createState() => _UserProfileState();
 
@@ -16,10 +25,26 @@ class UserProfile extends StatefulWidget {
 }
 
 class _UserProfileState extends State<UserProfile> {
- final String _fullName = "Nick Fury";
+ 
+var markers = "5";
+
+
+
+ Future getMarkers(String userId) async {
+   http.Response response = await http.get("https://be-cabbed.herokuapp.com/api/marker/UserId",   headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      });
+  setState(() {
+    var resBody = json.decode(response.body);
+    markers = "5";
+  });    
+ }
+ 
+ 
+  final String _fullName = "Nick Fury";
   final String _status = "nick@testing.com";
   final String _bio = "\"Do we want a bio?.\"";
-  final String _markers = "173";
+  // final String _markers = markers;
   final String _pickups = "24";
   final String _score = "450";
 
@@ -124,7 +149,7 @@ class _UserProfileState extends State<UserProfile> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: <Widget>[
-          _buildStatItem("Markers", _markers),
+          _buildStatItem("Markers", markers),
           _buildStatItem("Pick ups", _pickups),
           _buildStatItem("Score", _score),
         ],
@@ -238,6 +263,7 @@ class _UserProfileState extends State<UserProfile> {
               child: Column(
                 children: <Widget>[
                   SizedBox(height: screenSize.height / 5.4),
+                  
                   _buildProfileImage(),
                   _buildFullName(),
                   _buildStatus(context),
