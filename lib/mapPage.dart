@@ -109,7 +109,7 @@ class MapSampleState extends State<MapSample> {
       pastHeatmapLocations = newLocations;
     });
 
-    http.get(url + '/')
+    http.get(url + '/');
   }
 
   Future<void> _centerMap() async {

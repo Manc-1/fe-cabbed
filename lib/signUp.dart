@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'contact.dart';
 import 'contact_services.dart';
-import 'loginPage.dart';
+import 'logInPage.dart';
 import 'package:email_validator/email_validator.dart';
 
 class SignUpHome extends StatefulWidget {
@@ -324,6 +324,7 @@ class _SignUpHomeState extends State<SignUpHome> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffoldKey,
+      resizeToAvoidBottomInset: false,
       body: Stack(children: <Widget>[
         Container(
           height: double.infinity,
