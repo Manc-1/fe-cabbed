@@ -1,21 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'logInPage.dart';
 
-void main() => runApp(MyApp());
-
-class MyApp extends StatelessWidget {
-
+class UserProfile extends StatefulWidget {
   @override
+  _UserProfileState createState() => _UserProfileState();
+
+
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: UserProfilePage(),
+      
     );
   }
 }
 
-class UserProfilePage extends StatelessWidget {
-  final String _fullName = "Nick Fury";
+class _UserProfileState extends State<UserProfile> {
+ final String _fullName = "Nick Fury";
   final String _status = "nick@testing.com";
   final String _bio = "\"Do we want a bio?.\"";
   final String _markers = "173";
