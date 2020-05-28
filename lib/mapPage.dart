@@ -31,7 +31,10 @@ class MapSampleState extends State<MapSample> {
   );
   List<LatLng> currentHeatmapLocations = [];
   List<LatLng> pastHeatmapLocations = [];
-  List<Marker> markers = [];
+  Map<MarkerId, Marker> markers = <MarkerId, Marker>{
+    MarkerId("test"):
+        Marker(markerId: MarkerId("test"), position: LatLng(53.4808, -2.2426))
+  };
 
   bool isCurrentMapSelected = false;
   bool isPastMapSelected = false;
@@ -43,9 +46,11 @@ class MapSampleState extends State<MapSample> {
       body: GoogleMap(
         mapType: MapType.normal,
         initialCameraPosition: centreCameraOn,
+        markers: Set<Marker>.of(markers.values),
         heatmaps: _heatmaps,
         onMapCreated: (GoogleMapController controller) {
           _controller.complete(controller);
+          addMarker();
         },
       ),
       floatingActionButton: Stack(
@@ -94,6 +99,15 @@ class MapSampleState extends State<MapSample> {
   @override
   void initState() {
     super.initState();
+
+    getCurrent();
+    getPasts();
+    getMarkers();
+
+    http.get(url + '/');
+  }
+
+  void getCurrent() {
     http.get(url + 'pickup').then((response) {
       print(jsonDecode(response.body)['pickup']);
       List<LatLng> newLocations = [];
@@ -103,7 +117,9 @@ class MapSampleState extends State<MapSample> {
       });
       currentHeatmapLocations = newLocations;
     });
+  }
 
+  void getPasts() {
     http.get(url + 'pickup/hour').then((response) {
       print(jsonDecode(response.body)['pickup']);
       List<LatLng> newLocations = [];
@@ -113,8 +129,14 @@ class MapSampleState extends State<MapSample> {
       });
       pastHeatmapLocations = newLocations;
     });
+  }
 
-    http.get(url + '/');
+  void getMarkers() {
+    http.get(url + 'markers').then((response) {
+      jsonDecode(response.body)["markers"].forEach((entry) {
+        addMarker(entry);
+      });
+    });
   }
 
   Future<void> _centerMap() async {
@@ -147,6 +169,22 @@ class MapSampleState extends State<MapSample> {
         .post(url + 'pickup',
             headers: {"Content-Type": "application/json"}, body: body)
         .then((response) => print(response.body));
+  }
+
+  void addMarker(entry) {
+    // BitmapDescriptor mapIcon = await BitmapDescriptor.fromAssetImage(
+    //     createLocalImageConfiguration(context), 'assets/beer.png');
+    final MarkerId markerId = MarkerId(entry["id"]);
+    final Marker marker = Marker(
+      markerId: markerId,
+      position: LatLng(entry['latitude'], entry['longitude']),
+      infoWindow: InfoWindow(title: entry['type'], snippet: entry['time']),
+    );
+
+    setState(() {
+      // adding a new marker to map
+      markers[markerId] = marker;
+    });
   }
 
   void toggleCurrent() {
