@@ -1,24 +1,47 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'logInPage.dart';
+import 'dart:async';
+import 'dart:convert';
+import 'package:hexcolor/hexcolor.dart';
 
-void main() => runApp(MyApp());
+class UserProfile extends StatefulWidget {
+  UserProfile({this.userdata});
+  final Object userdata;
 
-class MyApp extends StatelessWidget {
+  void printSample() {
+    print(userdata);
+  }
 
   @override
+  _UserProfileState createState() => _UserProfileState();
+
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: UserProfilePage(),
     );
   }
 }
 
-class UserProfilePage extends StatelessWidget {
+class _UserProfileState extends State<UserProfile> {
+  var markers = "5";
+
+  Future getMarkers(String userId) async {
+    http.Response response = await http.get(
+        "https://be-cabbed.herokuapp.com/api/marker/UserId",
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        });
+    setState(() {
+      var resBody = json.decode(response.body);
+      markers = "5";
+    });
+  }
+
   final String _fullName = "Nick Fury";
   final String _status = "nick@testing.com";
   final String _bio = "\"Do we want a bio?.\"";
-  final String _markers = "173";
+  // final String _markers = markers;
   final String _pickups = "24";
   final String _score = "450";
 
@@ -46,7 +69,7 @@ class UserProfilePage extends StatelessWidget {
           ),
           borderRadius: BorderRadius.circular(80.0),
           border: Border.all(
-            color: Colors.white,
+            color: Hexcolor('#FFB600'),
             width: 10,
           ),
         ),
@@ -71,7 +94,7 @@ class UserProfilePage extends StatelessWidget {
     return Container(
       padding: EdgeInsets.symmetric(vertical: 4.0, horizontal: 6.0),
       decoration: BoxDecoration(
-        color: Theme.of(context).scaffoldBackgroundColor,
+        color: Colors.transparent,
         borderRadius: BorderRadius.circular(4.0),
       ),
       child: Text(
@@ -118,12 +141,12 @@ class UserProfilePage extends StatelessWidget {
       height: 60.0,
       margin: EdgeInsets.only(top: 8.0),
       decoration: BoxDecoration(
-        color: Color(0xFFEFF4F7),
+        color: Hexcolor('#FFB600').withOpacity(0.3),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: <Widget>[
-          _buildStatItem("Markers", _markers),
+          _buildStatItem("Markers", markers),
           _buildStatItem("Pick ups", _pickups),
           _buildStatItem("Score", _score),
         ],
@@ -134,12 +157,12 @@ class UserProfilePage extends StatelessWidget {
   Widget _buildBio(BuildContext context) {
     TextStyle bioTextStyle = TextStyle(
       fontStyle: FontStyle.italic,
-      color: Color(0xFF799497),
+      color: Colors.black,
       fontSize: 16.0,
     );
 
     return Container(
-      color: Theme.of(context).scaffoldBackgroundColor,
+      color: Colors.transparent,
       padding: EdgeInsets.all(8.0),
       child: Text(
         _bio,
@@ -153,14 +176,14 @@ class UserProfilePage extends StatelessWidget {
     return Container(
       width: screenSize.width / 1.6,
       height: 2.0,
-      color: Colors.black54,
+      color: Hexcolor('#FFB600'),
       margin: EdgeInsets.only(top: 4.0),
     );
   }
 
   Widget _buildUserControl(BuildContext context) {
     return Container(
-      color: Theme.of(context).scaffoldBackgroundColor,
+      color: Colors.transparent,
       padding: EdgeInsets.only(top: 8.0),
       child: Text(
         "Do we want to display last 2 pickups / markers here?",
@@ -178,21 +201,22 @@ class UserProfilePage extends StatelessWidget {
           Expanded(
             child: InkWell(
               onTap: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => Home()),
-          );
-        },
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => Home()),
+                );
+              },
               child: Container(
                 height: 40.0,
                 decoration: BoxDecoration(
-                  border: Border.all(),
-                                  ),
+                  color: Hexcolor('#FFB600').withOpacity(0.8),
+                  // border: Border.all(),
+                ),
                 child: Center(
                   child: Text(
                     "Log Out",
                     style: TextStyle(
-                    fontWeight: FontWeight.w600,
+                      fontWeight: FontWeight.w600,
                     ),
                   ),
                 ),
@@ -206,7 +230,9 @@ class UserProfilePage extends StatelessWidget {
               child: Container(
                 height: 40.0,
                 decoration: BoxDecoration(
-                  border: Border.all(),
+                  color: Hexcolor('#FFB600').withOpacity(0.8),
+
+                  // border: Border.all(),
                 ),
                 child: Center(
                   child: Padding(
@@ -229,6 +255,7 @@ class UserProfilePage extends StatelessWidget {
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
     return Scaffold(
+      backgroundColor: Colors.grey,
       body: Stack(
         children: <Widget>[
           _buildCoverImage(screenSize),

@@ -7,9 +7,9 @@ import 'signUp.dart';
 import 'package:http/http.dart' as http;
 import 'mapPage.dart';
 // import 'socialLogin.dart';
+import 'userProfile.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_twitter_login/flutter_twitter_login.dart';
-
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
@@ -105,7 +105,7 @@ class _HomeState extends State<Home> {
         Container(
           alignment: Alignment.centerLeft,
           decoration: BoxDecoration(
-            color: Colors.grey[600].withOpacity(0.25),
+            color: Colors.black.withOpacity(0.1),
             border: Border(
               bottom: BorderSide(
                 color: Hexcolor('#FFB600'),
@@ -145,7 +145,7 @@ class _HomeState extends State<Home> {
         Container(
           alignment: Alignment.centerLeft,
           decoration: BoxDecoration(
-            color: Colors.grey.withOpacity(0.25),
+            color: Colors.black.withOpacity(0.4),
             border: Border(
               bottom: BorderSide(
                 color: Hexcolor('#FFB600'),
@@ -181,7 +181,7 @@ class _HomeState extends State<Home> {
       alignment: Alignment.centerRight,
       child: FlatButton(
         onPressed: () => print("forgot password button pressed"),
-        padding: EdgeInsets.only(right: 0.0),
+        padding: EdgeInsets.only(right: 0.0, top: 2.0),
         child: Text(
           "Forgot password?",
           style: TextStyle(
@@ -194,15 +194,14 @@ class _HomeState extends State<Home> {
 
   Widget _buildRememberMe() {
     return Container(
-      height: 20.0,
       child: Row(
         children: <Widget>[
           Theme(
-            data: ThemeData(unselectedWidgetColor: Colors.white),
+            data: ThemeData(unselectedWidgetColor: Hexcolor('#FFB600')),
             child: Checkbox(
               value: _rememberMe,
-              checkColor: Colors.green,
-              activeColor: Colors.white,
+              checkColor: Colors.black,
+              activeColor: Hexcolor('#FFB600'),
               onChanged: (value) {
                 setState(() {
                   _rememberMe = value;
@@ -213,8 +212,9 @@ class _HomeState extends State<Home> {
           Text(
             "Remember me",
             style: TextStyle(
-              color: Colors.white,
-            ),
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+                letterSpacing: 1),
           ),
         ],
       ),
@@ -236,7 +236,8 @@ class _HomeState extends State<Home> {
         child: Text(
           "Sign in",
           style: TextStyle(
-            color: Colors.white,
+            color: Colors.black,
+            fontWeight: FontWeight.bold,
             letterSpacing: 1.5,
             fontSize: 24.0,
           ),
