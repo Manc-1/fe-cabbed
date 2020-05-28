@@ -278,7 +278,7 @@ floatingActionButton: FloatingActionButton(
     );
   }
 final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
-final SnackBar snackBar = const SnackBar(content: Text('Showing Snackbar'));
+
 
 void openPage(BuildContext context) {
   Navigator.push(context, MaterialPageRoute(
@@ -303,17 +303,23 @@ void openPage(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: Colors.grey[200],
-          appBar: AppBar(
-      title: const Text('User Profile'),
+          appBar: PreferredSize(
+          preferredSize: Size.fromHeight(45.0),
+          child: AppBar(  leading: IconButton(
+    icon: Icon(Icons.arrow_back, color: Colors.black),
+    onPressed: () => Navigator.of(context).pop(),
+  ), 
+      title: Text('User Profile'),
+      centerTitle: true,
           textTheme: TextTheme(
           title: TextStyle(
-            // color: Colors.black,
+            color: Colors.black,
                         fontSize: 20.0,
           )
         ),
       backgroundColor: Hexcolor('#FFB600'),
       
-    ),
+          ),),
       body: Stack(
         children: <Widget>[
           _buildCoverImage(screenSize),
