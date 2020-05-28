@@ -79,7 +79,7 @@ class _UserProfileState extends State<UserProfile> {
         image: DecorationImage(
           image: AssetImage('assets/roundabout.jpg'),
           fit: BoxFit.cover,
-        ),
+                  ),
       ),
     );
   }
@@ -278,25 +278,6 @@ floatingActionButton: FloatingActionButton(
     );
   }
 final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
-
-
-void openPage(BuildContext context) {
-  Navigator.push(context, MaterialPageRoute(
-    builder: (BuildContext context) {
-      return Scaffold(
-        appBar: AppBar(
-          title: const Text('Next page'),
-        ),
-        body: const Center(
-          child: Text(
-            'This is the next page',
-            style: TextStyle(fontSize: 24),
-          ),
-        ),
-      );
-    },
-  ));
-}
 
   @override
   Widget build(BuildContext context) {
