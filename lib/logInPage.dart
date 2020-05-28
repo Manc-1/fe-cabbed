@@ -27,15 +27,16 @@ class _HomeState extends State<Home> {
     Navigator.push(context, MaterialPageRoute(builder: (context) => Home()));
   }
 
-  Future navigateToLoginPage(context) async {
+  Future navigateToLoginPage(context, userdata) async {
     Navigator.push(
-        context, MaterialPageRoute(builder: (context) => MapSample()));
+        context, MaterialPageRoute(builder: (context) => UserProfile(userdata: userdata,)));
   }
 
   final userEmail = TextEditingController();
   final userPassword = TextEditingController();
   var jsonResponse;
   var data;
+  var userdata;
   Future getData(String email, String password) async {
     http.Response response = await http.post(
       "https://be-cabbed.herokuapp.com/api/users/login",
@@ -51,8 +52,9 @@ class _HomeState extends State<Home> {
     setState(() {
       var resBody = json.decode(response.body);
       data = resBody["msg"];
+      userdata = response.body;
     });
-
+    
     debugPrint(password);
     debugPrint(email);
     debugPrint(data);
@@ -60,7 +62,7 @@ class _HomeState extends State<Home> {
     if (response.statusCode == 201) {
       debugPrint(response.body);
       jsonResponse = json.decode(response.body);
-      navigateToLoginPage(context);
+      navigateToLoginPage(context, jsonResponse);
     } else {
       showAlertDialog(context, data);
     }
