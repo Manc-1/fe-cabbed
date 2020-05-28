@@ -89,18 +89,24 @@ class MapSampleState extends State<MapSample> {
                 alignment: Alignment.topCenter,
                 child: Container(
                   margin: const EdgeInsets.all(10.0),
-                  color: Colors.red,
-                  width: 70.0,
+                  color: Colors.orange,
+                  width: 90.0,
                   height: 48.0,
                   child: Center(
                     child: PopupMenuButton<String>(
-                      child: Text("report incident"),
+                      color: Colors.lightBlue[100],
+                      child: Text(
+                        "Report Incident",
+                        textAlign: TextAlign.center,
+                      ),
                       onSelected: choiceAction,
                       itemBuilder: (BuildContext context) {
                         return Constants.choices.map((String choice) {
                           return PopupMenuItem<String>(
                             value: choice,
-                            child: Text(choice),
+                            child: Text(
+                              choice,
+                            ),
                           );
                         }).toList();
                       },
@@ -246,10 +252,10 @@ class MapSampleState extends State<MapSample> {
         .getCurrentPosition(desiredAccuracy: LocationAccuracy.best);
 
     Map<String, String> typeConverter = {
-      'police incident': 'police',
-      'closing soon': 'closing',
-      'drunk crowd': 'drunk',
-      'social event': 'social event'
+      'Police Incident': 'police',
+      'Closing Soon': 'closing',
+      'Drunk Crowd': 'drunk',
+      'Social Event': 'social event'
     };
 
     var body = jsonEncode({
