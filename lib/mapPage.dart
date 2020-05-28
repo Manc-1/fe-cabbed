@@ -36,14 +36,22 @@ class MapSampleState extends State<MapSample> {
   List<LatLng> currentHeatmapLocations = [];
   List<LatLng> pastHeatmapLocations = [];
   Map<MarkerId, Marker> markers = <MarkerId, Marker>{
-    MarkerId("test"):
-        Marker(markerId: MarkerId("test"), position: LatLng(53.4808, -2.2426))
+    MarkerId("test"): Marker(
+        markerId: MarkerId("test"),
+        position: LatLng(53.4808, -2.2426),
+        visible: false)
   };
 
   bool isCurrentMapSelected = false;
   bool isPastMapSelected = false;
   final String url = 'https://be-cabbed.herokuapp.com/api/';
   final String userId = '5ece886ea47bbd739d45750a';
+  final timeout = const Duration(seconds: 3);
+  final ms = const Duration(milliseconds: 1);
+  BitmapDescriptor beerIcon;
+  BitmapDescriptor scheduleIcon;
+  BitmapDescriptor carIcon;
+  BitmapDescriptor clockIcon;
 
   @override
   Widget build(BuildContext context) {
@@ -182,13 +190,53 @@ class MapSampleState extends State<MapSample> {
   @override
   void initState() {
     super.initState();
-
+    getBitmapImages();
     getCurrent();
     getPasts();
     getMarkers();
     _centerMap();
+    //startTimeout(1000 * 120);
+  }
 
-    http.get(url + '/');
+  void getBitmapImages() {
+    final Map<String, BitmapDescriptor> stringToBitmapDesctiptor = {
+      'beerIcon': beerIcon,
+      'scheduleIcon': scheduleIcon,
+      'clockIcon': clockIcon,
+      'carIcon': carIcon
+    };
+    BitmapDescriptor.fromAssetImage(
+            ImageConfiguration(devicePixelRatio: 2.5), 'assets/beerIcon.png')
+        .then((onValue) {
+      beerIcon = onValue;
+    });
+    BitmapDescriptor.fromAssetImage(
+            ImageConfiguration(devicePixelRatio: 2.5), 'assets/clockIcon.png')
+        .then((onValue) {
+      clockIcon = onValue;
+    });
+    BitmapDescriptor.fromAssetImage(
+            ImageConfiguration(size: Size(48, 48)), 'assets/scheduleIcon.png')
+        .then((onValue) {
+      scheduleIcon = onValue;
+    });
+    BitmapDescriptor.fromAssetImage(
+            ImageConfiguration(size: Size(48, 48)), 'assets/carIcon.png')
+        .then((onValue) {
+      carIcon = onValue;
+    });
+  }
+
+  startTimeout([int milliseconds]) {
+    var duration = milliseconds == null ? timeout : ms * milliseconds;
+    return new Timer.periodic(duration, (Timer t) => handleTimeout());
+  }
+
+  void handleTimeout() {
+    getCurrent();
+    getPasts();
+    getMarkers();
+    _centerMap();
   }
 
   void choiceAction(String choice) {
@@ -251,7 +299,7 @@ class MapSampleState extends State<MapSample> {
     var currentLocation = await Geolocator()
         .getCurrentPosition(desiredAccuracy: LocationAccuracy.best);
 
-    Map<String, String> typeConverter = {
+    final Map<String, String> typeConverter = {
       'Police Incident': 'police',
       'Closing Soon': 'closing',
       'Drunk Crowd': 'drunk',
@@ -286,10 +334,16 @@ class MapSampleState extends State<MapSample> {
   }
 
   void addMarker(entry) {
-    // BitmapDescriptor mapIcon = await BitmapDescriptor.fromAssetImage(
-    //     createLocalImageConfiguration(context), 'assets/beer.png');
+    final Map<String, BitmapDescriptor> stringToBitmapDesctiptor = {
+      'drunk': beerIcon,
+      'social event': scheduleIcon,
+      'closing': clockIcon,
+      'police': carIcon
+    };
+
     final MarkerId markerId = MarkerId(entry["_id"]);
     final Marker marker = Marker(
+      icon: stringToBitmapDesctiptor[entry['type']],
       markerId: markerId,
       position: LatLng(entry['latitude'], entry['longitude']),
       infoWindow: InfoWindow(title: entry['type'], snippet: entry['time']),
