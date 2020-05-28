@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter_heatmap/google_maps_flutter_heatmap.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'constants.dart';
 
 void main() => runApp(MyApp());
 
@@ -38,7 +39,8 @@ class MapSampleState extends State<MapSample> {
 
   bool isCurrentMapSelected = false;
   bool isPastMapSelected = false;
-  var url = 'https://be-cabbed.herokuapp.com/api/';
+  final String url = 'https://be-cabbed.herokuapp.com/api/';
+  final String userId = '5ece886ea47bbd739d45750a';
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +52,6 @@ class MapSampleState extends State<MapSample> {
         heatmaps: _heatmaps,
         onMapCreated: (GoogleMapController controller) {
           _controller.complete(controller);
-          addMarker();
         },
       ),
       floatingActionButton: Stack(
@@ -90,6 +91,29 @@ class MapSampleState extends State<MapSample> {
                 heroTag: "btn4",
                 onPressed: sendPickUpLocation,
                 child: Text("pickup")),
+          ),
+          Align(
+            alignment: Alignment(0, -.8),
+            child: Container(
+              margin: const EdgeInsets.all(10.0),
+              color: Colors.red,
+              width: 70.0,
+              height: 48.0,
+              child: Center(
+                child: PopupMenuButton<String>(
+                  child: Text("report incident"),
+                  onSelected: choiceAction,
+                  itemBuilder: (BuildContext context) {
+                    return Constants.choices.map((String choice) {
+                      return PopupMenuItem<String>(
+                        value: choice,
+                        child: Text(choice),
+                      );
+                    }).toList();
+                  },
+                ),
+              ),
+            ),
           )
         ],
       ),
@@ -107,9 +131,13 @@ class MapSampleState extends State<MapSample> {
     http.get(url + '/');
   }
 
+  void choiceAction(String choice) {
+    sendMarkerUpLocation(choice);
+  }
+
   void getCurrent() {
     http.get(url + 'pickup').then((response) {
-      print(jsonDecode(response.body)['pickup']);
+      //print(jsonDecode(response.body)['pickup']);
       List<LatLng> newLocations = [];
 
       jsonDecode(response.body)['pickup'].forEach((entry) {
@@ -121,7 +149,7 @@ class MapSampleState extends State<MapSample> {
 
   void getPasts() {
     http.get(url + 'pickup/hour').then((response) {
-      print(jsonDecode(response.body)['pickup']);
+      //print(jsonDecode(response.body)['pickup']);
       List<LatLng> newLocations = [];
 
       jsonDecode(response.body)['pickup'].forEach((entry) {
@@ -132,8 +160,10 @@ class MapSampleState extends State<MapSample> {
   }
 
   void getMarkers() {
-    http.get(url + 'markers').then((response) {
-      jsonDecode(response.body)["markers"].forEach((entry) {
+    http.get(url + 'marker').then((response) {
+      print('getting markers');
+      print(jsonDecode(response.body));
+      jsonDecode(response.body)["marker"].forEach((entry) {
         addMarker(entry);
       });
     });
@@ -157,11 +187,28 @@ class MapSampleState extends State<MapSample> {
     });
   }
 
+  Future<void> sendMarkerUpLocation(String type) async {
+    var currentLocation = await Geolocator()
+        .getCurrentPosition(desiredAccuracy: LocationAccuracy.best);
+
+    var body = jsonEncode({
+      'user': userId,
+      'type': type,
+      'latitude': currentLocation.latitude,
+      'longitude': currentLocation.longitude,
+    });
+    http
+        .post(url + 'marker',
+            headers: {"Content-Type": "application/json"}, body: body)
+        .then((response) => print(response.body));
+  }
+
   Future<void> sendPickUpLocation() async {
     var currentLocation = await Geolocator()
         .getCurrentPosition(desiredAccuracy: LocationAccuracy.best);
 
     var body = jsonEncode({
+      'user': userId,
       'latitude': currentLocation.latitude,
       'longitude': currentLocation.longitude
     });
@@ -174,12 +221,13 @@ class MapSampleState extends State<MapSample> {
   void addMarker(entry) {
     // BitmapDescriptor mapIcon = await BitmapDescriptor.fromAssetImage(
     //     createLocalImageConfiguration(context), 'assets/beer.png');
-    final MarkerId markerId = MarkerId(entry["id"]);
+    final MarkerId markerId = MarkerId(entry["_id"]);
     final Marker marker = Marker(
       markerId: markerId,
       position: LatLng(entry['latitude'], entry['longitude']),
       infoWindow: InfoWindow(title: entry['type'], snippet: entry['time']),
     );
+    print('creating marker' + entry['type']);
 
     setState(() {
       // adding a new marker to map
