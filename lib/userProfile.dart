@@ -42,8 +42,7 @@ class _UserProfileState extends State<UserProfile> {
       var resBody = json.decode(response.body);
       markers = resBody["marker"].length.toString();
       isLoadingMarkers = false;
-      debugPrint();
-    });
+                });
     
   }
 

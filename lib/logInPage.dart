@@ -31,7 +31,7 @@ class _HomeState extends State<Home> {
   Future navigateToLoginPage(context,Object userdata) async {
     debugPrint(userdata);
     Navigator.push(
-        context, MaterialPageRoute(builder: (context) => UserProfile(userdata: userdata)));
+        context, MaterialPageRoute(builder: (context) => MapSample()));
   }
 
 
