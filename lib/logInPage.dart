@@ -2,15 +2,16 @@ import 'dart:async';
 import 'dart:convert';
 // import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter_login_ui/userProfile.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'signUp.dart';
 import 'package:http/http.dart' as http;
 import 'mapPage.dart';
 // import 'socialLogin.dart';
-import 'userProfile.dart';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_twitter_login/flutter_twitter_login.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
+
 
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'dart:convert' as JSON;
@@ -27,9 +28,10 @@ class _HomeState extends State<Home> {
     Navigator.push(context, MaterialPageRoute(builder: (context) => Home()));
   }
 
-  Future navigateToLoginPage(context, userdata) async {
+  Future navigateToLoginPage(context,Object userdata) async {
+    debugPrint(userdata);
     Navigator.push(
-        context, MaterialPageRoute(builder: (context) => MapSample()));
+        context, MaterialPageRoute(builder: (context) => UserProfile(userdata: userdata)));
   }
 
 
@@ -54,16 +56,18 @@ class _HomeState extends State<Home> {
     setState(() {
       var resBody = json.decode(response.body);
       data = resBody["msg"];
-      userdata = response.body;
+      
     });
     
     debugPrint(password);
     debugPrint(email);
     debugPrint(data);
+
     print(response.statusCode);
     if (response.statusCode == 201) {
       debugPrint(response.body);
-      jsonResponse = json.decode(response.body);
+      jsonResponse = json.decode(response.body).toString();
+      debugPrint(jsonResponse);
       navigateToLoginPage(context, jsonResponse);
     } else {
       showAlertDialog(context, data);
