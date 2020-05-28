@@ -6,16 +6,11 @@ import 'dart:convert';
 import 'package:hexcolor/hexcolor.dart';
 
 class UserProfile extends StatefulWidget {
-  UserProfile({this.userdata});
-  final userdata;
+  final List userdata;
+
+  UserProfile({Key key, this.userdata}) : super(key:key);
+
  
-    
-   
-    void printSample() {
-    print(userdata);
-  }
-
-
 
   @override
   _UserProfileState createState() => _UserProfileState();
@@ -45,9 +40,9 @@ class _UserProfileState extends State<UserProfile> {
 
     setState(() {
       var resBody = json.decode(response.body);
-      markers = resBody["marker"].length.toString();
+      markers = resBody["marker"];
       isLoadingMarkers = false;
-    });
+                });
     
   }
 
@@ -61,7 +56,7 @@ class _UserProfileState extends State<UserProfile> {
 
     setState(() {
       var resBody = json.decode(response.body);
-      pickups = resBody["pickup"].length.toString();
+      pickups = resBody["pickup"];
       isLoadingPickups = false;
     });
     
