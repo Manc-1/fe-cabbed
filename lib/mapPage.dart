@@ -206,22 +206,22 @@ class MapSampleState extends State<MapSample> {
       'carIcon': carIcon
     };
     BitmapDescriptor.fromAssetImage(
-            ImageConfiguration(devicePixelRatio: 2.5), 'assets/beerIcon.png')
+            ImageConfiguration(devicePixelRatio: 2.5), 'assets/beer.png')
         .then((onValue) {
       beerIcon = onValue;
     });
     BitmapDescriptor.fromAssetImage(
-            ImageConfiguration(devicePixelRatio: 2.5), 'assets/clockIcon.png')
+            ImageConfiguration(devicePixelRatio: 2.5), 'assets/clock.png')
         .then((onValue) {
       clockIcon = onValue;
     });
     BitmapDescriptor.fromAssetImage(
-            ImageConfiguration(size: Size(48, 48)), 'assets/scheduleIcon.png')
+            ImageConfiguration(size: Size(48, 48)), 'assets/calendar.png')
         .then((onValue) {
       scheduleIcon = onValue;
     });
     BitmapDescriptor.fromAssetImage(
-            ImageConfiguration(size: Size(48, 48)), 'assets/carIcon.png')
+            ImageConfiguration(size: Size(48, 48)), 'assets/police.png')
         .then((onValue) {
       carIcon = onValue;
     });
