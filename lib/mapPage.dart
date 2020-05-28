@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter_heatmap/google_maps_flutter_heatmap.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:hexcolor/hexcolor.dart';
 
 void main() => runApp(MyApp());
 
@@ -39,55 +40,121 @@ class MapSampleState extends State<MapSample> {
 
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
-      body: GoogleMap(
-        mapType: MapType.normal,
-        initialCameraPosition: centreCameraOn,
-        heatmaps: _heatmaps,
-        onMapCreated: (GoogleMapController controller) {
-          _controller.complete(controller);
-        },
-      ),
-      floatingActionButton: Stack(
-        children: <Widget>[
-          Padding(
-            padding: EdgeInsets.only(left: 31),
-            child: Align(
-              alignment: Alignment(-.9, -.8),
-              child: FloatingActionButton(
-                heroTag: "btn1",
-                onPressed: toggleCurrent,
-                child: Text('current'),
+    return Scaffold(
+      body: Stack(children: <Widget>[
+        Container(
+          child: GoogleMap(
+            mapType: MapType.normal,
+            initialCameraPosition: centreCameraOn,
+            heatmaps: _heatmaps,
+            onMapCreated: (GoogleMapController controller) {
+              _controller.complete(controller);
+            },
+          ),
+        ),
+        // TOP ROW -----------------------------------------
+        Container(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: <Widget>[
+              Padding(
+                padding: EdgeInsets.only(left: 0),
+                child: Align(
+                  alignment: Alignment.topRight,
+                  child: FloatingActionButton.extended(
+                    heroTag: "btn1",
+                    onPressed: toggleCurrent,
+                    backgroundColor: Hexcolor('#FFB600'),
+                    label: Text(
+                      'Profile',
+                      style: TextStyle(color: Colors.black),
+                    ),
+                  ),
+                ),
               ),
-            ),
+              // Align(
+              //   alignment: Alignment(-.9, .8),
+              //   child: FloatingActionButton(
+              //     heroTag: "btn2",
+              //     onPressed: _centerMap,
+              //     tooltip: 'Get Location',
+              //     child: Icon(Icons.trip_origin),
+              //   ),
+              // ),
+              Align(
+                alignment: Alignment.topCenter,
+                child: FloatingActionButton.extended(
+                    heroTag: "btn4",
+                    onPressed: sendPickUpLocation,
+                    backgroundColor: Hexcolor('#FFB600'),
+                    label: Text(
+                      "centre",
+                      style: TextStyle(color: Colors.black),
+                    )),
+              ),
+
+              Align(
+                alignment: Alignment.topLeft,
+                child: FloatingActionButton.extended(
+                  heroTag: "btn3",
+                  onPressed: togglePast,
+                  backgroundColor: Hexcolor('#FFB600'),
+                  label: Text(
+                    ' Past ',
+                    style: TextStyle(color: Colors.black),
+                  ),
+                ),
+              ),
+            ],
           ),
-          Align(
-            alignment: Alignment(-.9, .8),
-            child: FloatingActionButton(
-              heroTag: "btn2",
-              onPressed: _centerMap,
-              tooltip: 'Get Location',
-              child: Icon(Icons.trip_origin),
-            ),
+        ),
+        // BOTTOM ROW ----------------------------------------
+        Container(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: <Widget>[
+              Padding(
+                padding: EdgeInsets.only(left: 0),
+                child: Align(
+                  alignment: Alignment.bottomRight,
+                  child: FloatingActionButton.extended(
+                    heroTag: "btn1",
+                    onPressed: toggleCurrent,
+                    backgroundColor: Hexcolor('#FFB600'),
+                    label: Text(
+                      'Current',
+                      style: TextStyle(color: Colors.black),
+                    ),
+                  ),
+                ),
+              ),
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: FloatingActionButton.extended(
+                    heroTag: "btn4",
+                    onPressed: sendPickUpLocation,
+                    backgroundColor: Hexcolor('#FFB600'),
+                    label: Text(
+                      "Pick-up",
+                      style: TextStyle(color: Colors.black),
+                    )),
+              ),
+              Align(
+                alignment: Alignment.bottomLeft,
+                child: FloatingActionButton.extended(
+                  heroTag: "btn3",
+                  onPressed: togglePast,
+                  backgroundColor: Hexcolor('#FFB600'),
+                  label: Text(
+                    ' Past ',
+                    style: TextStyle(color: Colors.black),
+                  ),
+                ),
+              ),
+            ],
           ),
-          Align(
-            alignment: Alignment(.9, -.8),
-            child: FloatingActionButton(
-              heroTag: "btn3",
-              onPressed: togglePast,
-              child: Text('past'),
-              backgroundColor: Colors.green,
-            ),
-          ),
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: FloatingActionButton(
-                heroTag: "btn4",
-                onPressed: sendPickUpLocation,
-                child: Text("pickup")),
-          )
-        ],
-      ),
+        ),
+      ]),
     );
   }
 
