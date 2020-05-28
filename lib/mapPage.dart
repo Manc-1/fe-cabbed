@@ -127,6 +127,7 @@ class MapSampleState extends State<MapSample> {
     getCurrent();
     getPasts();
     getMarkers();
+    _centerMap();
 
     http.get(url + '/');
   }
@@ -176,13 +177,13 @@ class MapSampleState extends State<MapSample> {
     final GoogleMapController controller = await _controller.future;
     controller.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
       target: LatLng(currentLocation.latitude, currentLocation.longitude),
-      zoom: 7,
+      zoom: 11,
     )));
     print(currentLocation);
     setState(() {
       centreCameraOn = CameraPosition(
         target: LatLng(currentLocation.latitude, currentLocation.longitude),
-        zoom: 4,
+        zoom: 11,
       );
     });
   }
@@ -191,9 +192,16 @@ class MapSampleState extends State<MapSample> {
     var currentLocation = await Geolocator()
         .getCurrentPosition(desiredAccuracy: LocationAccuracy.best);
 
+    Map<String, String> typeConverter = {
+      'police incident': 'police',
+      'closing soon': 'closing',
+      'drunk crowd': 'drunk',
+      'social event': 'social event'
+    };
+
     var body = jsonEncode({
       'user': userId,
-      'type': type,
+      'type': typeConverter[type],
       'latitude': currentLocation.latitude,
       'longitude': currentLocation.longitude,
     });
