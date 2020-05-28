@@ -29,8 +29,10 @@ class _HomeState extends State<Home> {
 
   Future navigateToLoginPage(context, userdata) async {
     Navigator.push(
-        context, MaterialPageRoute(builder: (context) => UserProfile(userdata: userdata,)));
+        context, MaterialPageRoute(builder: (context) => MapSample()));
   }
+
+
 
   final userEmail = TextEditingController();
   final userPassword = TextEditingController();
