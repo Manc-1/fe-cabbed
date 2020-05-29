@@ -11,7 +11,7 @@ import 'mapPage.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_twitter_login/flutter_twitter_login.dart';
-
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'dart:convert' as JSON;
 
@@ -288,7 +288,7 @@ class _HomeState extends State<Home> {
         print(profile);
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => MapSample()),
+          MaterialPageRoute(builder: (context) => MapSample(userID: profile.id,)),
         );
         setState(() {
           userProfile = profile;
@@ -312,6 +312,37 @@ class _HomeState extends State<Home> {
   //   });
   // }
 
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final GoogleSignIn googleSignIn = GoogleSignIn();
+
+  Future<String> signInWithGoogle() async {
+    final GoogleSignInAccount googleSignInAccount = await googleSignIn.signIn();
+    final GoogleSignInAuthentication googleSignInAuthentication =
+      await googleSignInAccount.authentication;
+
+    final AuthCredential credential = GoogleAuthProvider.getCredential(
+      accessToken: googleSignInAuthentication.accessToken,
+     idToken: googleSignInAuthentication.idToken,
+    );
+
+    final AuthResult authResult = await _auth.signInWithCredential(credential);
+    final FirebaseUser user = authResult.user;
+
+    assert(!user.isAnonymous);
+    assert(await user.getIdToken() != null);
+
+    final FirebaseUser currentUser = await _auth.currentUser();
+    assert(user.uid == currentUser.uid);
+
+    return 'signInWithGoogle succeeded: $user';
+  }
+
+  void signOutGoogle() async{
+    await googleSignIn.signOut();
+
+    print("User Sign Out");
+  }
+
   Widget _buildSocialMediaRow() {
     final twitterLogin = new TwitterLogin(
         consumerKey: 'Mm8k4j95ANTtvzZ50HXXrcl2Y',
@@ -329,7 +360,14 @@ class _HomeState extends State<Home> {
             ),
           ),
           _buildSocialMedia(
-            () => print("Login with Google"),
+            () => signInWithGoogle().whenComplete(() => {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) {
+                    return MapSample();
+                  }
+                ))
+            }),
             AssetImage(
               "assets/GoogleButton.png",
             ),
