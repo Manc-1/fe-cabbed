@@ -288,7 +288,7 @@ class _HomeState extends State<Home> {
         print(profile);
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => MapSample(userID: profile.id,)),
+          MaterialPageRoute(builder: (context) => MapSample()),
         );
         setState(() {
           userProfile = profile;
