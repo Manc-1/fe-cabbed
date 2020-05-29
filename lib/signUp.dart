@@ -3,7 +3,6 @@ import 'package:hexcolor/hexcolor.dart';
 import 'contact.dart';
 import 'contact_services.dart';
 import 'logInPage.dart';
-import 'package:email_validator/email_validator.dart';
 
 class SignUpHome extends StatefulWidget {
   final String userID;
@@ -14,7 +13,6 @@ class SignUpHome extends StatefulWidget {
 }
 
 class _SignUpHomeState extends State<SignUpHome> {
-// unique keys
   final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   Contact newContact = new Contact();
@@ -35,7 +33,6 @@ class _SignUpHomeState extends State<SignUpHome> {
       height: 50,
       child: TextFormField(
         keyboardType: TextInputType.text,
-        // validator: (val) => val.isEmpty ? '!' : null,
         onSaved: (val) => newContact.name = val,
         style: TextStyle(color: Colors.white),
         decoration: InputDecoration(
@@ -52,7 +49,6 @@ class _SignUpHomeState extends State<SignUpHome> {
           ),
         ),
       ),
-      // textInputAction: TextInputAction.next,
     );
   }
 
@@ -71,8 +67,6 @@ class _SignUpHomeState extends State<SignUpHome> {
       height: 50,
       child: TextFormField(
         keyboardType: TextInputType.emailAddress,
-        // validator: (email) =>
-        //     EmailValidator.validate(email) ? null : "Invalid email address",
         onSaved: (val) => newContact.email = val,
         style: TextStyle(color: Colors.white),
         decoration: InputDecoration(
@@ -177,7 +171,7 @@ class _SignUpHomeState extends State<SignUpHome> {
           border: InputBorder.none,
           contentPadding: EdgeInsets.only(top: 14.0),
           prefixIcon: Icon(
-            Icons.lock,
+            Icons.home,
             color: Colors.white,
           ),
           hintText: "Enter your postcode",
@@ -209,7 +203,7 @@ class _SignUpHomeState extends State<SignUpHome> {
           border: InputBorder.none,
           contentPadding: EdgeInsets.only(top: 14.0),
           prefixIcon: Icon(
-            Icons.lock,
+            Icons.photo_camera,
             color: Colors.white,
           ),
           hintText: "Upload a photo (optional)",
@@ -297,21 +291,12 @@ class _SignUpHomeState extends State<SignUpHome> {
   void _submitForm() {
     final FormState form = _formKey.currentState;
     if (!form.validate()) {
-      showMessage('Form is not valid!');
+      showMessage('Form is not valid');
     } else {
-      form.save(); //This invokes each onSaved event
-
-      print('Form save called, newContact is now up to date...');
-      print('name: ${newContact.name}');
-      print('email: ${newContact.email}');
-      print('phoneNumber: ${newContact.phoneNumber}');
-      print('password: ${newContact.password}');
-      print('postCode: ${newContact.postCode}');
-      print('userAvatar: ${newContact.userAvatar}');
-      print('Submitting to back end...');
+      form.save();
       var contactService = new ContactService();
-      contactService.createContact(newContact).then(
-          (value) => showMessage('Account created successfully', Colors.pink));
+      contactService.createContact(newContact).then((value) =>
+          showMessage('Account created successfully', Colors.orange));
     }
   }
 
@@ -365,7 +350,6 @@ class _SignUpHomeState extends State<SignUpHome> {
                   SizedBox(
                     height: 5.0,
                   )
-                  // _buildLogin(),
                 ],
               ),
             ),
