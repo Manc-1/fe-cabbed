@@ -6,9 +6,8 @@ import 'dart:convert';
 import 'package:hexcolor/hexcolor.dart';
 
 class UserProfile extends StatefulWidget {
-  final List userdata;
-
-  UserProfile({Key key, this.userdata}) : super(key: key);
+  final String userID;
+  UserProfile({Key key, @required this.userID}) : super(key: key);
 
   @override
   _UserProfileState createState() => _UserProfileState();
@@ -21,7 +20,7 @@ class UserProfile extends StatefulWidget {
 }
 
 class _UserProfileState extends State<UserProfile> {
-  var data;
+  String userID;
   var markers = "0";
   var pickups = "0";
   var isLoadingMarkers = true;
@@ -269,6 +268,8 @@ class _UserProfileState extends State<UserProfile> {
 
   @override
   Widget build(BuildContext context) {
+    userID = widget.userID;
+    print('inuserprof $userID');
     Size screenSize = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: Colors.grey[400],

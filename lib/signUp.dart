@@ -6,8 +6,8 @@ import 'logInPage.dart';
 import 'package:email_validator/email_validator.dart';
 
 class SignUpHome extends StatefulWidget {
-  SignUpHome({Key key, this.title}) : super(key: key);
-  final String title;
+  final String userID;
+  SignUpHome({Key key, @required this.userID}) : super(key: key);
 
   @override
   _SignUpHomeState createState() => _SignUpHomeState();

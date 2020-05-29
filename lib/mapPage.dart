@@ -22,6 +22,8 @@ class MyApp extends StatelessWidget {
 }
 
 class MapSample extends StatefulWidget {
+  final String userID;
+  MapSample({Key key, @required this.userID}) : super(key: key);
   @override
   State<MapSample> createState() => MapSampleState();
 }
@@ -45,7 +47,8 @@ class MapSampleState extends State<MapSample> {
   bool isCurrentMapSelected = false;
   bool isPastMapSelected = false;
   final String url = 'https://be-cabbed.herokuapp.com/api/';
-  final String userId = '5ece886ea47bbd739d45750a';
+  String userID;
+  Object userData;
   final timeout = const Duration(seconds: 3);
   final ms = const Duration(milliseconds: 1);
   BitmapDescriptor beerIcon;
@@ -55,6 +58,8 @@ class MapSampleState extends State<MapSample> {
 
   @override
   Widget build(BuildContext context) {
+    print('in widget ${widget.userID}');
+    userID = widget.userID;
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(45.0),
@@ -64,7 +69,10 @@ class MapSampleState extends State<MapSample> {
             icon: Icon(Icons.account_circle, color: Colors.black),
             onPressed: () => Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => UserProfile()),
+              MaterialPageRoute(
+                  builder: (context) => UserProfile(
+                        userID: userID,
+                      )),
             ),
           ),
           title: PopupMenuButton<String>(
@@ -177,12 +185,6 @@ class MapSampleState extends State<MapSample> {
   }
 
   void getBitmapImages() {
-    final Map<String, BitmapDescriptor> stringToBitmapDesctiptor = {
-      'beerIcon': beerIcon,
-      'scheduleIcon': scheduleIcon,
-      'clockIcon': clockIcon,
-      'carIcon': carIcon
-    };
     BitmapDescriptor.fromAssetImage(
             ImageConfiguration(devicePixelRatio: 2.5), 'assets/beer.png')
         .then((onValue) {
@@ -285,7 +287,7 @@ class MapSampleState extends State<MapSample> {
     };
 
     var body = jsonEncode({
-      'user': userId,
+      'user': userID,
       'type': typeConverter[type],
       'latitude': currentLocation.latitude,
       'longitude': currentLocation.longitude,
@@ -301,7 +303,7 @@ class MapSampleState extends State<MapSample> {
         .getCurrentPosition(desiredAccuracy: LocationAccuracy.best);
 
     var body = jsonEncode({
-      'user': userId,
+      'user': userID,
       'latitude': currentLocation.latitude,
       'longitude': currentLocation.longitude
     });
