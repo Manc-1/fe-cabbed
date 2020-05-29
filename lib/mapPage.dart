@@ -61,7 +61,7 @@ class MapSampleState extends State<MapSample> {
         child: AppBar(
           centerTitle: true,
           leading: IconButton(
-            icon: Icon(Icons.account_circle, color: Colors.black, size: 30),
+            icon: Icon(Icons.account_circle, color: Colors.black),
             onPressed: () => Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => UserProfile()),
@@ -92,7 +92,7 @@ class MapSampleState extends State<MapSample> {
           // }),
           actions: <Widget>[
             IconButton(
-                icon: Icon(Icons.gps_fixed, color: Colors.black, size: 30),
+                icon: Icon(Icons.adjust, color: Colors.black),
                 onPressed: () => _centerMap()),
           ],
           backgroundColor: Hexcolor('#FFB600'),
@@ -139,8 +139,7 @@ class MapSampleState extends State<MapSample> {
                       backgroundColor: Hexcolor('#ef7d4c'),
                       label: Text(
                         "Pick-up",
-                        style: TextStyle(
-                            color: Colors.black, fontWeight: FontWeight.bold),
+                        style: TextStyle(color: Colors.black),
                       )),
                 ),
               ),
