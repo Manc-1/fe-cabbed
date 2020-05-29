@@ -320,13 +320,20 @@ class MapSampleState extends State<MapSample> {
       'closing': clockIcon,
       'police': carIcon
     };
+    final Map<String, String> typeConverter = {
+      'police': 'Police Incident',
+      'closing': 'Closing Soon',
+      'drunk': 'Drunk Crowd',
+      'social event': 'Social Event'
+    };
 
     final MarkerId markerId = MarkerId(entry["_id"]);
     final Marker marker = Marker(
       icon: stringToBitmapDesctiptor[entry['type']],
       markerId: markerId,
       position: LatLng(entry['latitude'], entry['longitude']),
-      infoWindow: InfoWindow(title: entry['type'], snippet: entry['time']),
+      infoWindow: InfoWindow(
+          title: typeConverter[entry['type']], snippet: entry['time']),
     );
     print('creating marker' + entry['type']);
 
