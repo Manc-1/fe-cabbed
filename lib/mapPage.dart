@@ -57,28 +57,28 @@ class MapSampleState extends State<MapSample> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: PreferredSize(
-          preferredSize: Size.fromHeight(45.0),
-          child: AppBar(  
-            centerTitle: true,
-            leading: IconButton(
-    icon: Icon(Icons.account_circle, color: Colors.black),
-    onPressed: () =>    Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => UserProfile()),
-                      ),
-  ), //ICON FOR USER PROFILE
-  title: IconButton(
-    icon: Icon(Icons.edit_location, color: Colors.black),
-    onPressed: () =>   {}//ADD MENU HERE,
-  ), //ICON FOR ADDING THINGS
-  actions: <Widget>[IconButton(
-    icon: Icon(Icons.adjust, color: Colors.black),
-    onPressed: () => _centerMap()
-  ),
-  ],  
-            backgroundColor: Hexcolor('#FFB600'),
-      
-          ),),
+        preferredSize: Size.fromHeight(45.0),
+        child: AppBar(
+          centerTitle: true,
+          leading: IconButton(
+            icon: Icon(Icons.account_circle, color: Colors.black),
+            onPressed: () => Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => UserProfile()),
+            ),
+          ), //ICON FOR USER PROFILE
+          title: IconButton(
+              icon: Icon(Icons.edit_location, color: Colors.black),
+              onPressed: () => {} //ADD MENU HERE,
+              ), //ICON FOR ADDING THINGS
+          actions: <Widget>[
+            IconButton(
+                icon: Icon(Icons.adjust, color: Colors.black),
+                onPressed: () => _centerMap()),
+          ],
+          backgroundColor: Hexcolor('#FFB600'),
+        ),
+      ),
       body: Stack(children: <Widget>[
         Container(
           child: GoogleMap(
@@ -91,76 +91,6 @@ class MapSampleState extends State<MapSample> {
             },
           ),
         ),
-        // TOP ROW -----------------------------------------
-        // Container(
-        //   child: Row(
-        //     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        //     children: <Widget>[
-        //       Padding(
-        //         padding: EdgeInsets.only(left: 0),
-        //         child: Align(
-        //           alignment: Alignment.topRight,
-        //           child: FloatingActionButton.extended(
-        //             heroTag: "btn1",
-        //             onPressed: () {
-        //               Navigator.push(
-        //                 context,
-        //                 MaterialPageRoute(builder: (context) => UserProfile()),
-        //               );
-        //             },
-        //             backgroundColor: Hexcolor('#FFB600'),
-        //             label: Text(
-        //               'Profile',
-        //               style: TextStyle(color: Colors.black),
-        //             ),
-        //           ),
-        //         ),
-        //       ),
-        //       Align(
-        //         alignment: Alignment.topCenter,
-        //         child: Container(
-        //           margin: const EdgeInsets.all(10.0),
-        //           color: Colors.orange,
-        //           width: 90.0,
-        //           height: 48.0,
-        //           child: Center(
-        //             child: PopupMenuButton<String>(
-        //               color: Colors.lightBlue[100],
-        //               child: Text(
-        //                 "Report Incident",
-        //                 textAlign: TextAlign.center,
-        //               ),
-        //               onSelected: choiceAction,
-        //               itemBuilder: (BuildContext context) {
-        //                 return Constants.choices.map((String choice) {
-        //                   return PopupMenuItem<String>(
-        //                     value: choice,
-        //                     child: Text(
-        //                       choice,
-        //                     ),
-        //                   );
-        //                 }).toList();
-        //               },
-        //             ),
-        //           ),
-        //         ),
-        //       ),
-        //       Align(
-        //         alignment: Alignment.topLeft,
-        //         child: FloatingActionButton.extended(
-        //           heroTag: "btn2",
-        //           onPressed: _centerMap,
-        //           backgroundColor: Hexcolor('#FFB600'),
-        //           label: Text(
-        //             ' Location ',
-        //             style: TextStyle(color: Colors.black),
-        //           ),
-        //         ),
-        //       ),
-        //     ],
-        //   ),
-        // ),
-        // BOTTOM ROW ----------------------------------------
         Container(
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
