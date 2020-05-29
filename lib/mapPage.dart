@@ -56,47 +56,6 @@ class MapSampleState extends State<MapSample> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: Size.fromHeight(45.0),
-        child: AppBar(
-          centerTitle: true,
-          leading: IconButton(
-            icon: Icon(Icons.account_circle, color: Colors.black, size: 30),
-            onPressed: () => Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => UserProfile()),
-            ),
-          ),
-          title: PopupMenuButton<String>(
-            icon: Icon(Icons.control_point, color: Colors.black, size: 30),
-            color: Colors.black,
-            onSelected: choiceAction,
-            itemBuilder: (BuildContext context) {
-              return Constants.choices.map((String choice) {
-                return PopupMenuItem<String>(
-                  value: choice,
-                  child: Text(
-                    choice,
-                    style: TextStyle(
-                      decoration: TextDecoration.underline,
-                      decorationColor: Hexcolor('#FFB600'),
-                      decorationThickness: 3,
-                      color: Colors.white,
-                    ),
-                  ),
-                );
-              }).toList();
-            },
-          ),
-          // }),
-          actions: <Widget>[
-            IconButton(
-                icon: Icon(Icons.gps_fixed, color: Colors.black, size: 30),
-                onPressed: () => _centerMap()),
-          ],
-          backgroundColor: Hexcolor('#FFB600'),
-        ),
-      ),
       body: Stack(children: <Widget>[
         Container(
           child: GoogleMap(
@@ -109,12 +68,82 @@ class MapSampleState extends State<MapSample> {
             },
           ),
         ),
+        // TOP ROW -----------------------------------------
         Container(
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
               Padding(
-                padding: EdgeInsets.only(bottom: 20),
+                padding: EdgeInsets.only(left: 0),
+                child: Align(
+                  alignment: Alignment.topRight,
+                  child: FloatingActionButton.extended(
+                    heroTag: "btn1",
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => UserProfile()),
+                      );
+                    },
+                    backgroundColor: Hexcolor('#FFB600'),
+                    label: Text(
+                      'Profile',
+                      style: TextStyle(color: Colors.black),
+                    ),
+                  ),
+                ),
+              ),
+              Align(
+                alignment: Alignment.topCenter,
+                child: Container(
+                  margin: const EdgeInsets.all(10.0),
+                  color: Colors.orange,
+                  width: 90.0,
+                  height: 48.0,
+                  child: Center(
+                    child: PopupMenuButton<String>(
+                      color: Colors.lightBlue[100],
+                      child: Text(
+                        "Report Incident",
+                        textAlign: TextAlign.center,
+                      ),
+                      onSelected: choiceAction,
+                      itemBuilder: (BuildContext context) {
+                        return Constants.choices.map((String choice) {
+                          return PopupMenuItem<String>(
+                            value: choice,
+                            child: Text(
+                              choice,
+                            ),
+                          );
+                        }).toList();
+                      },
+                    ),
+                  ),
+                ),
+              ),
+              Align(
+                alignment: Alignment.topLeft,
+                child: FloatingActionButton.extended(
+                  heroTag: "btn2",
+                  onPressed: _centerMap,
+                  backgroundColor: Hexcolor('#FFB600'),
+                  label: Text(
+                    ' Location ',
+                    style: TextStyle(color: Colors.black),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+        // BOTTOM ROW ----------------------------------------
+        Container(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: <Widget>[
+              Padding(
+                padding: EdgeInsets.only(left: 0),
                 child: Align(
                   alignment: Alignment.bottomRight,
                   child: FloatingActionButton.extended(
@@ -128,33 +157,26 @@ class MapSampleState extends State<MapSample> {
                   ),
                 ),
               ),
-              Padding(
-                padding: EdgeInsets.only(bottom: 40),
-                child: Align(
-                  alignment: Alignment.bottomCenter,
-                  child: FloatingActionButton.extended(
-                      heroTag: "btn4",
-                      onPressed: sendPickUpLocation,
-                      backgroundColor: Hexcolor('#ef7d4c'),
-                      label: Text(
-                        "Pick-up",
-                        style: TextStyle(
-                            color: Colors.black, fontWeight: FontWeight.bold),
-                      )),
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.only(bottom: 20, right: 10),
-                child: Align(
-                  alignment: Alignment.bottomLeft,
-                  child: FloatingActionButton.extended(
-                    heroTag: "btn5",
-                    onPressed: togglePast,
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: FloatingActionButton.extended(
+                    heroTag: "btn4",
+                    onPressed: sendPickUpLocation,
                     backgroundColor: Hexcolor('#FFB600'),
                     label: Text(
-                      ' Past ',
+                      "Pick-up",
                       style: TextStyle(color: Colors.black),
-                    ),
+                    )),
+              ),
+              Align(
+                alignment: Alignment.bottomLeft,
+                child: FloatingActionButton.extended(
+                  heroTag: "btn5",
+                  onPressed: togglePast,
+                  backgroundColor: Hexcolor('#FFB600'),
+                  label: Text(
+                    ' Past ',
+                    style: TextStyle(color: Colors.black),
                   ),
                 ),
               ),
@@ -184,22 +206,22 @@ class MapSampleState extends State<MapSample> {
       'carIcon': carIcon
     };
     BitmapDescriptor.fromAssetImage(
-            ImageConfiguration(devicePixelRatio: 2.5), 'assets/beer.png')
+            ImageConfiguration(devicePixelRatio: 2.5), 'assets/beerIcon.png')
         .then((onValue) {
       beerIcon = onValue;
     });
     BitmapDescriptor.fromAssetImage(
-            ImageConfiguration(devicePixelRatio: 2.5), 'assets/clock.png')
+            ImageConfiguration(devicePixelRatio: 2.5), 'assets/clockIcon.png')
         .then((onValue) {
       clockIcon = onValue;
     });
     BitmapDescriptor.fromAssetImage(
-            ImageConfiguration(size: Size(48, 48)), 'assets/calendar.png')
+            ImageConfiguration(size: Size(48, 48)), 'assets/scheduleIcon.png')
         .then((onValue) {
       scheduleIcon = onValue;
     });
     BitmapDescriptor.fromAssetImage(
-            ImageConfiguration(size: Size(48, 48)), 'assets/police.png')
+            ImageConfiguration(size: Size(48, 48)), 'assets/carIcon.png')
         .then((onValue) {
       carIcon = onValue;
     });
@@ -222,7 +244,7 @@ class MapSampleState extends State<MapSample> {
   }
 
   void getCurrent() {
-    http.get(url + 'pickup').then((response) {
+    http.get(url + 'pickup/hour').then((response) {
       //print(jsonDecode(response.body)['pickup']);
       List<LatLng> newLocations = [];
 
@@ -234,7 +256,7 @@ class MapSampleState extends State<MapSample> {
   }
 
   void getPasts() {
-    http.get(url + 'pickup/hour').then((response) {
+    http.get(url + 'pickup/pasthour').then((response) {
       //print(jsonDecode(response.body)['pickup']);
       List<LatLng> newLocations = [];
 
