@@ -68,7 +68,8 @@ class MapSampleState extends State<MapSample> {
             ),
           ),
           title: PopupMenuButton<String>(
-            icon: Icon(Icons.control_point, color: Colors.black, size: 30),
+            icon:
+                Icon(Icons.control_point, color: Hexcolor('#2a2a2a'), size: 30),
             color: Colors.black,
             onSelected: choiceAction,
             itemBuilder: (BuildContext context) {
@@ -199,7 +200,7 @@ class MapSampleState extends State<MapSample> {
       scheduleIcon = onValue;
     });
     BitmapDescriptor.fromAssetImage(
-            ImageConfiguration(size: Size(48, 48)), 'assets/police.png')
+            ImageConfiguration(size: Size(48, 48)), 'assets/car.png')
         .then((onValue) {
       carIcon = onValue;
     });
@@ -343,7 +344,7 @@ class MapSampleState extends State<MapSample> {
             radius: 50,
             visible: true,
             gradient: HeatmapGradient(
-              colors: <Color>[Colors.green, Colors.red],
+              colors: <Color>[Colors.orange, Colors.red],
               startPoints: <double>[0.005, 0.8],
             )));
         isCurrentMapSelected = true;
