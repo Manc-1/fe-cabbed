@@ -8,10 +8,13 @@ import 'package:hexcolor/hexcolor.dart';
 class UserProfile extends StatefulWidget {
   final List userdata;
 
-  UserProfile({Key key, this.userdata}) : super(key: key);
+  UserProfile({Key key, this.userdata}) : super(key:key);
+
+ 
 
   @override
   _UserProfileState createState() => _UserProfileState();
+
 
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -27,19 +30,20 @@ class _UserProfileState extends State<UserProfile> {
   var isLoadingMarkers = true;
   var isLoadingPickups = true;
 
-  Future getMarkers() async {
+ Future getMarkers() async {
     http.Response response = await http.get(
       "https://be-cabbed.herokuapp.com/api/marker/5ec557933303033c03651588",
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
-    );
+     );
 
     setState(() {
       var resBody = json.decode(response.body);
       markers = resBody["marker"];
       isLoadingMarkers = false;
-    });
+                });
+    
   }
 
   Future getPickups() async {
@@ -48,13 +52,14 @@ class _UserProfileState extends State<UserProfile> {
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
-    );
+     );
 
     setState(() {
       var resBody = json.decode(response.body);
       pickups = resBody["pickup"];
       isLoadingPickups = false;
     });
+    
   }
 
   final String _fullName = "Nick Fury";
@@ -69,7 +74,7 @@ class _UserProfileState extends State<UserProfile> {
         image: DecorationImage(
           image: AssetImage('assets/roundabout.jpg'),
           fit: BoxFit.cover,
-        ),
+                  ),
       ),
     );
   }
@@ -129,7 +134,7 @@ class _UserProfileState extends State<UserProfile> {
     TextStyle _statLabelTextStyle = TextStyle(
       color: Colors.black,
       fontSize: 16,
-      fontWeight: FontWeight.w300,
+      fontWeight: FontWeight.w200,
     );
 
     TextStyle _statCountTextStyle = TextStyle(
@@ -198,14 +203,17 @@ class _UserProfileState extends State<UserProfile> {
     );
   }
 
-  Widget _backButton(BuildContext context) {
-    return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {},
-        child: Text('<'),
-      ),
-    );
-  }
+Widget _backButton(BuildContext context){
+return Scaffold(
+floatingActionButton: FloatingActionButton(
+  onPressed: () {},
+   child: Text('<'),
+),
+);
+}
+
+
+
 
   Widget _buildButtons(context) {
     return Padding(
@@ -264,31 +272,30 @@ class _UserProfileState extends State<UserProfile> {
       ),
     );
   }
-
-  final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
+final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
     return Scaffold(
-      backgroundColor: Colors.grey[500],
-      appBar: PreferredSize(
-        preferredSize: Size.fromHeight(45.0),
-        child: AppBar(
-          leading: IconButton(
-            icon: Icon(Icons.arrow_back, color: Colors.black),
-            onPressed: () => Navigator.of(context).pop(),
-          ),
-          title: Text('User Profile'),
-          centerTitle: true,
+      backgroundColor: Colors.grey[200],
+          appBar: PreferredSize(
+          preferredSize: Size.fromHeight(45.0),
+          child: AppBar(  leading: IconButton(
+    icon: Icon(Icons.arrow_back, color: Colors.black),
+    onPressed: () => Navigator.of(context).pop(),
+  ), 
+      title: Text('User Profile'),
+      centerTitle: true,
           textTheme: TextTheme(
-              title: TextStyle(
+          title: TextStyle(
             color: Colors.black,
-            fontSize: 20.0,
-          )),
-          backgroundColor: Hexcolor('#FFB600'),
+                        fontSize: 20.0,
+          )
         ),
-      ),
+      backgroundColor: Hexcolor('#FFB600'),
+      
+          ),),
       body: Stack(
         children: <Widget>[
           _buildCoverImage(screenSize),
@@ -298,7 +305,7 @@ class _UserProfileState extends State<UserProfile> {
                 children: <Widget>[
                   SizedBox(height: screenSize.height / 4.4),
                   _buildProfileImage(),
-                  _buildFullName(),
+                   _buildFullName(),
                   _buildStatus(context),
                   _buildStatContainer(),
                   SizedBox(height: 18.0),
@@ -313,12 +320,13 @@ class _UserProfileState extends State<UserProfile> {
         ],
       ),
     );
+    
   }
-
   @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance
-        .addPostFrameCallback((_) => {getMarkers(), getPickups()});
-  }
+void initState() {
+super.initState();
+WidgetsBinding.instance
+    .addPostFrameCallback((_) => {getMarkers(), getPickups()});
+
+}
 }

@@ -12,6 +12,7 @@ import 'mapPage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_twitter_login/flutter_twitter_login.dart';
 
+
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'dart:convert' as JSON;
 
@@ -27,11 +28,13 @@ class _HomeState extends State<Home> {
     Navigator.push(context, MaterialPageRoute(builder: (context) => Home()));
   }
 
-  Future navigateToLoginPage(context, Object userdata) async {
+  Future navigateToLoginPage(context,Object userdata) async {
     debugPrint(userdata);
     Navigator.push(
         context, MaterialPageRoute(builder: (context) => MapSample()));
   }
+
+
 
   final userEmail = TextEditingController();
   final userPassword = TextEditingController();
@@ -53,8 +56,9 @@ class _HomeState extends State<Home> {
     setState(() {
       var resBody = json.decode(response.body);
       data = resBody["msg"];
+      
     });
-
+    
     debugPrint(password);
     debugPrint(email);
     debugPrint(data);
