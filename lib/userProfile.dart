@@ -21,17 +21,29 @@ class UserProfile extends StatefulWidget {
 
 class _UserProfileState extends State<UserProfile> {
   String userID;
+
+  String _fullName;
+  String _email;
+
   var markers = "0";
   var pickups = "0";
   var isLoadingMarkers = true;
   var isLoadingPickups = true;
 
+  Future getUserData() async {
+    http.Response response = await http.get(
+      "https://be-cabbed.herokuapp.com/api/users/user_id/$userID",
+    );
+    setState(() {
+      var user = json.decode(response.body)['user'];
+      _fullName = user["name"];
+      _email = user["email"];
+    });
+  }
+
   Future getMarkers() async {
     http.Response response = await http.get(
-      "https://be-cabbed.herokuapp.com/api/marker/5ec557933303033c03651588",
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
+      "https://be-cabbed.herokuapp.com/api/marker/$userID",
     );
 
     setState(() {
@@ -43,10 +55,7 @@ class _UserProfileState extends State<UserProfile> {
 
   Future getPickups() async {
     http.Response response = await http.get(
-      "https://be-cabbed.herokuapp.com/api/pickup/5ec557933303033c03651588",
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
+      "https://be-cabbed.herokuapp.com/api/pickup/$userID",
     );
 
     setState(() {
@@ -55,11 +64,6 @@ class _UserProfileState extends State<UserProfile> {
       isLoadingPickups = false;
     });
   }
-
-  final String _fullName = "Nick Fury";
-  final String _status = "nick@testing.com";
-  final String _bio = "";
-  final String _score = "450";
 
   Widget _buildCoverImage(Size screenSize) {
     return Container(
@@ -114,7 +118,7 @@ class _UserProfileState extends State<UserProfile> {
         borderRadius: BorderRadius.circular(4.0),
       ),
       child: Text(
-        _status,
+        _email,
         style: TextStyle(
           color: Colors.black,
           fontSize: 20,
@@ -153,6 +157,8 @@ class _UserProfileState extends State<UserProfile> {
   }
 
   Widget _buildStatContainer() {
+    String score =
+        (int.parse(markers) * 20 + int.parse(pickups) * 10).toString();
     return Container(
       height: 60.0,
       margin: EdgeInsets.only(top: 8.0),
@@ -164,29 +170,29 @@ class _UserProfileState extends State<UserProfile> {
         children: <Widget>[
           _buildStatItem("Markers", isLoadingMarkers ? "Loading..." : markers),
           _buildStatItem("Pick ups", isLoadingPickups ? "Loading..." : pickups),
-          _buildStatItem("Score", _score),
+          _buildStatItem("Score", score)
         ],
       ),
     );
   }
 
-  Widget _buildBio(BuildContext context) {
-    TextStyle bioTextStyle = TextStyle(
-      fontStyle: FontStyle.italic,
-      color: Colors.black,
-      fontSize: 16.0,
-    );
+  // Widget _buildBio(BuildContext context) {
+  //   TextStyle bioTextStyle = TextStyle(
+  //     fontStyle: FontStyle.italic,
+  //     color: Colors.black,
+  //     fontSize: 16.0,
+  //   );
 
-    return Container(
-      color: Colors.transparent,
-      padding: EdgeInsets.all(4.0),
-      child: Text(
-        _bio,
-        textAlign: TextAlign.center,
-        style: bioTextStyle,
-      ),
-    );
-  }
+  //   return Container(
+  //     color: Colors.transparent,
+  //     padding: EdgeInsets.all(4.0),
+  //     child: Text(
+  //       _bio,
+  //       textAlign: TextAlign.center,
+  //       style: bioTextStyle,
+  //     ),
+  //   );
+  // }
 
   Widget _buildSeparator(Size screenSize) {
     return Container(
@@ -269,7 +275,6 @@ class _UserProfileState extends State<UserProfile> {
   @override
   Widget build(BuildContext context) {
     userID = widget.userID;
-    print('inuserprof $userID');
     Size screenSize = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: Colors.grey[400],
@@ -319,7 +324,7 @@ class _UserProfileState extends State<UserProfile> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance
-        .addPostFrameCallback((_) => {getMarkers(), getPickups()});
+    WidgetsBinding.instance.addPostFrameCallback(
+        (_) => {getUserData(), getMarkers(), getPickups()});
   }
 }
