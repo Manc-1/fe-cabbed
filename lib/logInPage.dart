@@ -77,15 +77,13 @@ class _HomeState extends State<Home> {
   }
 
   showAlertDialog(BuildContext context, data) {
-    debugPrint(data);
-
     Widget okButton = FlatButton(
       child: Text("OK"),
       onPressed: () => returnToLoginPage(context),
     );
 
     AlertDialog alert = AlertDialog(
-      title: Text("Error"),
+      title: Text("Log-in Error"),
       content: Text(data),
       actions: [
         okButton,
