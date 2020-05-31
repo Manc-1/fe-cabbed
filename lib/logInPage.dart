@@ -281,7 +281,7 @@ class _HomeState extends State<Home> {
         print(profile);
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => MapSample()),
+          MaterialPageRoute(builder: (context) => MapSample(userID: userID,)),
         );
         setState(() {
           userProfile = profile;
@@ -357,7 +357,7 @@ class _HomeState extends State<Home> {
               Navigator.of(context).push(
                 MaterialPageRoute(
                   builder: (context) {
-                    return MapSample();
+                    return MapSample(userID: userID,);
                   }
                 ))
             }),
@@ -380,7 +380,7 @@ class _HomeState extends State<Home> {
                         .then((signedInUser) {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => MapSample()),
+                        MaterialPageRoute(builder: (context) => MapSample(userID: userID,)),
                       );
                     });
                 }
@@ -414,7 +414,7 @@ class _HomeState extends State<Home> {
         onTap: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => SignUpHome()),
+            MaterialPageRoute(builder: (context) => SignUpHome(userID: userID,)),
           );
         },
         child: RichText(
