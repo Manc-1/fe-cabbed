@@ -224,7 +224,7 @@ class MapSampleState extends State<MapSample> {
   }
 
   void getCurrent() {
-    http.get(url + 'pickup').then((response) {
+    http.get(url + 'pickup/hour').then((response) {
       //print(jsonDecode(response.body)['pickup']);
       List<LatLng> newLocations = [];
 
@@ -236,7 +236,7 @@ class MapSampleState extends State<MapSample> {
   }
 
   void getPasts() {
-    http.get(url + 'pickup/hour').then((response) {
+    http.get(url + 'pickup/pasthour').then((response) {
       //print(jsonDecode(response.body)['pickup']);
       List<LatLng> newLocations = [];
 
