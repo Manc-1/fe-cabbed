@@ -18,6 +18,18 @@ class SignUpHome extends StatefulWidget {
 }
 
 class _SignUpHomeState extends State<SignUpHome> {
+
+  startTime() async {
+    var duration = new Duration(seconds: 2);
+    return new Timer(duration, route);
+  }
+route() {
+Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => Home())
+    ); 
+  }
+
   File _image;
   final picker = ImagePicker();
 
@@ -302,7 +314,8 @@ class _SignUpHomeState extends State<SignUpHome> {
       form.save();
       var contactService = new ContactService();
       contactService.createContact(newContact).then((value) =>
-          showMessage('Account created successfully', Colors.orange));
+          showMessage('Account created successfully', Colors.orange)).then((value) => {
+          startTime()});
     }
   }
 
@@ -351,10 +364,12 @@ class _SignUpHomeState extends State<SignUpHome> {
                   _buildpostCode(),
                   SizedBox(height: 5.0),
                   FloatingActionButton(
+                    backgroundColor: Hexcolor('#FFB600').withOpacity(0.8),
                     onPressed: getImage,
                     tooltip: 'Pick Image',
                     child: Icon(Icons.add_a_photo),
-                  )
+                  ),
+
                   //_buildAvatar(),
                   _buildSignUpButton(),
                   _buildGoBackButton(),
