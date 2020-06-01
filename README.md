@@ -2,19 +2,19 @@
 
 This application was designed and created by a team of five as part of the final project of the Developer's Pathway course ran by Northcoders, Manchester. The team included:
 
-###Aniket Badole:
+**Aniket Badole**:
 https://github.com/aniketbadole
 
-###Daniel Harkin:  
+**Daniel Harkin**:  
 https://github.com/danieljhark
 
-###Joanna Kendall:  
+**Joanna Kendall**:  
 https://github.com/joannakendall
 
-###Luke Flannery:  
+**Luke Flannery**:  
 https://github.com/cocoflade
 
-###Niels de Visser:  
+**Niels de Visser**:  
 https://github.com/VoltrefferNL
 
 ## Motivation
