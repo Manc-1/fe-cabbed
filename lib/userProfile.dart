@@ -5,6 +5,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:hexcolor/hexcolor.dart';
 
+
 class UserProfile extends StatefulWidget {
   final String userID;
   UserProfile({Key key, @required this.userID}) : super(key: key);
@@ -88,7 +89,7 @@ class _UserProfileState extends State<UserProfile> {
         height: 140.0,
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: NetworkImage(_userAvatar),
+            image: FileImage(_userAvatar),
             fit: BoxFit.cover,
           ),
           borderRadius: BorderRadius.circular(80.0),
@@ -292,7 +293,7 @@ class _UserProfileState extends State<UserProfile> {
                   _buildProfileImage(),
                   _buildFullName(),
                   _buildStatus(context),
-                  _buildStatContainer(),
+                  //_buildStatContainer(),
                   SizedBox(height: 18.0),
                   _buildSeparator(screenSize),
                   SizedBox(height: 8.0),

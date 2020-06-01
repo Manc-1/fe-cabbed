@@ -3,6 +3,9 @@ import 'package:hexcolor/hexcolor.dart';
 import 'contact.dart';
 import 'contact_services.dart';
 import 'logInPage.dart';
+import 'dart:io';
+import 'package:image_picker/image_picker.dart';
+import 'dart:async';
 
 class SignUpHome extends StatefulWidget {
   final String userID;
@@ -13,6 +16,17 @@ class SignUpHome extends StatefulWidget {
 }
 
 class _SignUpHomeState extends State<SignUpHome> {
+  File _image;
+  final picker = ImagePicker();
+
+  Future getImage() async {
+    final pickedFile = await picker.getImage(source: ImageSource.gallery);
+
+    setState(() {
+      _image = File(pickedFile.path);
+    });
+    newContact.userAvatar = _image.toString();
+  }
   final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   Contact newContact = new Contact();
@@ -183,37 +197,27 @@ class _SignUpHomeState extends State<SignUpHome> {
     );
   }
 
-  Widget _buildAvatar() {
-    return Container(
-      alignment: Alignment.centerLeft,
-      decoration: BoxDecoration(
-        color: Colors.black.withOpacity(0.45),
-        border: Border(
-          bottom: BorderSide(
-            color: Hexcolor('#FFB600'),
-            width: 3.0,
-          ),
-        ),
-      ),
-      height: 50,
-      child: TextFormField(
-        onSaved: (val) => newContact.userAvatar = val,
-        style: TextStyle(color: Colors.white),
-        decoration: InputDecoration(
-          border: InputBorder.none,
-          contentPadding: EdgeInsets.only(top: 14.0),
-          prefixIcon: Icon(
-            Icons.photo_camera,
-            color: Colors.white,
-          ),
-          hintText: "Upload a photo (optional)",
-          hintStyle: TextStyle(
-            color: Colors.white,
-          ),
-        ),
-      ),
-    );
-  }
+  // Widget _buildAvatar() {
+  //   return Container(
+  //     alignment: Alignment.centerLeft,
+  //     decoration: BoxDecoration(
+  //       color: Colors.black.withOpacity(0.45),
+  //       border: Border(
+  //         bottom: BorderSide(
+  //           color: Hexcolor('#FFB600'),
+  //           width: 3.0,
+  //         ),
+  //       ),
+  //     ),
+  //     height: 50,
+  //     child: FloatingActionButton(
+  //       onPressed: getImage,
+  //       tooltip: 'Pick Image',
+  //       child: Icon(Icons.add_a_photo),
+  //     ),
+  //     ),
+  //   );
+  // }
 
   Widget _buildSignUpButton() {
     return Container(
@@ -344,7 +348,12 @@ class _SignUpHomeState extends State<SignUpHome> {
                   SizedBox(height: 5.0),
                   _buildpostCode(),
                   SizedBox(height: 5.0),
-                  _buildAvatar(),
+                  FloatingActionButton(
+                    onPressed: getImage,
+                    tooltip: 'Pick Image',
+                    child: Icon(Icons.add_a_photo),
+                  )
+                  //_buildAvatar(),
                   _buildSignUpButton(),
                   _buildGoBackButton(),
                   SizedBox(
