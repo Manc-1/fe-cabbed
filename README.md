@@ -50,7 +50,7 @@ A user is able to:
 
 # Sign-up and Log-in
 
-![](gif-login.gif)
+![](assets/gif-login.gif)
 
 # Built Using
 
