@@ -295,7 +295,7 @@ class MapSampleState extends State<MapSample> {
       'longitude': currentLocation.longitude,
     });
     http
-        .post(url + 'marker/hour',
+        .post(url + 'marker/',
             headers: {"Content-Type": "application/json"}, body: body)
         .then((response) => print(response.body));
   }

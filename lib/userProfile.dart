@@ -26,7 +26,7 @@ class _UserProfileState extends State<UserProfile> {
   
   String _fullName = "default";
   String _email = "default"; 
-  String _userAvatar = "https://everydaynutrition.co.uk/wp-content/uploads/2015/01/default-user-avatar-300x300.png";
+  String _userAvatar = "assets/user-avatar.jpg";
   String _defaultAvatar = "https://everydaynutrition.co.uk/wp-content/uploads/2015/01/default-user-avatar-300x300.png";
 
   var markers = "0";
