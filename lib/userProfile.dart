@@ -7,8 +7,9 @@ import 'package:hexcolor/hexcolor.dart';
 
 
 class UserProfile extends StatefulWidget {
-  final String userID;
-  UserProfile({Key key, @required this.userID}) : super(key: key);
+  // final String userID;
+  final Map userProfile;
+  UserProfile({Key key, @required this.userProfile}) : super(key: key);
 
   @override
   _UserProfileState createState() => _UserProfileState();
@@ -33,18 +34,18 @@ class _UserProfileState extends State<UserProfile> {
   var isLoadingMarkers = true;
   var isLoadingPickups = true;
 
-  Future getUserData() async {
-    http.Response response = await http.get(
-      "https://be-cabbed.herokuapp.com/api/users/user_id/$userID",
-    );
-    setState(() {
-      var user = json.decode(response.body)['user'];
-      _fullName = user["name"];
-      _email = user["email"];
-      _userAvatar = user["userAvatar"];
-      if (_userAvatar == null){_userAvatar = _defaultAvatar;}
-    });
-  }
+  // Future getUserData() async {
+  //   http.Response response = await http.get(
+  //     "https://be-cabbed.herokuapp.com/api/users/user_id/$userID",
+  //   );
+  //   setState(() {
+  //     var user = json.decode(response.body)['user'];
+  //     _fullName = user["name"];
+  //     _email = user["email"];
+  //     _userAvatar = user["userAvatar"];
+  //     if (_userAvatar == null){_userAvatar = _defaultAvatar;}
+  //   });
+  // }
 
   Future getMarkers() async {
     http.Response response = await http.get(
@@ -267,7 +268,9 @@ class _UserProfileState extends State<UserProfile> {
 
   @override
   Widget build(BuildContext context) {
-    userID = widget.userID;
+    userID = widget.userProfile['id'];
+    _fullName = widget.userProfile['name'];
+    _email = widget.userProfile['email'];
     Size screenSize = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: Colors.grey[400],
@@ -318,6 +321,6 @@ class _UserProfileState extends State<UserProfile> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback(
-        (_) => {getUserData(), getMarkers(), getPickups()});
+        (_) => {getMarkers(), getPickups()});
   }
 }

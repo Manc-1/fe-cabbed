@@ -30,7 +30,7 @@ class _HomeState extends State<Home> {
         context,
         MaterialPageRoute(
             builder: (context) => MapSample(
-                  userID: userID,
+                  userProfile: userProfile,
                 )));
   }
 
@@ -38,6 +38,7 @@ class _HomeState extends State<Home> {
   final userPassword = TextEditingController();
   var jsonResponse;
   var data;
+  Map userProfile;
   String userID;
   Future logInUserWithCredentials(String email, String password) async {
     http.Response response = await http.post(
@@ -53,10 +54,13 @@ class _HomeState extends State<Home> {
 
     setState(() {
       var resBody = json.decode(response.body);
-      if (response.statusCode == 201) {
-        userID = resBody['user']['_id'];
-      } else {
-        data = resBody['msg'];
+      if (response.statusCode == 201){
+        userProfile = {'id': resBody['user']['_id'], 
+        'name': resBody['user']['name'], 
+        'email':resBody['user']['email']};
+      userID = resBody['user']['_id'];
+      } else{ 
+      data = resBody['msg'];
       }
     });
 
@@ -264,7 +268,6 @@ class _HomeState extends State<Home> {
   }
 
   bool _isLoggedIn = false;
-  Map userProfile;
   final facebookLogin = FacebookLogin();
 
   _loginWithFB() async {
@@ -280,10 +283,7 @@ class _HomeState extends State<Home> {
         print(profile);
         Navigator.push(
           context,
-          MaterialPageRoute(
-              builder: (context) => MapSample(
-                    userID: userID,
-                  )),
+          MaterialPageRoute(builder: (context) => MapSample(userProfile: userProfile,)),
         );
         setState(() {
           userProfile = profile;
@@ -356,13 +356,13 @@ class _HomeState extends State<Home> {
           ),
           _buildSocialMedia(
             () => signInWithGoogle().whenComplete(() => {
-                  Navigator.of(context)
-                      .push(MaterialPageRoute(builder: (context) {
-                    return MapSample(
-                      userID: userID,
-                    );
-                  }))
-                }),
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) {
+                    return MapSample(userProfile: userProfile,);
+                  }
+                ))
+            }),
             AssetImage(
               "assets/GoogleButton.png",
             ),
@@ -382,10 +382,7 @@ class _HomeState extends State<Home> {
                         .then((signedInUser) {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(
-                            builder: (context) => MapSample(
-                                  userID: userID,
-                                )),
+                        MaterialPageRoute(builder: (context) => MapSample(userProfile: userProfile,)),
                       );
                     });
                 }
