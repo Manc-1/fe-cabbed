@@ -31,7 +31,7 @@ class ContactService {
     contact.phoneNumber = map['phoneNumber'];
     contact.password = map['password'];
     contact.postCode = map['postCode'];
-    contact.userAvatar = map['avatar'];
+    contact.userAvatar = map['userAvatar'];
 
     return contact;
   }
@@ -43,7 +43,7 @@ class ContactService {
     mapData["phoneNumber"] = contact.phoneNumber;
     mapData["password"] = contact.password;
     mapData["postCode"] = contact.postCode;
-    mapData["avatar"] = contact.userAvatar;
+    mapData["userAvatar"] = contact.userAvatar;
 
     String json = jsonEncode(mapData);
     return json;
