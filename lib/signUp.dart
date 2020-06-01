@@ -313,7 +313,7 @@ class _SignUpHomeState extends State<SignUpHome> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffoldKey,
-      resizeToAvoidBottomInset: false,
+      resizeToAvoidBottomInset: true,
       body: Stack(children: <Widget>[
         Container(
           height: double.infinity,
@@ -348,12 +348,17 @@ class _SignUpHomeState extends State<SignUpHome> {
                   SizedBox(height: 5.0),
                   _buildpostCode(),
                   SizedBox(height: 5.0),
+<<<<<<< HEAD
                   FloatingActionButton(
                     onPressed: getImage,
                     tooltip: 'Pick Image',
                     child: Icon(Icons.add_a_photo),
                   )
                   //_buildAvatar(),
+=======
+                  _buildAvatar(),
+                  SizedBox(height: 5.0),
+>>>>>>> 94ad2701abb84b241bd682cbf6ab9292ad3c9e5d
                   _buildSignUpButton(),
                   _buildGoBackButton(),
                   SizedBox(
