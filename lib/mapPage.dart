@@ -80,6 +80,7 @@ class MapSampleState extends State<MapSample> {
                 Icon(Icons.control_point, color: Hexcolor('#2a2a2a'), size: 30),
             color: Colors.black,
             onSelected: choiceAction,
+            offset: Offset(-50, 100),
             itemBuilder: (BuildContext context) {
               return Constants.choices.map((String choice) {
                 return PopupMenuItem<String>(
@@ -338,7 +339,6 @@ class MapSampleState extends State<MapSample> {
     print('creating marker' + entry['type']);
 
     setState(() {
-      // adding a new marker to map
       markers[markerId] = marker;
     });
   }
@@ -388,10 +388,8 @@ class MapSampleState extends State<MapSample> {
     }
   }
 
-  //heatmap generation helper functions
   List<WeightedLatLng> _createPoints(List<LatLng> locations) {
     final List<WeightedLatLng> points = <WeightedLatLng>[];
-    //Can create multiple points here
 
     locations.forEach((location) {
       points
