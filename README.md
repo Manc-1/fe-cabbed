@@ -23,7 +23,19 @@ You can find the back-end repository of this project [here](https://github.com/M
 
 This project was designed to provide a solution to the difficulties the black-cab market currently face against overwhelming pressure from big-name ride hailing applications.
 
-We have created an application built for both iOS and Android using Dart and Flutter, making use of the Google Maps API heat layer to depict the intensity of consumer footfall at geographical points in real time. This enables users to 'fine tune' their shifts, targetting unusually busy areas whilst avoiding quieter areas. This allows for greater accessibility of black cabs to the public while allowing users on the application to locate themselves in cost effective areas, minimising fuel consumption and unpaid time.
+We have created an application built for both iOS and Android using Dart and Flutter, making use of the Google Maps API heat layer to depict the intensity of consumer footfall at geographical points in real time. The ability to report incidents of interest to other users, and see where other users have sighted incidents has also been implemented. This enables users to 'fine tune' their shifts, targetting unusually busy areas whilst avoiding quiet or troublesome areas. This allows for greater accessibility of black cabs to the public whilst allowing users of the application to locate themselves in cost effective areas, minimising fuel consumption and unpaid time.
+
+# Features
+
+A user is able to:
+
+- Create an account
+- Login via email and password or twitter/google/facebook accounts
+- Navigate between 'current' and 'past' heat layers. Showing busy areas currently or the average busy areas across the past four weeks.
+- Log a customer 'pick up' which in turns contributes to the current heat layer for other users to view.
+- Report one of four incidents in your area that may be of interest to other users.
+- See where other users have reported incidents across the map and at what time.
+- Navigate to the user page where the user will see his level of interaction with the app, including their user photo and the option to log out or delete account.
 
 # Getting Started
 
@@ -48,4 +60,4 @@ Pull requests are welcome. For major changes, please open an issue first to disc
 
 # Acknowledgements
 
-I'd like to give a special thank you to the wonderful team at Northcoders, Manchester, for giving me the tools and knowledge necessary to create such a project. Visit them at [Northcoders](https://northcoders.com/)
+We would all like to give a special thank you to the wonderful team at Northcoders, Manchester, for giving us the tools and knowledge necessary to create such a project. Visit them at [Northcoders](https://northcoders.com/)
