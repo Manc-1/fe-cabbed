@@ -1,8 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
-// import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:flutter_login_ui/userProfile.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'signUp.dart';
 import 'package:http/http.dart' as http;
@@ -28,11 +26,11 @@ class _HomeState extends State<Home> {
   }
 
   Future navigateToMapPage(context) async {
-        Navigator.push(
+    Navigator.push(
         context,
         MaterialPageRoute(
             builder: (context) => MapSample(
-                  userID: userID,
+                  userProfile: userProfile,
                 )));
   }
 
@@ -40,6 +38,7 @@ class _HomeState extends State<Home> {
   final userPassword = TextEditingController();
   var jsonResponse;
   var data;
+  Map userProfile;
   String userID;
   Future logInUserWithCredentials(String email, String password) async {
     http.Response response = await http.post(
@@ -56,6 +55,9 @@ class _HomeState extends State<Home> {
     setState(() {
       var resBody = json.decode(response.body);
       if (response.statusCode == 201){
+        userProfile = {'id': resBody['user']['_id'], 
+        'name': resBody['user']['name'], 
+        'email':resBody['user']['email']};
       userID = resBody['user']['_id'];
       } else{ 
       data = resBody['msg'];
@@ -227,7 +229,8 @@ class _HomeState extends State<Home> {
       padding: EdgeInsets.symmetric(vertical: 25.0),
       child: RaisedButton(
         elevation: 5.0,
-        onPressed: () => logInUserWithCredentials(userEmail.text, userPassword.text),
+        onPressed: () =>
+            logInUserWithCredentials(userEmail.text, userPassword.text),
         padding:
             EdgeInsets.only(left: 90.0, right: 90.0, top: 12.0, bottom: 12.0),
         shape: RoundedRectangleBorder(
@@ -265,7 +268,6 @@ class _HomeState extends State<Home> {
   }
 
   bool _isLoggedIn = false;
-  Map userProfile;
   final facebookLogin = FacebookLogin();
 
   _loginWithFB() async {
@@ -275,13 +277,13 @@ class _HomeState extends State<Home> {
       case FacebookLoginStatus.loggedIn:
         final token = result.accessToken.token;
         final graphResponse = await http.get(
-            'https://graph.facebook.com/v2.12/me?fields=name,picture,email&access_token=${token}');
+            'https://graph.facebook.com/v2.12/me?fields=name,picture,email&access_token=$token');
         final profile = JSON.jsonDecode(graphResponse.body);
         print("logged in");
         print(profile);
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => MapSample(userID: userID,)),
+          MaterialPageRoute(builder: (context) => MapSample(userProfile: userProfile,)),
         );
         setState(() {
           userProfile = profile;
@@ -311,11 +313,11 @@ class _HomeState extends State<Home> {
   Future<String> signInWithGoogle() async {
     final GoogleSignInAccount googleSignInAccount = await googleSignIn.signIn();
     final GoogleSignInAuthentication googleSignInAuthentication =
-      await googleSignInAccount.authentication;
+        await googleSignInAccount.authentication;
 
     final AuthCredential credential = GoogleAuthProvider.getCredential(
       accessToken: googleSignInAuthentication.accessToken,
-     idToken: googleSignInAuthentication.idToken,
+      idToken: googleSignInAuthentication.idToken,
     );
 
     final AuthResult authResult = await _auth.signInWithCredential(credential);
@@ -330,7 +332,7 @@ class _HomeState extends State<Home> {
     return 'signInWithGoogle succeeded: $user';
   }
 
-  void signOutGoogle() async{
+  void signOutGoogle() async {
     await googleSignIn.signOut();
 
     print("User Sign Out");
@@ -357,7 +359,7 @@ class _HomeState extends State<Home> {
               Navigator.of(context).push(
                 MaterialPageRoute(
                   builder: (context) {
-                    return MapSample(userID: userID,);
+                    return MapSample(userProfile: userProfile,);
                   }
                 ))
             }),
@@ -380,7 +382,7 @@ class _HomeState extends State<Home> {
                         .then((signedInUser) {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => MapSample(userID: userID,)),
+                        MaterialPageRoute(builder: (context) => MapSample(userProfile: userProfile,)),
                       );
                     });
                 }
@@ -414,7 +416,10 @@ class _HomeState extends State<Home> {
         onTap: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => SignUpHome(userID: userID,)),
+            MaterialPageRoute(
+                builder: (context) => SignUpHome(
+                      userID: userID,
+                    )),
           );
         },
         child: RichText(

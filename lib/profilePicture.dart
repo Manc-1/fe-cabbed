@@ -25,6 +25,7 @@ class _MyHomePageState extends State<MyHomePage> {
     setState(() {
       _image = File(pickedFile.path);
     });
+    print("THIS IS WHERE WE NEED TO LOOK!!!!!!!!!");
     print(_image);
   }
 
@@ -35,9 +36,7 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text('Image Picker Example'),
       ),
       body: Center(
-        child: _image == null
-            ? Text('No image selected.')
-            : Image.file(_image),
+        child: _image == null ? Text('No image selected.') : Image.file(_image),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: getImage,

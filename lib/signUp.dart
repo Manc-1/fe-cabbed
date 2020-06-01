@@ -315,7 +315,7 @@ class _SignUpHomeState extends State<SignUpHome> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffoldKey,
-      resizeToAvoidBottomInset: false,
+      resizeToAvoidBottomInset: true,
       body: Stack(children: <Widget>[
         Container(
           height: double.infinity,
