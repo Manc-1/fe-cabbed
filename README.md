@@ -1,5 +1,7 @@
 # Cabbed - front-end
 
+## Northcoders final project - Cabbed
+
 This application was designed and created by a team of five as part of the final project of the Developer's Pathway course ran by Northcoders, Manchester. The team included:
 
 **Aniket Badole**:  
@@ -23,7 +25,9 @@ You can find the back-end repository of this project [here](https://github.com/M
 
 This project was designed to provide a solution to the difficulties the black-cab market currently face against overwhelming pressure from big-name ride hailing applications.
 
-We have created an application built for both iOS and Android using Dart and Flutter, making use of the Google Maps API heat layer to depict the intensity of consumer footfall at geographical points in real time. The ability to report incidents of interest to other users, and see where other users have sighted incidents has also been implemented. This enables users to 'fine tune' their shifts, targetting unusually busy areas whilst avoiding quiet or troublesome areas. This allows for greater accessibility of black cabs to the public whilst allowing users of the application to locate themselves in cost effective areas, minimising fuel consumption and unpaid time.
+We have created an application built for both iOS and Android using Dart and Flutter, making use of the Google Maps API heat layer to depict the intensity of consumer footfall at geographical points in real time. The ability to report incidents of interest to other users, and see where other users have sighted incidents has also been implemented.
+
+This enables users to 'fine tune' their shifts, targetting unusually busy areas whilst avoiding quiet or troublesome areas. This allows for greater accessibility of black cabs to the public whilst allowing users of the application to locate themselves in cost effective areas, minimising fuel consumption and unpaid time.
 
 # Features
 
@@ -45,6 +49,8 @@ A user is able to:
 4. Run application.
 
 # Sign-up and Log-in
+
+![](gif-login.gif)
 
 # Built Using
 
