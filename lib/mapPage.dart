@@ -22,8 +22,9 @@ class MyApp extends StatelessWidget {
 }
 
 class MapSample extends StatefulWidget {
-  final String userID;
-  MapSample({Key key, @required this.userID}) : super(key: key);
+  // final String userID;
+  final Map userProfile;
+  MapSample({Key key, @required this.userProfile}) : super(key: key);
   @override
   State<MapSample> createState() => MapSampleState();
 }
@@ -58,8 +59,8 @@ class MapSampleState extends State<MapSample> {
 
   @override
   Widget build(BuildContext context) {
-    print('in widget ${widget.userID}');
-    userID = widget.userID;
+    print('in widget ${widget.userProfile}');
+    userID = widget.userProfile['id'];
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(45.0),
@@ -71,7 +72,7 @@ class MapSampleState extends State<MapSample> {
               context,
               MaterialPageRoute(
                   builder: (context) => UserProfile(
-                        userID: userID,
+                        userProfile: widget.userProfile,
                       )),
             ),
           ),
