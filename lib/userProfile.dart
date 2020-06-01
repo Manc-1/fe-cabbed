@@ -53,6 +53,9 @@ class _UserProfileState extends State<UserProfile> {
     setState(() {
       var resBody = json.decode(response.body);
       markers = resBody["marker"];
+            if (markers == null){
+        markers = "0";
+      }
       isLoadingMarkers = false;
     });
   }
@@ -65,6 +68,9 @@ class _UserProfileState extends State<UserProfile> {
     setState(() {
       var resBody = json.decode(response.body);
       pickups = resBody["pickup"];
+      if (pickups == null){
+        pickups = "0";
+      }
       isLoadingPickups = false;
     });
   }
