@@ -249,7 +249,7 @@ class MapSampleState extends State<MapSample> {
   }
 
   void getMarkers() {
-    http.get(url + 'marker').then((response) {
+    http.get(url + 'marker/hour').then((response) {
       print('getting markers');
       print(jsonDecode(response.body));
       jsonDecode(response.body)["marker"].forEach((entry) {
@@ -294,7 +294,7 @@ class MapSampleState extends State<MapSample> {
       'longitude': currentLocation.longitude,
     });
     http
-        .post(url + 'marker',
+        .post(url + 'marker/hour',
             headers: {"Content-Type": "application/json"}, body: body)
         .then((response) => print(response.body));
   }
