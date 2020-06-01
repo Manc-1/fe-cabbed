@@ -27,9 +27,8 @@ class _HomeState extends State<Home> {
     Navigator.push(context, MaterialPageRoute(builder: (context) => Home()));
   }
 
-  Future navigateToLoginPage(context, Object userdata) async {
-    debugPrint(userdata);
-    Navigator.push(
+  Future navigateToMapPage(context) async {
+        Navigator.push(
         context,
         MaterialPageRoute(
             builder: (context) => MapSample(
@@ -42,7 +41,7 @@ class _HomeState extends State<Home> {
   var jsonResponse;
   var data;
   String userID;
-  Future getData(String email, String password) async {
+  Future logInUserWithCredentials(String email, String password) async {
     http.Response response = await http.post(
       "https://be-cabbed.herokuapp.com/api/users/login",
       headers: <String, String>{
@@ -56,19 +55,15 @@ class _HomeState extends State<Home> {
 
     setState(() {
       var resBody = json.decode(response.body);
+      if (response.statusCode == 201){
       userID = resBody['user']['_id'];
+      } else{ 
+      data = resBody['msg'];
+      }
     });
 
-    debugPrint(password);
-    debugPrint(email);
-    debugPrint(data);
-
-    print(response.statusCode);
     if (response.statusCode == 201) {
-      debugPrint(response.body);
-      jsonResponse = json.decode(response.body).toString();
-      debugPrint(jsonResponse);
-      navigateToLoginPage(context, jsonResponse);
+      navigateToMapPage(context);
     } else {
       showAlertDialog(context, data);
     }
@@ -82,15 +77,13 @@ class _HomeState extends State<Home> {
   }
 
   showAlertDialog(BuildContext context, data) {
-    debugPrint(data);
-
     Widget okButton = FlatButton(
       child: Text("OK"),
       onPressed: () => returnToLoginPage(context),
     );
 
     AlertDialog alert = AlertDialog(
-      title: Text("Error"),
+      title: Text("Log-in Error"),
       content: Text(data),
       actions: [
         okButton,
@@ -234,7 +227,7 @@ class _HomeState extends State<Home> {
       padding: EdgeInsets.symmetric(vertical: 25.0),
       child: RaisedButton(
         elevation: 5.0,
-        onPressed: () => getData(userEmail.text, userPassword.text),
+        onPressed: () => logInUserWithCredentials(userEmail.text, userPassword.text),
         padding:
             EdgeInsets.only(left: 90.0, right: 90.0, top: 12.0, bottom: 12.0),
         shape: RoundedRectangleBorder(
@@ -288,7 +281,7 @@ class _HomeState extends State<Home> {
         print(profile);
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => MapSample()),
+          MaterialPageRoute(builder: (context) => MapSample(userID: userID,)),
         );
         setState(() {
           userProfile = profile;
@@ -364,7 +357,7 @@ class _HomeState extends State<Home> {
               Navigator.of(context).push(
                 MaterialPageRoute(
                   builder: (context) {
-                    return MapSample();
+                    return MapSample(userID: userID,);
                   }
                 ))
             }),
@@ -387,7 +380,7 @@ class _HomeState extends State<Home> {
                         .then((signedInUser) {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => MapSample()),
+                        MaterialPageRoute(builder: (context) => MapSample(userID: userID,)),
                       );
                     });
                 }
@@ -421,7 +414,7 @@ class _HomeState extends State<Home> {
         onTap: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => SignUpHome()),
+            MaterialPageRoute(builder: (context) => SignUpHome(userID: userID,)),
           );
         },
         child: RichText(
