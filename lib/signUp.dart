@@ -345,6 +345,7 @@ class _SignUpHomeState extends State<SignUpHome> {
                   _buildpostCode(),
                   SizedBox(height: 5.0),
                   _buildAvatar(),
+                  SizedBox(height: 5.0),
                   _buildSignUpButton(),
                   _buildGoBackButton(),
                   SizedBox(

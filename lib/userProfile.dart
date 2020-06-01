@@ -21,9 +21,11 @@ class UserProfile extends StatefulWidget {
 
 class _UserProfileState extends State<UserProfile> {
   String userID;
-
-  String _fullName;
-  String _email;
+  
+  String _fullName = "default";
+  String _email = "default"; 
+  String _userAvatar = "https://everydaynutrition.co.uk/wp-content/uploads/2015/01/default-user-avatar-300x300.png";
+  String _defaultAvatar = "https://everydaynutrition.co.uk/wp-content/uploads/2015/01/default-user-avatar-300x300.png";
 
   var markers = "0";
   var pickups = "0";
@@ -38,6 +40,8 @@ class _UserProfileState extends State<UserProfile> {
       var user = json.decode(response.body)['user'];
       _fullName = user["name"];
       _email = user["email"];
+      _userAvatar = user["userAvatar"];
+      if (_userAvatar == null){_userAvatar = _defaultAvatar;}
     });
   }
 
@@ -49,6 +53,9 @@ class _UserProfileState extends State<UserProfile> {
     setState(() {
       var resBody = json.decode(response.body);
       markers = resBody["marker"];
+            if (markers == null){
+        markers = "0";
+      }
       isLoadingMarkers = false;
     });
   }
@@ -61,6 +68,9 @@ class _UserProfileState extends State<UserProfile> {
     setState(() {
       var resBody = json.decode(response.body);
       pickups = resBody["pickup"];
+      if (pickups == null){
+        pickups = "0";
+      }
       isLoadingPickups = false;
     });
   }
@@ -84,7 +94,7 @@ class _UserProfileState extends State<UserProfile> {
         height: 140.0,
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage('assets/user-avatar.jpg'),
+            image: NetworkImage(_userAvatar),
             fit: BoxFit.cover,
           ),
           borderRadius: BorderRadius.circular(80.0),
@@ -175,24 +185,6 @@ class _UserProfileState extends State<UserProfile> {
       ),
     );
   }
-
-  // Widget _buildBio(BuildContext context) {
-  //   TextStyle bioTextStyle = TextStyle(
-  //     fontStyle: FontStyle.italic,
-  //     color: Colors.black,
-  //     fontSize: 16.0,
-  //   );
-
-  //   return Container(
-  //     color: Colors.transparent,
-  //     padding: EdgeInsets.all(4.0),
-  //     child: Text(
-  //       _bio,
-  //       textAlign: TextAlign.center,
-  //       style: bioTextStyle,
-  //     ),
-  //   );
-  // }
 
   Widget _buildSeparator(Size screenSize) {
     return Container(
