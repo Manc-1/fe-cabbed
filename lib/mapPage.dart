@@ -111,6 +111,9 @@ class MapSampleState extends State<MapSample> {
       body: Stack(children: <Widget>[
         Container(
           child: GoogleMap(
+            myLocationEnabled: true,
+            myLocationButtonEnabled: false,
+            zoomGesturesEnabled: true,
             mapType: MapType.normal,
             initialCameraPosition: centreCameraOn,
             markers: Set<Marker>.of(markers.values),
@@ -183,7 +186,7 @@ class MapSampleState extends State<MapSample> {
     getPasts();
     getMarkers();
     _centerMap();
-    //startTimeout(1000 * 120);
+    // startTimeout(1000 * 120);
   }
 
   void getBitmapImages() {
@@ -295,9 +298,10 @@ class MapSampleState extends State<MapSample> {
       'longitude': currentLocation.longitude,
     });
     http
-        .post(url + 'marker/hour',
+        .post(url + 'marker',
             headers: {"Content-Type": "application/json"}, body: body)
-        .then((response) => print(response.body));
+        .then((response) => addMarker(jsonDecode(response.body)['marker'])
+          );
   }
 
   Future<void> sendPickUpLocation() async {
