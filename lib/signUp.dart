@@ -1,3 +1,5 @@
+//import 'dart:html';
+
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'contact.dart';
@@ -27,7 +29,6 @@ Navigator.pushReplacement(
             MaterialPageRoute(builder: (context) => Home())
     ); 
   }
-
 
   File _image;
   final picker = ImagePicker();
@@ -368,6 +369,7 @@ Navigator.pushReplacement(
                     tooltip: 'Pick Image',
                     child: Icon(Icons.add_a_photo),
                   ),
+
                   //_buildAvatar(),
                   _buildSignUpButton(),
                   _buildGoBackButton(),
