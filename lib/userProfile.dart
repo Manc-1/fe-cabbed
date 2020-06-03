@@ -55,7 +55,7 @@ class _UserProfileState extends State<UserProfile> {
     setState(() {
       var resBody = json.decode(response.body);
       markers = resBody["marker"];
-            if (markers == null){
+      if (markers == null){
         markers = "0";
       }
       isLoadingMarkers = false;
@@ -96,7 +96,7 @@ class _UserProfileState extends State<UserProfile> {
         height: 140.0,
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: FileImage(_userAvatar),
+            image: AssetImage(_userAvatar),
             fit: BoxFit.cover,
           ),
           borderRadius: BorderRadius.circular(80.0),
@@ -236,29 +236,29 @@ class _UserProfileState extends State<UserProfile> {
               ),
             ),
           ),
-          SizedBox(width: 10.0),
-          Expanded(
-            child: InkWell(
-              onTap: () => {},
-              child: Container(
-                height: 40.0,
-                decoration: BoxDecoration(
-                  color: Hexcolor('#FFB600').withOpacity(0.8),
+          // SizedBox(width: 10.0),
+          // Expanded(
+          //   child: InkWell(
+          //     onTap: () => {},
+          //     child: Container(
+          //       height: 40.0,
+          //       decoration: BoxDecoration(
+          //         color: Hexcolor('#FFB600').withOpacity(0.8),
 
-                  // border: Border.all(),
-                ),
-                child: Center(
-                  child: Padding(
-                    padding: EdgeInsets.all(10.0),
-                    child: Text(
-                      "Delete Account",
-                      style: TextStyle(fontWeight: FontWeight.w600),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ),
+          //         // border: Border.all(),
+          //       ),
+          //       child: Center(
+          //         child: Padding(
+          //           padding: EdgeInsets.all(10.0),
+          //           child: Text(
+          //             "Delete Account",
+          //             style: TextStyle(fontWeight: FontWeight.w600),
+          //           ),
+          //         ),
+          //       ),
+          //     ),
+          //   ),
+          // ),
         ],
       ),
     );
@@ -302,7 +302,7 @@ class _UserProfileState extends State<UserProfile> {
                   _buildProfileImage(),
                   _buildFullName(),
                   _buildStatus(context),
-                  //_buildStatContainer(),
+                  _buildStatContainer(),
                   SizedBox(height: 18.0),
                   _buildSeparator(screenSize),
                   SizedBox(height: 8.0),
